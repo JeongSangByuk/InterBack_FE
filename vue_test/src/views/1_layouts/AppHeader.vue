@@ -6,6 +6,10 @@
 
     <div class="header__user">
       <img src="img/logo_user_white.png" />
+
+      <!-- <button>
+      <router-link to="/login">login</router-link>
+    </button> -->
     </div>
 
     <div class="header__list">
@@ -15,7 +19,6 @@
     <div class="header__setting">
       <img src="img/logo_setting.png" />
     </div>
-    
   </div>
 </template>
 
