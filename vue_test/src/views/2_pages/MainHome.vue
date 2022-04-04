@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AppHeader></AppHeader>
     mainHome
     <button>
       <router-link to="/login">login</router-link>
@@ -9,11 +8,9 @@
 </template>
 
 <script>
-import AppHeader from "@/views/1_layouts/AppHeader.vue";
 
 export default {
   components: {
-    AppHeader,
   },
 };
 </script>
