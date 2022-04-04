@@ -1,6 +1,6 @@
 <template>
     <div>
-        qwe
+        userLpginqweeqw
     </div>
 </template>
 
@@ -9,7 +9,6 @@ export default {
     
 }
 </script>
-
-<style>
+<style lang="scss">
 
 </style>

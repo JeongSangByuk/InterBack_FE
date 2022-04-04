@@ -1,13 +1,14 @@
 <template>
-
-  <div>
-    <HeaderView></HeaderView>
+  
+  <div id="app">
+    <!-- <AppHeader></AppHeader> -->
+    <router-view/>
   </div>
 </template>
 
 <script>
 
-import HeaderView from './components/layout/HeaderView.vue';
+import AppHeader from '@/views/1_layouts/AppHeader.vue'
 
 export default {
   name: 'App',
@@ -23,7 +24,7 @@ export default {
   },
 
   components: {
-    HeaderView
+    AppHeader
   },
 }
 </script>
