@@ -1,16 +1,17 @@
 <template>
   <div class="header">
-    <div class="header__home">
-      <img src="img/logo_interback_white.png" />
-    </div>
 
-    <div class="header__user">
-      <img src="img/logo_user_white.png" />
+    <router-link to="/">
+      <div class="header__home">
+        <img src="img/logo_interback_white.png" />
+      </div>
+    </router-link>
 
-      <!-- <button>
-      <router-link to="/login">login</router-link>
-    </button> -->
-    </div>
+    <router-link to="/login">
+      <div class="header__user">
+        <img src="img/logo_user_white.png" />
+      </div>
+    </router-link>
 
     <div class="header__list">
       <img src="img/logo_list.png" />
