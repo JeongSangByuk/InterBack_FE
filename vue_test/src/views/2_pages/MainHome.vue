@@ -1,10 +1,21 @@
 <template>
-    <div>
-        mainHome
-    </div>
+  <div>
+    <AppHeader></AppHeader>
+    mainHome
+    <button>
+      <router-link to="/login">login</router-link>
+    </button>
+  </div>
 </template>
 
+<script>
+import AppHeader from "@/views/1_layouts/AppHeader.vue";
 
-<style lang="scss">
+export default {
+  components: {
+    AppHeader,
+  },
+};
+</script>
 
-</style>
+<style lang="scss"></style>

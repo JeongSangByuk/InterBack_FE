@@ -1,8 +1,6 @@
 <template>
     <div id="back">
-        qwe
-        qwe
-        qwe
+        This is Header Section
     </div>
 </template>
 
