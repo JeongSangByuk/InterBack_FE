@@ -1,29 +1,30 @@
-$color-main : #5EBC88;
-$color-main-sub : #e1f8eb;
-$color-main-focused : #069943;
+$color-main: #5ebc88;
+$color-main-sub: #e1f8eb;
+$color-main-focused: #069943;
 
+$shadow-default: 0px 17px 20px -18px rgba(0, 0, 0, 1);
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-    width: 100%;
-    height: 100%;
-    background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
 }
 
 #app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 // 웹 폰트
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
-$font-reguler : 400;
-$font-bold : 700;
-$font-extra-bold : 900;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap");
+$font-reguler: 400;
+$font-bold: 700;
+$font-extra-bold: 900;
