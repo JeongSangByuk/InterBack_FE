@@ -27,7 +27,7 @@
   height: fit-content;
 }
 
-.login-container {
+.creation-room-container {
   display: flex;
   flex-direction: column;
   // width: 100%;
@@ -39,30 +39,20 @@
   margin: 60px 0 0px 0;
 }
 
-.login-box {
+.creation-room-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
   width: 40vw;
-  height: 500px;
+  height: 430px;
   min-width: 500px;
   background-color: $color-main-sub;
   box-shadow: $shadow-default;
   border-radius: 20px;
 
-  &__find-pwd {
-    width: 80%;
-    text-align: start;
-    text-decoration: underline;
-    font-size: 15px;
-    color: $color-main;
-    margin: 50px 0 20px 0;
-    cursor: pointer;
-  }
-
-  &__login-bnt {
+  &__enter-bnt {
     &:hover {
       background-color: $color-main-focused;
     }
@@ -72,12 +62,12 @@
     border-radius: 5px;
     border: none;
     padding: 10px;
-    margin: 10px 0 10px 0;
+    margin: 40px 0 10px 0;
     font-size: 15px;
     cursor: pointer;
   }
 
-  &__signup-bnt {
+  &__cancel-bnt {
     &:hover {
       background-color: $color-main-focused;
     }
@@ -92,7 +82,7 @@
   }
 }
 
-.login-form {
+.creation-room-form {
   display: flex;
   flex-direction: column;
   justify-content: center;

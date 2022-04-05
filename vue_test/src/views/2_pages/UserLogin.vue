@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="title">로 그 인</div>
-    <div class="sub-title">InterBack에 오신것을 환영합니다.</div>
+    <div class="sub-title">
+      혁신적인 온라인 면접 관리의 시작<br />InterBack에 오신것을 환영합니다.
+    </div>
 
     <div class="login-container">
       <div class="login-box">
