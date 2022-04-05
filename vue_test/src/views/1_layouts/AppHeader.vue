@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-
     <router-link to="/">
       <div class="header__home">
         <img src="img/logo_interback_white.png" />
@@ -27,6 +26,6 @@
 export default {};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./../../assets/scss/1_layouts/header_view.scss";
 </style>

@@ -37,6 +37,6 @@
 export default {};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./../../assets/scss/2_pages/user_login.scss";
 </style>

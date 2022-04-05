@@ -65,6 +65,7 @@
   &__login-bnt {
     &:hover {
       background-color: $color-main-focused;
+      color: white;
     }
 
     width: 80%;
@@ -74,12 +75,14 @@
     padding: 10px;
     margin: 10px 0 10px 0;
     font-size: 15px;
+    color: white;
     cursor: pointer;
   }
 
   &__signup-bnt {
     &:hover {
       background-color: $color-main-focused;
+      color: white;
     }
     width: 80%;
     background-color: white;

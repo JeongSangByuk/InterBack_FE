@@ -61,7 +61,10 @@
           </div>
         </div>
 
-        <button class="entry-room-box__enter-bnt">생 성 하 기</button>
+        <router-link to="/interview-room" class="entry-room-box__enter-bnt"
+          >입 장 하 기
+        </router-link>
+
         <button class="entry-room-box__cancel-bnt">취 소</button>
       </div>
     </div>
@@ -72,6 +75,6 @@
 export default {};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./../../assets/scss/2_pages/room_entry.scss";
 </style>

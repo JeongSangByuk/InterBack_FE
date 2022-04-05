@@ -20,7 +20,7 @@
 }
 
 .sub-title {
-  font-weight: $font-bold;
+  font-weight: $font-reguler;
   font-size: 20px;
   text-align: center;
   margin: 30px 0 0 0;
@@ -55,6 +55,7 @@
   &__enter-bnt {
     &:hover {
       background-color: $color-main-focused;
+      color: white;
     }
 
     width: 80%;
@@ -64,12 +65,14 @@
     padding: 10px;
     margin: 50px 0 10px 0;
     font-size: 15px;
+    color: white;
     cursor: pointer;
   }
 
   &__cancel-bnt {
     &:hover {
       background-color: $color-main-focused;
+      color: white;
     }
     width: 80%;
     background-color: white;
@@ -146,11 +149,8 @@
 
   input[type="radio"]:checked + label {
     background-color: $color-main;
+    color: white;
     border-radius: 5px;
-
-    &::after {
-      background-color: white;
-    }
   }
 
   &__picker {
@@ -160,6 +160,7 @@
 
     &:hover {
       background-color: $color-main;
+      color: white;
     }
 
     box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);

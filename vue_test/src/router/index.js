@@ -3,6 +3,7 @@ import MainHome from "@/views/2_pages/MainHome";
 import UserLogin from "@/views/2_pages/UserLogin";
 import RoomCreation from "@/views/2_pages/RoomCreation";
 import RoomEntry from "@/views/2_pages/RoomEntry";
+import InterviewRoom from "@/views/2_pages/InterviewRoom";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/room-entry",
     name: "RoomEntry",
     component: RoomEntry,
+  },
+  {
+    path: "/interview-room",
+    name: "InterviewRoom",
+    component: InterviewRoom,
   },
 ];
 
