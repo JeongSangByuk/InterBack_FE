@@ -26,16 +26,18 @@
       </div>
 
       <div class="contents__sub">
-        <div class="room-box">
-          <img src="img/img_enter_room.png" />
+        <router-link to="/room-entry">
+          <div class="room-box">
+            <img src="img/img_enter_room.png" />
 
-          <p class="room-box__title">면접 참여</p>
-          <p class="room-box__subtitle">
-            생성된 면접방에<br />
-            면접자로 참여합니다.
-          </p>
-          <p class="room-box__arrow">→</p>
-        </div>
+            <p class="room-box__title">면접 참여</p>
+            <p class="room-box__subtitle">
+              생성된 면접방에<br />
+              참여합니다.
+            </p>
+            <p class="room-box__arrow">→</p>
+          </div>
+        </router-link>
       </div>
 
       <div class="contents__sub">
