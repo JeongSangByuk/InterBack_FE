@@ -60,12 +60,18 @@
             </label>
           </div>
         </div>
-
-        <router-link to="/interview-room" class="entry-room-box__enter-bnt"
-          >입 장 하 기
-        </router-link>
-
-        <button class="entry-room-box__cancel-bnt">취 소</button>
+        <button
+          class="entry-room-box__enter-bnt"
+          @click="this.$router.push('/interview-room')"
+        >
+          입 장 하 기
+        </button>
+        <button
+          class="entry-room-box__cancel-bnt"
+          @click="this.$router.push('/')"
+        >
+          취 소
+        </button>
       </div>
     </div>
   </div>

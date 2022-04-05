@@ -26,8 +26,18 @@
             type="password"
           />
         </div>
-        <button class="creation-room-box__enter-bnt">생 성 하 기</button>
-        <button class="creation-room-box__cancel-bnt">취 소</button>
+        <button
+          class="creation-room-box__enter-bnt"
+          @click="this.$router.push('/interview-room')"
+        >
+          생 성 하 기
+        </button>
+        <button
+          class="creation-room-box__cancel-bnt"
+          @click="this.$router.push('/')"
+        >
+          취 소
+        </button>
       </div>
     </div>
   </div>
