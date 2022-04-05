@@ -15,7 +15,6 @@
         <div class="test"></div>
       </div>
     </div>
-    <div class="tt"></div>
     <div class="text-record-container">qwe</div>
   </div>
 </template>
