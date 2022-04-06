@@ -14,40 +14,112 @@
   flex-direction: column;
 
   width: 100%;
-  height: 100%;
 
   &__title {
     font-size: 30px;
     font-weight: $font-bold;
-    margin: 10px 0 10px 0;
+    margin: 10px 0 10px 20px;
   }
 }
 
 .text-record-container {
-
   display: flex;
   flex-direction: column;
 
   width: 30%;
-  height: 100%;
-  background-color: rgba(20, 20, 20, 0.3);
+  height: auto;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  margin: 10px;
+  box-shadow: $shadow-interview-room-item;
+  &__title {
+    font-size: 20px;
+    font-weight: $font-bold;
+    margin: 20px 0 20px 10px;
+  }
+}
+
+.text-record-list {
+  padding: 0 10px 0 10px;
+  overflow: auto;
+}
+
+.chat {
+  margin: 0 0 20px 0;
+  &__name {
+    width: fit-content;
+    height: fit-content;
+    font-size: 16px;
+    background-color: aliceblue;
+    border-radius: 20px;
+    white-space: nowrap;
+    padding: 4px 5px 4px 5px;
+    margin: 0 0 5px 0;
+  }
+
+  &__contents {
+    font-size: 16px;
+  }
 }
 
 .interviwer-container {
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
+  height: 30%;
   align-items: center;
 }
 
-.test {
+.interviwee-container {
+  display: flex;
+  flex-direction: row;
+  height: 70%;
+  align-items: center;
+}
+
+.interviewer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   width: 25%;
   height: 90%;
   margin: 0 10px 0 10px;
+  border-radius: 20px;
+  box-shadow: $shadow-interview-room-item;
+  background-color: $color-main-sub2;
+  align-items: center;
 
-  background-color: bisque;
+  &__name {
+    position: relative;
+    left: 0;
+    text-align: center;
+    margin: 10px 0 10px 0;
+  }
+
+  &__video {
+    display: flex;
+
+    width: 90%;
+    height: 70%;
+    background-color: white;
+    margin: 5px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
 }
 
-
-
-
+.interviewee {
+  width: 25%;
+  height: 90%;
+  margin: 0 10px 0 10px;
+  border-radius: 20px;
+  box-shadow: $shadow-interview-room-item;
+  background-color: $color-main-sub;
+}
