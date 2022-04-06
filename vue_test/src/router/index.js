@@ -4,6 +4,7 @@ import UserLogin from "@/views/2_pages/UserLogin";
 import RoomCreation from "@/views/2_pages/RoomCreation";
 import RoomEntry from "@/views/2_pages/RoomEntry";
 import InterviewRoom from "@/views/2_pages/InterviewRoom";
+import VideoTest from "@/views/2_pages/VideoTest";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/interview-room",
     name: "InterviewRoom",
     component: InterviewRoom,
+  },
+  {
+    path: "/video-test",
+    name: "VideoTest",
+    component: VideoTest,
   },
 ];
 
