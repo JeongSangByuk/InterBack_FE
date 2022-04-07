@@ -6,13 +6,13 @@
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
           <div class="interviewer__video">
-            <img src="img/img_user_interview.png" />
+            <video id="localVideo" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video">
-            <img src="img/img_user_interview.png" />
+            <video id="remoteVideo" width="480px" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
@@ -42,30 +42,56 @@
           <p class="chat__name">정상벽벽</p>
           <p class="chat__contents">안녕하세요.요.</p>
         </div>
-        <div class="chat">
-          <p class="chat__name">정상벽벽</p>
-          <p class="chat__contents">안녕하세요.요.</p>
-        </div>
-        <div class="chat">
-          <p class="chat__name">정상벽벽</p>
-          <p class="chat__contents">안녕하세요.요.</p>
-        </div>
-
-        <div class="chat">
-          <p class="chat__name">정상벽벽</p>
-          <p class="chat__contents">안녕하세요.요.</p>
-        </div>
-        <div class="chat">
-          <p class="chat__name">정상벽벽</p>
-          <p class="chat__contents">안녕하세요.요.</p>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import Peer from "simple-peer";
+import io from "socket.io-client";
+
+const tt = async () => {
+  let localVideo = document.getElementById("localVideo");
+  let remoteVideo = document.getElementById("remoteVideo");
+
+  const callerStream = await navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: false,
+  });
+
+  localVideo.srcObject = callerStream;
+
+  const callerPeer = new Peer({
+    initiator: true, //요청자 이므로 true!
+    stream: callerStream,
+  });
+
+  const callerSocket = io("ws://localhost:8080/socekt");
+  callerPeer.on("signal", (callerSignal) => {
+    //signaling data와 함께 Caller의 정보도 함께 전송
+    //unique한 값인 name은 만들어진 socket room으로 활용
+    //callee id로 어떤 callee와 연결하고 싶은지 구분함
+    callerSocket.emit("joinCaller", {
+      signal: callerSignal,
+      name: "qwe",
+      callee: "qwe",
+    });
+  });
+};
+
+export default {
+  components: {},
+  data() {
+    return {
+      img: null,
+    };
+  },
+  methods: {},
+  mounted() {
+    tt();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
