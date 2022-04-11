@@ -67,17 +67,12 @@ const tt = async () => {
     stream: callerStream,
   });
 
-  const callerSocket = io("ws://localhost:8080/socekt");
-  callerPeer.on("signal", (callerSignal) => {
-    //signaling data와 함께 Caller의 정보도 함께 전송
-    //unique한 값인 name은 만들어진 socket room으로 활용
-    //callee id로 어떤 callee와 연결하고 싶은지 구분함
-    callerSocket.emit("joinCaller", {
-      signal: callerSignal,
-      name: "qwe",
-      callee: "qwe",
-    });
-  });
+  var ws = new WebSocket("ws://localhost:8080/socket");
+  var socket = ws;
+  //이벤트 헨들러
+  ws.onopen = function () {
+    console.log("Info: connection opened.");
+  };
 };
 
 export default {
