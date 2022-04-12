@@ -49,16 +49,23 @@
 
 <script>
 import Peer from "simple-peer";
-import io from "socket.io-client";
+
+var ws = new WebSocket("ws://localhost:8080/socket");
+var socket = ws;
 
 const tt = async () => {
-  let localVideo = document.getElementById("localVideo");
-  let remoteVideo = document.getElementById("remoteVideo");
-
   const callerStream = await navigator.mediaDevices.getUserMedia({
     video: true,
     audio: false,
   });
+
+  const calleeStream = await navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: false,
+  });
+
+  let localVideo = document.getElementById("localVideo");
+  let remoteVideo = document.getElementById("remoteVideo");
 
   localVideo.srcObject = callerStream;
 
@@ -67,13 +74,34 @@ const tt = async () => {
     stream: callerStream,
   });
 
-  var ws = new WebSocket("ws://localhost:8080/socket");
-  var socket = ws;
-  //이벤트 헨들러
+  const calleePeer = new Peer({
+    initiator: false, //요청자가 아니므로 false
+    stream: calleeStream,
+  });
+
+  // caller의 signaling data를 얻어 서버에 전송
+  callerPeer.on("signal", (callerSignal) => {
+    socket.send(
+      JSON.stringify({
+        type: "joinCaller",
+        signal: callerSignal,
+        name: "qwe",
+        callee: 123,
+      })
+    );
+  });
+};
+
+function connect() {
   ws.onopen = function () {
     console.log("Info: connection opened.");
+    tt();
   };
-};
+
+  ws.onclose = function () {
+    console.log("Info: connection closed");
+  };
+}
 
 export default {
   components: {},
@@ -84,7 +112,7 @@ export default {
   },
   methods: {},
   mounted() {
-    tt();
+    connect();
   },
 };
 </script>
