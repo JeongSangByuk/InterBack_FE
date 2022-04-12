@@ -2,6 +2,11 @@
   <div class="container">
     <div class="video-container">
       <p class="video-container__title">카카오 BE 그룹3 면접장</p>
+
+      <button type="button" class="btn btn-primary" @click="click1">1</button>
+
+      <button type="button" class="btn btn-primary" @click="click2">2</button>
+
       <div class="interviwer-container">
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
@@ -12,7 +17,7 @@
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video">
-            <video id="remoteVideo" width="480px" autoplay></video>
+            <video id="remoteVideo" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
@@ -53,67 +58,135 @@ import Peer from "simple-peer";
 var ws = new WebSocket("ws://localhost:8080/socket");
 var socket = ws;
 
-const tt = async () => {
-  const callerStream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: false,
-  });
-
-  const calleeStream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: false,
-  });
-
-  let localVideo = document.getElementById("localVideo");
-  let remoteVideo = document.getElementById("remoteVideo");
-
-  localVideo.srcObject = callerStream;
-
-  const callerPeer = new Peer({
-    initiator: true, //요청자 이므로 true!
-    stream: callerStream,
-  });
-
-  const calleePeer = new Peer({
-    initiator: false, //요청자가 아니므로 false
-    stream: calleeStream,
-  });
-
-  // caller의 signaling data를 얻어 서버에 전송
-  callerPeer.on("signal", (callerSignal) => {
-    socket.send(
-      JSON.stringify({
-        type: "joinCaller",
-        signal: callerSignal,
-        name: "qwe",
-        callee: 123,
-      })
-    );
-  });
-};
-
-function connect() {
-  ws.onopen = function () {
-    console.log("Info: connection opened.");
-    tt();
-  };
-
-  ws.onclose = function () {
-    console.log("Info: connection closed");
-  };
-}
+var peer1;
+var peer2;
 
 export default {
   components: {},
   data() {
     return {
-      img: null,
+      myId: "",
+      oppoId: "",
+      callerStream: "",
+      caller: "",
+      receivingCall: "",
+      callerSignal: "",
     };
   },
-  methods: {},
-  mounted() {
-    connect();
+
+  methods: {
+    // testing
+
+    connect() {
+      ws.onopen = function () {
+        console.log("Info: connection opened.");
+      };
+
+      ws.onclose = function () {
+        console.log("Info: connection closed");
+      };
+
+      ws.onmessage = function (event) {
+        console.log(event.data);
+        var data = JSON.parse(event.data);
+        console.log(data.type);
+
+        switch (data.type) {
+          case "caller":
+            this.callerSignal = data.signal;
+            this.caller = data.from;
+            break;
+        }
+      };
+    },
+
+    calling() {
+      let localVideo = document.getElementById("localVideo");
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          this.callerStream = stream;
+          localVideo.srcObject = stream;
+        });
+
+      peer1 = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: this.callerStream,
+      });
+
+      // caller의 signaling data를 얻어 서버에 전송
+      peer1.on("signal", (data) => {
+        socket.send(
+          JSON.stringify({
+            type: "caller",
+            ToCall: this.oppoId,
+            from: this.myId,
+            signal: data,
+          })
+        );
+      });
+
+      ws.addEventListener("message", function (event) {
+        console.log(event.data);
+        var data = JSON.parse(event.data);
+        console.log(data.type);
+
+        switch (data.type) {
+          case "acceptCall":
+            peer1.signal(data.signal);
+            break;
+        }
+      });
+    },
+
+    answercall() {
+      var remoteVideo = document.getElementById("remoteVideo");
+
+      peer2 = new Peer({
+        initiator: false,
+        trickle: false,
+        stream: this.callerStream,
+      });
+
+      peer2.on("signal", (data) => {
+        socket.send(
+          JSON.stringify({
+            type: "answerCall",
+            ToCall: this.myId,
+            signal: data,
+          })
+        );
+      });
+
+      console.log("aceepcall");
+
+      peer2.signal(this.callerSignal);
+
+      peer2.on("stream", (stream) => {
+        remoteVideo.srcObject = stream;
+      });
+    },
+
+    click1() {
+      this.myId = "111";
+      this.oppoId = "222";
+      this.connect();
+      this.calling();
+    },
+
+    click2() {
+      this.myId = "222";
+      this.oppoId = "111";
+      this.connect();
+      this.answercall();
+    },
   },
+  mounted() {},
 };
 </script>
 

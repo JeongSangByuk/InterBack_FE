@@ -1,16 +1,11 @@
 <template>
   <div class="c">
     <h1>WebRTC 테스트 페이지</h1>
-    <button type="button" class="btn btn-primary" @click="onJoin">Join</button>
+    <button type="button" class="btn btn-primary" @click="plus">Join</button>
     <button type="button" class="btn btn-primary" @click="onLeave">
-      Leave
+      {{this.roomId}}
     </button>
     <div class="b">
-      <vue-webrtc
-        ref="webrtc"
-        roomId="sample-room"
-        socketURL="ws://localhost:8080/socket"
-      />
     </div>
   </div>
 </template>
@@ -22,32 +17,15 @@ export default {
   data() {
     return {
       img: null,
-      roomId: "public-room-v3",
+      roomId: 123,
     };
   },
   methods: {
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
-    },
-    onJoin() {
-      console.log("qwe");
-      this.$refs.webrtc.join();
-    },
-    onLeave() {
-      this.$refs.webrtc.leave();
-    },
-    onShareScreen() {
-      this.img = this.$refs.webrtc.shareScreen();
-    },
-    onError(error, stream) {
-      console.log("On Error Event", error, stream);
-    },
-    logEvent(event) {
-      console.log("Event : ", event);
+    plus(){
+      this.roomId ++;
     },
   },
   mounted() {
-    this.onJoin();
   },
 };
 </script>
