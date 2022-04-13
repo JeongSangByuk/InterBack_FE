@@ -3,6 +3,8 @@
     <div class="video-container">
       <p class="video-container__title">카카오 BE 그룹3 면접장</p>
 
+      <h3>{{ this.receivingCall }}</h3>
+
       <button type="button" class="btn btn-primary" @click="click1">1</button>
 
       <button type="button" class="btn btn-primary" @click="click2">2</button>
@@ -11,13 +13,13 @@
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
           <div class="interviewer__video">
-            <video id="localVideo" autoplay></video>
+            <video id="localVideo" ref="localVideo" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video">
-            <video id="remoteVideo" autoplay></video>
+            <video id="remoteVideo" ref="remoteVideo" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
@@ -69,7 +71,7 @@ export default {
       oppoId: "",
       callerStream: "",
       caller: "",
-      receivingCall: "",
+      receivingCall: false,
       callerSignal: "",
     };
   },
@@ -86,13 +88,15 @@ export default {
         console.log("Info: connection closed");
       };
 
-      ws.onmessage = function (event) {
+      ws.onmessage = (event) => {
         console.log(event.data);
         var data = JSON.parse(event.data);
         console.log(data.type);
 
         switch (data.type) {
           case "caller":
+            console.log(data.signal);
+            this.receivingCall = true;
             this.callerSignal = data.signal;
             this.caller = data.from;
             break;
@@ -101,18 +105,6 @@ export default {
     },
 
     calling() {
-      let localVideo = document.getElementById("localVideo");
-
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: false,
-        })
-        .then((stream) => {
-          this.callerStream = stream;
-          localVideo.srcObject = stream;
-        });
-
       peer1 = new Peer({
         initiator: true,
         trickle: false,
@@ -131,13 +123,17 @@ export default {
         );
       });
 
+      peer1.on("stream", (stream) => {
+        this.$refs.remoteVideo.srcObject = stream;
+      });
+
       ws.addEventListener("message", function (event) {
-        console.log(event.data);
         var data = JSON.parse(event.data);
-        console.log(data.type);
 
         switch (data.type) {
           case "acceptCall":
+            console.log("acceptCall");
+            console.log(event.data);
             peer1.signal(data.signal);
             break;
         }
@@ -145,7 +141,7 @@ export default {
     },
 
     answercall() {
-      var remoteVideo = document.getElementById("remoteVideo");
+      //var remoteVideo = document.getElementById("remoteVideo");
 
       peer2 = new Peer({
         initiator: false,
@@ -163,30 +159,40 @@ export default {
         );
       });
 
-      console.log("aceepcall");
+      peer2.on("stream", (stream) => {
+        this.$refs.remoteVideo.srcObject = stream;
+      });
 
       peer2.signal(this.callerSignal);
-
-      peer2.on("stream", (stream) => {
-        remoteVideo.srcObject = stream;
-      });
     },
 
     click1() {
       this.myId = "111";
       this.oppoId = "222";
-      this.connect();
       this.calling();
     },
 
     click2() {
       this.myId = "222";
       this.oppoId = "111";
-      this.connect();
+
       this.answercall();
     },
   },
-  mounted() {},
+  mounted() {
+    this.connect();
+    //var localVideo = document.getElementById("localVideo");
+
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+        audio: false,
+      })
+      .then((stream) => {
+        this.callerStream = stream;
+        this.$refs.localVideo.srcObject = stream;
+      });
+  },
 };
 </script>
 
