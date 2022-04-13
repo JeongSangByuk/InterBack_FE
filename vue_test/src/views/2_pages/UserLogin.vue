@@ -13,6 +13,8 @@
           <input
             class="login-form__input"
             placeholder="아이디를 입력해주세요."
+            type="text"
+            v-model="id"
           />
         </div>
 
@@ -23,18 +25,43 @@
             class="login-form__input"
             placeholder="비밀 번호를 입력해주세요."
             type="password"
+            v-model="pass"
           />
         </div>
         <p class="login-box__find-pwd">비밀번호를 잊으셨나요?</p>
-        <button class="login-box__login-bnt">로 그 인</button>
-        <button class="login-box__signup-bnt">회원 가입</button>
+        <button 
+          class="login-box__login-bnt"
+          v-on:click="loginResult">          
+            로 그 인</button>
+        <button class="login-box__signup-bnt">
+          회원 가입</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+
+
+  data() {
+    return{
+      // id에 해당하는 쿠키 가져오기
+      id: this.$cookies.get("idCookie"),
+      idSave:false
+    };
+  },
+  
+  methods : {
+    loginResult() {
+      console.log('~~~ login Result Button Click')
+      console.log("id = " + this.id)
+      console.log("passsword = " + this.pass)
+
+      this.$cookies.set("idCookie", this.id);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -13,6 +13,7 @@
     "node-polyfill-webpack-plugin": "^1.1.4",
     "stylelint-webpack-plugin": "^3.2.0",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.0",
     "vue-router": "^4.0.13",
     "vue-webrtc": "^3.0.0"
   },
