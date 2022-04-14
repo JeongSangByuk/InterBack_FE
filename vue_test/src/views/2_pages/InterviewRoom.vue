@@ -3,23 +3,33 @@
     <div class="video-container">
       <p class="video-container__title">카카오 BE 그룹3 면접장</p>
 
-      <h3>{{ this.receivingCall }}</h3>
+      <button type="button" class="btn btn-primary" @click="click1">
+        user1 set
+      </button>
 
-      <button type="button" class="btn btn-primary" @click="click1">1</button>
+      <button type="button" class="btn btn-primary" @click="click2">
+        user2 set
+      </button>
 
-      <button type="button" class="btn btn-primary" @click="click2">2</button>
+      <button type="button" class="btn btn-primary" @click="click3">
+        call
+      </button>
+
+      <button type="button" class="btn btn-primary" @click="click4">
+        answer
+      </button>
 
       <div class="interviwer-container">
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
           <div class="interviewer__video">
-            <video id="localVideo" ref="localVideo" autoplay></video>
+            <video id="localVideo" ref="111" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video">
-            <video id="remoteVideo" ref="remoteVideo" autoplay></video>
+            <video id="remoteVideo" ref="222" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
@@ -77,14 +87,12 @@ export default {
   },
 
   methods: {
-    // testing
-
     connect() {
-      ws.onopen = function () {
+      ws.onopen = (event) => {
         console.log("Info: connection opened.");
       };
 
-      ws.onclose = function () {
+      ws.onclose = (event) => {
         console.log("Info: connection closed");
       };
 
@@ -94,24 +102,31 @@ export default {
         console.log(data.type);
 
         switch (data.type) {
+          // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
           case "caller":
-            console.log(data.signal);
             this.receivingCall = true;
             this.callerSignal = data.signal;
             this.caller = data.from;
+            break;
+
+          case "acceptCall":
+            // acceptCall을 받은 시점에서 caller와 callee를 연결.
+            peer1.signal(data.signal);
             break;
         }
       };
     },
 
     calling() {
+      // 최초 시작.
       peer1 = new Peer({
         initiator: true,
         trickle: false,
         stream: this.callerStream,
       });
 
-      // caller의 signaling data를 얻어 서버에 전송
+      // caller의 signaling data를 얻어 서버에 전송하여
+      // 소켓에 연결된 사람에게 쏴준다.
       peer1.on("signal", (data) => {
         socket.send(
           JSON.stringify({
@@ -124,31 +139,20 @@ export default {
       });
 
       peer1.on("stream", (stream) => {
-        this.$refs.remoteVideo.srcObject = stream;
-      });
-
-      ws.addEventListener("message", function (event) {
-        var data = JSON.parse(event.data);
-
-        switch (data.type) {
-          case "acceptCall":
-            console.log("acceptCall");
-            console.log(event.data);
-            peer1.signal(data.signal);
-            break;
-        }
+        this.$refs[this.oppoId].srcObject = stream;
       });
     },
 
+    // caller에게 요청을 받은 상태에서 connect answer을 보냄.
     answercall() {
-      //var remoteVideo = document.getElementById("remoteVideo");
-
+      // callee의  peer
       peer2 = new Peer({
         initiator: false,
         trickle: false,
         stream: this.callerStream,
       });
 
+      // callee의 정보를 caller에게 보냄.
       peer2.on("signal", (data) => {
         socket.send(
           JSON.stringify({
@@ -160,38 +164,52 @@ export default {
       });
 
       peer2.on("stream", (stream) => {
-        this.$refs.remoteVideo.srcObject = stream;
+        this.$refs[this.oppoId].srcObject = stream;
       });
 
+      // callee와 caller의 연결.
       peer2.signal(this.callerSignal);
     },
 
     click1() {
       this.myId = "111";
       this.oppoId = "222";
-      this.calling();
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          this.callerStream = stream;
+          this.$refs[this.myId].srcObject = stream;
+        });
     },
 
     click2() {
       this.myId = "222";
       this.oppoId = "111";
 
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          this.callerStream = stream;
+          this.$refs[this.myId].srcObject = stream;
+        });
+    },
+
+    click3() {
+      this.calling();
+    },
+    click4() {
       this.answercall();
     },
   },
   mounted() {
     this.connect();
-    //var localVideo = document.getElementById("localVideo");
-
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: false,
-      })
-      .then((stream) => {
-        this.callerStream = stream;
-        this.$refs.localVideo.srcObject = stream;
-      });
   },
 };
 </script>
