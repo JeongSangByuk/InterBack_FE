@@ -3,19 +3,21 @@
     <div class="video-container">
       <p class="video-container__title">카카오 BE 그룹3 면접장</p>
 
-      <button type="button" class="btn btn-primary" @click="click1">
+      <button type="button" class="btn btn-primary" @click="userSet1">
         user1 set
       </button>
 
-      <button type="button" class="btn btn-primary" @click="click2">
+      <button type="button" class="btn btn-primary" @click="userSet2">
         user2 set
       </button>
 
-      <button type="button" class="btn btn-primary" @click="click3">
-        call
+      <button type="button" class="btn btn-primary" @click="userSet3">
+        user3 set
       </button>
 
-      <button type="button" class="btn btn-primary" @click="click4">
+      <button type="button" class="btn btn-primary" @click="call">call</button>
+
+      <button type="button" class="btn btn-primary" @click="answer">
         answer
       </button>
 
@@ -35,7 +37,7 @@
         <div class="interviewer">
           <p class="interviewer__name">면접관3. 김채운</p>
           <div class="interviewer__video">
-            <img src="img/img_user_interview.png" />
+            <video id="remoteVideo" ref="333" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
@@ -70,7 +72,8 @@ import Peer from "simple-peer";
 var ws = new WebSocket("ws://localhost:8080/socket");
 var socket = ws;
 
-var peer1;
+var peer1, peer3;
+
 var peer2;
 
 export default {
@@ -78,11 +81,13 @@ export default {
   data() {
     return {
       myId: "",
-      oppoId: "",
+      oppoId1: "",
+      oppoId2: "",
       callerStream: "",
       caller: "",
       receivingCall: false,
       callerSignal: "",
+      peerRef: [],
     };
   },
 
@@ -98,7 +103,7 @@ export default {
 
       ws.onmessage = (event) => {
         console.log(event.data);
-        var data = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
         console.log(data.type);
 
         switch (data.type) {
@@ -113,6 +118,46 @@ export default {
             // acceptCall을 받은 시점에서 caller와 callee를 연결.
             peer1.signal(data.signal);
             break;
+
+          case "all users": {
+            let users = data.users;
+            let peers = [];
+
+            users.array.forEach((userID) => {
+              const peer = this.createPeer(
+                userID,
+                this.myId,
+                this.callerStream
+              );
+
+              this.peerRef.push({
+                peerID: userID,
+                peer,
+              });
+              peers.push(peer);
+            });
+            break;
+          }
+
+          case "user joined": {
+            let peer = this.addPeer(
+              data.signal,
+              data.callerID,
+              this.callerStream
+            );
+            this.peerRef.push({
+              peerID: data.callerID,
+              peer,
+            });
+
+            break;
+          }
+
+          case "receiving returned signal": {
+            const item = this.peerRef.find((p) => p.peerID === data.id);
+            item.peer.signal(data.signal);
+            break;
+          }
         }
       };
     },
@@ -131,7 +176,7 @@ export default {
         socket.send(
           JSON.stringify({
             type: "caller",
-            ToCall: this.oppoId,
+            ToCall: this.oppoId1,
             from: this.myId,
             signal: data,
           })
@@ -139,7 +184,7 @@ export default {
       });
 
       peer1.on("stream", (stream) => {
-        this.$refs[this.oppoId].srcObject = stream;
+        this.$refs[this.oppoId1].srcObject = stream;
       });
     },
 
@@ -171,9 +216,58 @@ export default {
       peer2.signal(this.callerSignal);
     },
 
-    click1() {
+    do(stream) {
+      socket.send(
+        JSON.stringify({
+          type: "join room",
+          roomID: "1",
+        })
+      );
+    },
+
+    createPeer(userToSignal, callerID, stream) {
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream,
+      });
+
+      peer.on("signal", (data) => {
+        socket.send(
+          JSON.stringify({
+            type: "sending signal",
+            userToSignal: userToSignal,
+            callerID: callerID,
+            signal: data,
+          })
+        );
+      });
+    },
+
+    addPeer(incomingSignal, callerID, stream) {
+      const peer = new Peer({
+        initiator: false,
+        trickle: false,
+        stream: stream,
+      });
+
+      peer.on("signal", (data) => {
+        socket.send(
+          JSON.stringify({
+            type: "returning signal",
+            callerID: callerID,
+            signal: data,
+          })
+        );
+      });
+
+      peer.signal(incomingSignal);
+    },
+
+    userSet1() {
       this.myId = "111";
-      this.oppoId = "222";
+      this.oppoId1 = "222";
+      this.oppoId2 = "333";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -186,9 +280,10 @@ export default {
         });
     },
 
-    click2() {
+    userSet2() {
       this.myId = "222";
-      this.oppoId = "111";
+      this.oppoId1 = "111";
+      this.oppoId2 = "333";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -201,10 +296,26 @@ export default {
         });
     },
 
-    click3() {
+    userSet3() {
+      this.myId = "333";
+      this.oppoId1 = "111";
+      this.oppoId2 = "222";
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          this.callerStream = stream;
+          this.$refs[this.myId].srcObject = stream;
+        });
+    },
+
+    call() {
       this.calling();
     },
-    click4() {
+    answer() {
       this.answercall();
     },
   },
