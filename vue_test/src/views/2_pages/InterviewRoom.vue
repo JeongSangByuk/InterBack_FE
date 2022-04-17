@@ -71,15 +71,12 @@ import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
-//var ws = new WebSocket("ws://localhost:8080/socket");
-//var socket = ws;
-
-const socket = new SockJS("http://localhost:8080/socket");
-const stomp = Stomp.over(socket);
-
 var peer1, peer3;
 
 var peer2;
+
+let socket;
+let stomp;
 
 export default {
   components: {},
@@ -98,13 +95,15 @@ export default {
 
   methods: {
     connect() {
+      socket = new SockJS("http://localhost:8080/socket");
+      stomp = Stomp.over(socket);
+
       stomp.connect(
         {},
         // connectCallback
         () => {
           // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
           stomp.subscribe("/sub/video/caller", (data) => {
-            
             data = JSON.parse(data.body);
 
             if (data.from === this.myId) return;
@@ -117,8 +116,7 @@ export default {
           });
 
           // acceptCall을 받은 시점에서 caller와 callee를 연결.
-          stomp.subscribe("/sub/video/acceptCall", (data) => {
-
+          stomp.subscribe("/sub/video/accept-call", (data) => {
             data = JSON.parse(data.body);
 
             if (data.from === this.myId) return;
@@ -130,6 +128,17 @@ export default {
             this.caller = data.from;
             peer1.signal(data.signal);
           });
+
+          stomp.subscribe("/sub/video/all-users", (data) => {
+            data = JSON.parse(data.body);
+
+            console.log(data);
+          });
+
+          stomp.send(
+            "/pub/video/join-room",
+            JSON.stringify({ from: this.myId })
+          );
         },
 
         // onErrorCallback
@@ -246,7 +255,7 @@ export default {
       // callee의 정보를 caller에게 보냄.
       peer2.on("signal", (data) => {
         stomp.send(
-          "/pub/video/answerCall",
+          "/pub/video/answer-call",
           JSON.stringify({
             from: this.myId,
             signal: data,
@@ -271,24 +280,24 @@ export default {
     //   );
     // },
 
-    // createPeer(userToSignal, callerID, stream) {
-    //   const peer = new Peer({
-    //     initiator: true,
-    //     trickle: false,
-    //     stream: stream,
-    //   });
+    createPeer(userToSignal, callerID, stream) {
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream,
+      });
 
-    //   peer.on("signal", (data) => {
-    //     socket.send(
-    //       JSON.stringify({
-    //         type: "sending signal",
-    //         userToSignal: userToSignal,
-    //         callerID: callerID,
-    //         signal: data,
-    //       })
-    //     );
-    //   });
-    // },
+      peer.on("signal", (data) => {
+        stomp.send(
+          "/pub/video/send-signal",
+          JSON.stringify({
+            userToSignal: userToSignal,
+            callerID: callerID,
+            signal: data,
+          })
+        );
+      });
+    },
 
     // addPeer(incomingSignal, callerID, stream) {
     //   const peer = new Peer({
@@ -324,6 +333,8 @@ export default {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
         });
+
+      this.connect();
     },
 
     userSet2() {
@@ -340,6 +351,7 @@ export default {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
         });
+      this.connect();
     },
 
     userSet3() {
@@ -359,16 +371,13 @@ export default {
     },
 
     call() {
-      console.log("qwe");
       this.calling();
     },
     answer() {
       this.answercall();
     },
   },
-  mounted() {
-    this.connect();
-  },
+  mounted() {},
 };
 </script>
 
