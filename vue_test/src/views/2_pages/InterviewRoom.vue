@@ -123,11 +123,6 @@ export default {
         () => {
           console.log("ws error");
         },
-
-        // closeEventCallback
-        () => {
-          console.log("ws closed");
-        }
       );
     },
 
