@@ -15,6 +15,10 @@
         user3 set
       </button>
 
+      <button type="button" class="btn btn-primary" @click="userSet4">
+        user4 set
+      </button>
+
       <button type="button" class="btn btn-primary" @click="call">call</button>
 
       <button type="button" class="btn btn-primary" @click="answer">
@@ -43,7 +47,7 @@
         <div class="interviewer">
           <p class="interviewer__name">면접관4. 박윤굥</p>
           <div class="interviewer__video">
-            <img src="img/img_user_interview.png" />
+            <video id="remoteVideo" ref="444" autoplay></video>
           </div>
         </div>
       </div>
@@ -71,10 +75,7 @@ import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
-var peer1, peer3;
-
-var peer2;
-
+const peers = [];
 let socket;
 let stomp;
 
@@ -87,9 +88,8 @@ export default {
       oppoId2: "",
       callerStream: "",
       caller: "",
-      receivingCall: false,
       callerSignal: "",
-      peerRef: [],
+      peers: [],
     };
   },
 
@@ -103,40 +103,59 @@ export default {
         // connectCallback
         () => {
           // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
-          stomp.subscribe("/sub/video/caller", (data) => {
+          stomp.subscribe("/sub/video/caller-info", (data) => {
             data = JSON.parse(data.body);
 
-            if (data.from === this.myId) return;
+            // 나에게서 오거나(from me) 혹은 나에게 온(to me)이 아니면 return
+            if (data.from === this.myId || data.toCall !== this.myId) return;
 
-            console.log(data);
+            console.log("caller subscribe : " + data);
 
-            this.receivingCall = true;
-            this.callerSignal = data.signal;
-            this.caller = data.from;
+            //this.callerSignal = data.signal;
+            //this.caller = data.from;
+
+            //callig을 받은 시점에, answer call을 보내 signaling한다.
+            this.answercall(data.signal, data.from);
           });
 
           // acceptCall을 받은 시점에서 caller와 callee를 연결.
-          stomp.subscribe("/sub/video/accept-call", (data) => {
+          stomp.subscribe("/sub/video/callee-info", (data) => {
             data = JSON.parse(data.body);
 
             if (data.from === this.myId) return;
 
-            console.log(data);
+            console.log("accept call subscribe : " + data);
 
-            this.receivingCall = true;
-            this.callerSignal = data.signal;
-            this.caller = data.from;
-            peer1.signal(data.signal);
+            console.log(peers);
+            peers.forEach((p) => {
+              if (p[1] === data.to && p[2] === data.from) {
+                p[0].signal(data.signal);
+                return false;
+              }
+            });
           });
 
-          stomp.subscribe("/sub/video/all-users", (data) => {
-            data = JSON.parse(data.body);
+          // 누군가 join 했을때, 이미 있는 peer에서 joinedID로 calling 보낸다.
+          stomp.subscribe("/sub/video/joined-room-info", (data) => {
+            let users = JSON.parse(data.body);
 
-            console.log(data);
+            let topIdx = users.length - 1;
+
+            // 인원이 한명 이하거나, 자신이 join 일경우는 return
+            if (topIdx <= 0 || users[topIdx].id === this.myId) return;
+
+            console.log(users);
+            console.log(users.length);
+
+            let joinedID = users[topIdx].id;
+
+            // joined id로 calling 보낸다
+            this.calling(joinedID);
           });
 
+          // socket join send
           stomp.send(
-            "/pub/video/join-room",
+            "/pub/video/joined-room-info",
             JSON.stringify({ from: this.myId })
           );
         },
@@ -147,79 +166,10 @@ export default {
         }
       );
     },
-
-    // connect1() {
-    //   ws.onopen = (event) => {
-    //     console.log("Info: connection opened.");
-    //   };
-
-    //   ws.onclose = (event) => {
-    //     console.log("Info: connection closed");
-    //   };
-
-    //   ws.onmessage = (event) => {
-    //     console.log(event.data);
-    //     const data = JSON.parse(event.data);
-    //     console.log(data.type);
-
-    //     switch (data.type) {
-    //       // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
-    //       case "caller":
-    //         this.receivingCall = true;
-    //         this.callerSignal = data.signal;
-    //         this.caller = data.from;
-    //         break;
-
-    //       case "acceptCall":
-    //         // acceptCall을 받은 시점에서 caller와 callee를 연결.
-    //         peer1.signal(data.signal);
-    //         break;
-
-    //       case "all users": {
-    //         let users = data.users;
-    //         let peers = [];
-
-    //         users.array.forEach((userID) => {
-    //           const peer = this.createPeer(
-    //             userID,
-    //             this.myId,
-    //             this.callerStream
-    //           );
-
-    //           this.peerRef.push({
-    //             peerID: userID,
-    //             peer,
-    //           });
-    //           peers.push(peer);
-    //         });
-    //         break;
-    //       }
-
-    //       case "user joined": {
-    //         let peer = this.addPeer(
-    //           data.signal,
-    //           data.callerID,
-    //           this.callerStream
-    //         );
-    //         this.peerRef.push({
-    //           peerID: data.callerID,
-    //           peer,
-    //         });
-
-    //         break;
-    //       }
-
-    //       case "receiving returned signal": {
-    //         const item = this.peerRef.find((p) => p.peerID === data.id);
-    //         item.peer.signal(data.signal);
-    //         break;
-    //       }
-    //     }
-    //  };
-
-    calling() {
-      // 최초 시작.
-      peer1 = new Peer({
+    //calling
+    calling(joinedID) {
+      // peer 생성
+      const peer = new Peer({
         initiator: true,
         trickle: false,
         stream: this.callerStream,
@@ -227,102 +177,57 @@ export default {
 
       // caller의 signaling data를 얻어 서버에 전송하여
       // 소켓에 연결된 사람에게 쏴준다.
-      peer1.on("signal", (data) => {
+      peer.on("signal", (data) => {
         stomp.send(
-          "/pub/video/caller",
+          "/pub/video/caller-info",
           JSON.stringify({
-            ToCall: this.oppoId1,
+            toCall: joinedID,
             from: this.myId,
             signal: data,
           })
         );
       });
 
-      peer1.on("stream", (stream) => {
-        this.$refs[this.oppoId1].srcObject = stream;
+      peer.on("stream", (stream) => {
+        this.$refs[joinedID].srcObject = stream;
       });
+
+      peers.push([peer, this.myId, joinedID]);
     },
 
     // caller에게 요청을 받은 상태에서 connect answer을 보냄.
-    answercall() {
+    answerceall(callerSignal, callerId) {
       // callee의  peer
-      peer2 = new Peer({
+      const peer = new Peer({
         initiator: false,
         trickle: false,
         stream: this.callerStream,
       });
 
       // callee의 정보를 caller에게 보냄.
-      peer2.on("signal", (data) => {
+      peer.on("signal", (data) => {
         stomp.send(
-          "/pub/video/answer-call",
+          "/pub/video/callee-info",
           JSON.stringify({
             from: this.myId,
+            to: callerId,
             signal: data,
           })
         );
       });
 
-      peer2.on("stream", (stream) => {
-        this.$refs[this.oppoId1].srcObject = stream;
+      peer.on("stream", (stream) => {
+        this.$refs[callerId].srcObject = stream;
       });
 
       // callee와 caller의 연결.
-      peer2.signal(this.callerSignal);
+      peer.signal(callerSignal);
+
+      peers.push([peer, "", ""]);
     },
-
-    // do(stream) {
-    //   socket.send(
-    //     JSON.stringify({
-    //       type: "join room",
-    //       roomID: "1",
-    //     })
-    //   );
-    // },
-
-    createPeer(userToSignal, callerID, stream) {
-      const peer = new Peer({
-        initiator: true,
-        trickle: false,
-        stream: stream,
-      });
-
-      peer.on("signal", (data) => {
-        stomp.send(
-          "/pub/video/send-signal",
-          JSON.stringify({
-            userToSignal: userToSignal,
-            callerID: callerID,
-            signal: data,
-          })
-        );
-      });
-    },
-
-    // addPeer(incomingSignal, callerID, stream) {
-    //   const peer = new Peer({
-    //     initiator: false,
-    //     trickle: false,
-    //     stream: stream,
-    //   });
-
-    //   peer.on("signal", (data) => {
-    //     socket.send(
-    //       JSON.stringify({
-    //         type: "returning signal",
-    //         callerID: callerID,
-    //         signal: data,
-    //       })
-    //     );
-    //   });
-
-    //   peer.signal(incomingSignal);
-    // },
 
     userSet1() {
       this.myId = "111";
-      this.oppoId1 = "222";
-      this.oppoId2 = "333";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -339,8 +244,6 @@ export default {
 
     userSet2() {
       this.myId = "222";
-      this.oppoId1 = "111";
-      this.oppoId2 = "333";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -356,8 +259,6 @@ export default {
 
     userSet3() {
       this.myId = "333";
-      this.oppoId1 = "111";
-      this.oppoId2 = "222";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -368,6 +269,22 @@ export default {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
         });
+      this.connect();
+    },
+
+    userSet4() {
+      this.myId = "444";
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false,
+        })
+        .then((stream) => {
+          this.callerStream = stream;
+          this.$refs[this.myId].srcObject = stream;
+        });
+      this.connect();
     },
 
     call() {
