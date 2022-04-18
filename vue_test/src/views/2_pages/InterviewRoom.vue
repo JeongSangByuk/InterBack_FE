@@ -19,35 +19,29 @@
         user4 set
       </button>
 
-      <button type="button" class="btn btn-primary" @click="call">call</button>
-
-      <button type="button" class="btn btn-primary" @click="answer">
-        answer
-      </button>
-
       <div class="interviwer-container">
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
-          <div class="interviewer__video">
-            <video id="localVideo" ref="111" autoplay></video>
+          <div class="interviewer__video-container">
+            <video ref="111" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
-          <div class="interviewer__video">
-            <video id="remoteVideo" ref="222" autoplay></video>
+          <div class="interviewer__video-container">
+            <video ref="222" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관3. 김채운</p>
-          <div class="interviewer__video">
-            <video id="remoteVideo" ref="333" autoplay></video>
+          <div class="interviewer__video-container">
+            <video ref="333" autoplay></video>
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관4. 박윤굥</p>
-          <div class="interviewer__video">
-            <video id="remoteVideo" ref="444" autoplay></video>
+          <div class="interviewer__video-container">
+            <video ref="444" autoplay></video>
           </div>
         </div>
       </div>
@@ -75,7 +69,7 @@ import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
-const peers = [];
+//const peers = [];
 let socket;
 let stomp;
 
@@ -115,7 +109,7 @@ export default {
             //this.caller = data.from;
 
             //callig을 받은 시점에, answer call을 보내 signaling한다.
-            this.answercall(data.signal, data.from);
+            this.returnCall(data.signal, data.from);
           });
 
           // acceptCall을 받은 시점에서 caller와 callee를 연결.
@@ -126,8 +120,8 @@ export default {
 
             console.log("accept call subscribe : " + data);
 
-            console.log(peers);
-            peers.forEach((p) => {
+            console.log(this.peers);
+            this.peers.forEach((p) => {
               if (p[1] === data.to && p[2] === data.from) {
                 p[0].signal(data.signal);
                 return false;
@@ -150,8 +144,11 @@ export default {
             let joinedID = users[topIdx].id;
 
             // joined id로 calling 보낸다
-            this.calling(joinedID);
+            this.initCall(joinedID);
           });
+
+          //close session event
+          stomp.subscribe("/sub/video/close-session", (data) => {});
 
           // socket join send
           stomp.send(
@@ -166,8 +163,9 @@ export default {
         }
       );
     },
-    //calling
-    calling(joinedID) {
+
+    //caller의 calling 시작.
+    initCall(joinedID) {
       // peer 생성
       const peer = new Peer({
         initiator: true,
@@ -192,11 +190,15 @@ export default {
         this.$refs[joinedID].srcObject = stream;
       });
 
-      peers.push([peer, this.myId, joinedID]);
+      peer.on("error", (stream) => {
+        console.log("qweqwe");
+      });
+
+      this.peers.push([peer, this.myId, joinedID]);
     },
 
     // caller에게 요청을 받은 상태에서 connect answer을 보냄.
-    answerceall(callerSignal, callerId) {
+    returnCall(callerSignal, callerId) {
       // callee의  peer
       const peer = new Peer({
         initiator: false,
@@ -220,10 +222,14 @@ export default {
         this.$refs[callerId].srcObject = stream;
       });
 
+      peer.on("error", (stream) => {
+        console.log("qweqwe");
+      });
+
       // callee와 caller의 연결.
       peer.signal(callerSignal);
 
-      peers.push([peer, "", ""]);
+      //this.peers.push([peer, "", ""]);
     },
 
     userSet1() {
@@ -285,13 +291,6 @@ export default {
           this.$refs[this.myId].srcObject = stream;
         });
       this.connect();
-    },
-
-    call() {
-      this.calling();
-    },
-    answer() {
-      this.answercall();
     },
   },
   mounted() {},

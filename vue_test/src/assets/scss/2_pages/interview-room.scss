@@ -96,17 +96,22 @@
     margin: 10px 0 10px 0;
   }
 
-  &__video {
+  &__video-container {
     display: flex;
 
     width: 90%;
-    height: 70%;
-    background-color: white;
-    margin: 5px;
+    height: 100%;
+    background-color: transparent;
     border-radius: 10px;
+    margin: 5px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+
+    video {
+      width: 100%;
+      //height: inherit;
+    }
 
     img {
       width: 70px;
