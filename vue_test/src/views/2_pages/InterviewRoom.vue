@@ -19,6 +19,10 @@
         user4 set
       </button>
 
+      <button type="button" class="btn btn-primary" @click="gett">
+        test
+      </button>
+
       <div class="interviwer-container">
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
@@ -148,7 +152,27 @@ export default {
           });
 
           //close session event
-          stomp.subscribe("/sub/video/close-session", (data) => {});
+          stomp.subscribe("/sub/video/close-session", (data) => {
+
+            // 세션을 나갔을때 관련된 peer을 다 remove해준다.
+            let closedUser = String(JSON.parse(data.body));
+            console.log(closedUser);
+
+            // peers 목록에서 삭제.
+            let i = 0;
+            while( i < this.peers.length){
+              if (this.peers[i][1] === closedUser || this.peers[i][2] === closedUser){
+                console.log(this.peers[i]);
+                this.peers[i][0].destroy();
+                this.peers.splice(i,1);
+              } else{
+                i ++;
+              }
+            }
+            
+
+
+          });
 
           // socket join send
           stomp.send(
@@ -172,7 +196,7 @@ export default {
         trickle: false,
         stream: this.callerStream,
       });
-
+      
       // caller의 signaling data를 얻어 서버에 전송하여
       // 소켓에 연결된 사람에게 쏴준다.
       peer.on("signal", (data) => {
@@ -229,7 +253,7 @@ export default {
       // callee와 caller의 연결.
       peer.signal(callerSignal);
 
-      //this.peers.push([peer, "", ""]);
+      this.peers.push([peer, this.myId, callerId]);
     },
 
     userSet1() {
@@ -292,6 +316,10 @@ export default {
         });
       this.connect();
     },
+
+    gett(){
+      console.log(this.peers);
+    }
   },
   mounted() {},
 };
