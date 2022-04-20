@@ -19,33 +19,67 @@
         user4 set
       </button>
 
-      <button type="button" class="btn btn-primary" @click="gett">
-        test
-      </button>
+      <button type="button" class="btn btn-primary" @click="gett">test</button>
 
       <div class="interviwer-container">
         <div class="interviewer">
           <p class="interviewer__name">면접관1. 정상벽</p>
           <div class="interviewer__video-container">
-            <video ref="111" autoplay></video>
+            <video
+              v-if="connectingState['111'] === 'connected'"
+              ref="111"
+              autoplay
+            ></video>
+            <img
+              v-else-if="connectingState['111'] === 'loading'"
+              src="img/loading.gif"
+            />
+            <img v-else src="img/img_user_interview_male.png" />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video-container">
-            <video ref="222" autoplay></video>
+            <video
+              v-if="connectingState['222'] === 'connected'"
+              ref="222"
+              autoplay
+            ></video>
+            <img
+              v-else-if="connectingState['222'] === 'loading'"
+              src="img/loading.gif"
+            />
+            <img v-else src="img/img_user_interview_male.png" />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관3. 김채운</p>
           <div class="interviewer__video-container">
-            <video ref="333" autoplay></video>
+            <video
+              v-if="connectingState['333'] === 'connected'"
+              ref="333"
+              autoplay
+            ></video>
+            <img
+              v-else-if="connectingState['333'] === 'loading'"
+              src="img/loading.gif"
+            />
+            <img v-else src="img/img_user_interview_female.png" />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관4. 박윤굥</p>
           <div class="interviewer__video-container">
-            <video ref="444" autoplay></video>
+            <video
+              v-if="connectingState['444'] === 'connected'"
+              ref="444"
+              autoplay
+            ></video>
+            <img
+              v-else-if="connectingState['444'] === 'loading'"
+              src="img/loading.gif"
+            />
+            <img v-else src="img/img_user_interview_female.png" />
           </div>
         </div>
       </div>
@@ -82,12 +116,15 @@ export default {
   data() {
     return {
       myId: "",
-      oppoId1: "",
-      oppoId2: "",
       callerStream: "",
-      caller: "",
-      callerSignal: "",
       peers: [],
+      connectingState: [
+        // before - loading - connected
+        { 111: "before" },
+        { 222: "before" },
+        { 333: "before" },
+        { 444: "before" },
+      ],
     };
   },
 
@@ -107,10 +144,10 @@ export default {
             // 나에게서 오거나(from me) 혹은 나에게 온(to me)이 아니면 return
             if (data.from === this.myId || data.toCall !== this.myId) return;
 
-            console.log("caller subscribe : " + data);
+            // video 송출
+            this.connectingState[data.from] = true;
 
-            //this.callerSignal = data.signal;
-            //this.caller = data.from;
+            console.log("caller subscribe");
 
             //callig을 받은 시점에, answer call을 보내 signaling한다.
             this.returnCall(data.signal, data.from);
@@ -122,9 +159,10 @@ export default {
 
             if (data.from === this.myId) return;
 
-            console.log("accept call subscribe : " + data);
+            console.log("accept call subscribe ");
 
-            console.log(this.peers);
+            this.connectingState[data.to] = "connected";
+
             this.peers.forEach((p) => {
               if (p[1] === data.to && p[2] === data.from) {
                 p[0].signal(data.signal);
@@ -138,14 +176,16 @@ export default {
             let users = JSON.parse(data.body);
 
             let topIdx = users.length - 1;
+            let joinedID = users[topIdx].id;
 
             // 인원이 한명 이하거나, 자신이 join 일경우는 return
             if (topIdx <= 0 || users[topIdx].id === this.myId) return;
 
+            // 누군가 들어왔을때 video state loading
+            this.connectingState[joinedID] = "loading";
+
             console.log(users);
             console.log(users.length);
-
-            let joinedID = users[topIdx].id;
 
             // joined id로 calling 보낸다
             this.initCall(joinedID);
@@ -153,25 +193,24 @@ export default {
 
           //close session event
           stomp.subscribe("/sub/video/close-session", (data) => {
-
             // 세션을 나갔을때 관련된 peer을 다 remove해준다.
             let closedUser = String(JSON.parse(data.body));
-            console.log(closedUser);
+            this.connectingState[closedUser] = "close";
 
             // peers 목록에서 삭제.
             let i = 0;
-            while( i < this.peers.length){
-              if (this.peers[i][1] === closedUser || this.peers[i][2] === closedUser){
+            while (i < this.peers.length) {
+              if (
+                this.peers[i][1] === closedUser ||
+                this.peers[i][2] === closedUser
+              ) {
                 console.log(this.peers[i]);
                 this.peers[i][0].destroy();
-                this.peers.splice(i,1);
-              } else{
-                i ++;
+                this.peers.splice(i, 1);
+              } else {
+                i++;
               }
             }
-            
-
-
           });
 
           // socket join send
@@ -196,7 +235,7 @@ export default {
         trickle: false,
         stream: this.callerStream,
       });
-      
+      this.connectingState[joinedID] = "connected";
       // caller의 signaling data를 얻어 서버에 전송하여
       // 소켓에 연결된 사람에게 쏴준다.
       peer.on("signal", (data) => {
@@ -258,6 +297,7 @@ export default {
 
     userSet1() {
       this.myId = "111";
+      this.connectingState[this.myId] = "connected";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -267,13 +307,13 @@ export default {
         .then((stream) => {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
+          this.connect();
         });
-
-      this.connect();
     },
 
     userSet2() {
       this.myId = "222";
+      this.connectingState[this.myId] = "connected";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -283,12 +323,13 @@ export default {
         .then((stream) => {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
+          this.connect();
         });
-      this.connect();
     },
 
     userSet3() {
       this.myId = "333";
+      this.connectingState[this.myId] = "connected";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -298,12 +339,13 @@ export default {
         .then((stream) => {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
+          this.connect();
         });
-      this.connect();
     },
 
     userSet4() {
       this.myId = "444";
+      this.connectingState[this.myId] = "connected";
 
       navigator.mediaDevices
         .getUserMedia({
@@ -313,13 +355,14 @@ export default {
         .then((stream) => {
           this.callerStream = stream;
           this.$refs[this.myId].srcObject = stream;
+          this.connect();
         });
-      this.connect();
     },
 
-    gett(){
+    gett() {
       console.log(this.peers);
-    }
+      console.log(this.connectingState);
+    },
   },
   mounted() {},
 };
