@@ -106,6 +106,7 @@
 import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
+import Constants from "../../utils/Constants";
 
 //const peers = [];
 let socket;
@@ -130,7 +131,7 @@ export default {
 
   methods: {
     connect() {
-      socket = new SockJS("http://localhost:8080/socket");
+      socket = new SockJS(Constants.API_URL + "/socket");
       stomp = Stomp.over(socket);
 
       stomp.connect(
