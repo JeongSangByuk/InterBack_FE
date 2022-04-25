@@ -26,60 +26,72 @@
           <p class="interviewer__name">면접관1. 정상벽</p>
           <div class="interviewer__video-container">
             <video
-              v-if="connectingState['111'] === 'connected'"
+              v-show="connectingState['111'] === 'connected'"
               ref="111"
               autoplay
             ></video>
             <img
-              v-else-if="connectingState['111'] === 'loading'"
+              v-show="connectingState['111'] === 'loading'"
               src="img/loading.gif"
             />
-            <img v-else src="img/img_user_interview_male.png" />
+            <img
+              v-show="connectingState['111'] === 'before'"
+              src="img/img_user_interview_male.png"
+            />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관2. 박태순</p>
           <div class="interviewer__video-container">
             <video
-              v-if="connectingState['222'] === 'connected'"
+              v-show="connectingState['222'] === 'connected'"
               ref="222"
               autoplay
             ></video>
             <img
-              v-else-if="connectingState['222'] === 'loading'"
+              v-show="connectingState['222'] === 'loading'"
               src="img/loading.gif"
             />
-            <img v-else src="img/img_user_interview_male.png" />
+            <img
+              v-show="connectingState['222'] === 'before'"
+              src="img/img_user_interview_male.png"
+            />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관3. 김채운</p>
           <div class="interviewer__video-container">
             <video
-              v-if="connectingState['333'] === 'connected'"
+              v-show="connectingState['333'] === 'connected'"
               ref="333"
               autoplay
             ></video>
             <img
-              v-else-if="connectingState['333'] === 'loading'"
+              v-show="connectingState['333'] === 'loading'"
               src="img/loading.gif"
             />
-            <img v-else src="img/img_user_interview_female.png" />
+            <img
+              v-show="connectingState['333'] === 'before'"
+              src="img/img_user_interview_male.png"
+            />
           </div>
         </div>
         <div class="interviewer">
           <p class="interviewer__name">면접관4. 박윤굥</p>
           <div class="interviewer__video-container">
             <video
-              v-if="connectingState['444'] === 'connected'"
+              v-show="connectingState['444'] === 'connected'"
               ref="444"
               autoplay
             ></video>
             <img
-              v-else-if="connectingState['444'] === 'loading'"
+              v-show="connectingState['444'] === 'loading'"
               src="img/loading.gif"
             />
-            <img v-else src="img/img_user_interview_female.png" />
+            <img
+              v-show="connectingState['444'] === 'before'"
+              src="img/img_user_interview_male.png"
+            />
           </div>
         </div>
       </div>
@@ -119,13 +131,10 @@ export default {
       myId: "",
       callerStream: "",
       peers: [],
-      connectingState: [
+      testt: "before",
+      connectingState:
         // before - loading - connected
-        { 111: "before" },
-        { 222: "before" },
-        { 333: "before" },
-        { 444: "before" },
-      ],
+        { 111: "before", 222: "before", 333: "before", 444: "before" },
     };
   },
 
@@ -146,7 +155,7 @@ export default {
             if (data.from === this.myId || data.toCall !== this.myId) return;
 
             // video 송출
-            this.connectingState[data.from] = true;
+            this.connectingState[data.from] = "connected";
 
             console.log("caller subscribe");
 
@@ -363,6 +372,7 @@ export default {
     gett() {
       console.log(this.peers);
       console.log(this.connectingState);
+      this.connectingState["111"] = "before";
     },
   },
   mounted() {},
