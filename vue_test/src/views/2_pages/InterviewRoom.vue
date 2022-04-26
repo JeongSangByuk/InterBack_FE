@@ -119,6 +119,7 @@ import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import Constants from "../../utils/Constants";
+import axios from "axios";
 
 //const peers = [];
 let socket;
@@ -373,6 +374,16 @@ export default {
       console.log(this.peers);
       console.log(this.connectingState);
       this.connectingState["111"] = "before";
+
+      axios
+        .get(Constants.API_URL + "/test")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((res) => {
+          console.log("eerr");
+          console.log(res);
+        });
     },
   },
   mounted() {},
