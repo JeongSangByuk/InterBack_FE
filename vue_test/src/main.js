@@ -11,6 +11,3 @@ createApp(App)
     })
     .use(router)
     .use(WebRTC).mount('#app')
-
-
-createApp(App).use(router).mount("#app");
