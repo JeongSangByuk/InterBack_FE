@@ -1,5 +1,10 @@
 @import "./../common.scss";
 
+img {
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
+}
+
 .container {
   font-family: "Noto Sans KR", sans-serif;
   display: flex;
@@ -14,7 +19,7 @@
   flex-direction: column;
 
   width: 100%;
-
+  min-width: 600px;
   &__title {
     font-size: 30px;
     font-weight: $font-bold;
@@ -41,6 +46,7 @@
 
 .text-record-list {
   padding: 0 10px 0 10px;
+  z-index: 100;
   overflow: auto;
 }
 
@@ -83,6 +89,7 @@
 
   width: 25%;
   height: 90%;
+  min-width: 130px;
   margin: 0 10px 0 10px;
   border-radius: 20px;
   box-shadow: $shadow-interview-room-item;
@@ -94,23 +101,29 @@
     left: 0;
     text-align: center;
     margin: 10px 0 10px 0;
+    white-space: nowrap;
   }
 
-  &__video {
+  &__video-container {
     display: flex;
 
     width: 90%;
-    height: 70%;
-    background-color: white;
-    margin: 5px;
+    height: 100%;
+    background-color: transparent;
     border-radius: 10px;
+    margin: 5px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 
+    video {
+      width: 100%;
+      //height: inherit;
+    }
+
     img {
-      width: 70px;
-      height: 70px;
+      width: 100px;
+      height: 100px;
     }
   }
 }
@@ -118,8 +131,14 @@
 .interviewee {
   width: 25%;
   height: 90%;
+  min-width: 130px;
   margin: 0 10px 0 10px;
   border-radius: 20px;
   box-shadow: $shadow-interview-room-item;
   background-color: $color-main-sub;
+}
+
+.video-item {
+  height: 100%;
+  background-color: transparent;
 }

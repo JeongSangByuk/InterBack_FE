@@ -1,29 +1,55 @@
 <template>
   <div class="c">
     <h1>WebRTC 테스트 페이지</h1>
-    <vue-webrtc ref="webrtc" width = "100%"  roomId="sample-room">
-
-    </vue-webrtc>
+    <button type="button" class="btn btn-primary" @click="plus">Join</button>
+    <button type="button" class="btn btn-primary" @click="onLeave">
+      {{this.roomId}}
+    </button>
+    <div class="b">
+    </div>
   </div>
 </template>
 
-<script>
-import { VueWebRTC } from 'vue-webrtc';
+<script scoped>
 export default {
-    name: 'App',
-    components: {
-        'vue-webrtc': VueWebRTC
+  name: "video-test",
+  components: {},
+  data() {
+    return {
+      img: null,
+      roomId: 123,
+    };
+  },
+  methods: {
+    plus(){
+      this.roomId ++;
     },
+  },
+  mounted() {
+  },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c {
-  margin: 50px 0 0 200px;
+  width: 100%;
+  height: 100%;
+  padding: 50px 0 0 200px;
 }
 
-.video-list {
-  width: 100px;
-  height: 100px;
+.b {
+  width: 100%;
+  height: 100%;
+}
+
+.video-list,
+.video-item {
+  width: 100%;
+  height: auto;
+}
+
+video {
+  width: 100%;
+  height: auto;
 }
 </style>

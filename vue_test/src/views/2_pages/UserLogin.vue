@@ -43,7 +43,6 @@
 <script>
 export default {
 
-
   data() {
     return{
       // id에 해당하는 쿠키 가져오기
@@ -58,7 +57,15 @@ export default {
       console.log("id = " + this.id)
       console.log("passsword = " + this.pass)
 
+      
       this.$cookies.set("idCookie", this.id);
+      /*
+      if(this.idSave) {
+        console.log("idsave true")
+        
+        this.$cookies.set("idCookie", this.id);
+      }
+      */
     }
   }
 };

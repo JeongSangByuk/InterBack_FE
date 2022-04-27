@@ -3,19 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 8000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.27.1",
     "core-js": "^3.8.3",
     "eslint-import-resolver-webpack": "^0.13.2",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "peer": "^0.6.1",
+    "simple-peer": "^9.11.1",
+    "sockjs-client": "^1.6.0",
     "stylelint-webpack-plugin": "^3.2.0",
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.0",
     "vue-router": "^4.0.13",
-    "vue-webrtc": "^3.0.0"
+    "vue-webrtc": "^3.0.0",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -51,7 +56,9 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",
