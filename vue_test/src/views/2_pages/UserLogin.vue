@@ -61,6 +61,8 @@ export default {
       this.$cookies.set("idCookie", this.id);
       this.$cookies.set("passwordCookie", this.pass);
       
+      // DB id, pw 확인 후 페이지 이동해야 함
+      this.$router.replace({name:'Home'})
       /*
       if(this.idSave) {
         console.log("idsave true")
