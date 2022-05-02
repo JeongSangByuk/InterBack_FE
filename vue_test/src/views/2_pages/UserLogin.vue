@@ -59,6 +59,8 @@ export default {
 
       
       this.$cookies.set("idCookie", this.id);
+      this.$cookies.set("passwordCookie", this.pass);
+      
       /*
       if(this.idSave) {
         console.log("idsave true")
