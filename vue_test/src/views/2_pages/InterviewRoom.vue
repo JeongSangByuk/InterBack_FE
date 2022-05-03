@@ -1,105 +1,89 @@
 <template>
   <div class="container">
     <div class="video-container">
-      <p class="video-container__title">카카오 BE 그룹3 면접장</p>
+      <p class="video-container__title">
+        카카오 BE 그룹3 면접장
 
-      <button type="button" class="btn btn-primary" @click="userSet1">
-        user1 set
-      </button>
+        <button type="button" class="btn btn-primary" @click="userSet('111')">
+          user1 set
+        </button>
 
-      <button type="button" class="btn btn-primary" @click="userSet2">
-        user2 set
-      </button>
+        <button type="button" class="btn btn-primary" @click="userSet('222')">
+          user2 set
+        </button>
 
-      <button type="button" class="btn btn-primary" @click="userSet3">
-        user3 set
-      </button>
+        <button type="button" class="btn btn-primary" @click="userSet('333')">
+          user3 set
+        </button>
 
-      <button type="button" class="btn btn-primary" @click="userSet4">
-        user4 set
-      </button>
+        <button type="button" class="btn btn-primary" @click="userSet('555')">
+          user4 set
+        </button>
 
-      <button type="button" class="btn btn-primary" @click="gett">test</button>
+        <button type="button" class="btn btn-primary" @click="gett">
+          test
+        </button>
+      </p>
 
       <div class="interviwer-container">
-        <div class="interviewer">
-          <p class="interviewer__name">면접관1. 정상벽</p>
-          <div class="interviewer__video-container">
-            <video
-              v-show="connectingState['111'] === 'connected'"
-              ref="111"
-              autoplay
-            ></video>
-            <img
-              v-show="connectingState['111'] === 'loading'"
-              src="img/loading.gif"
-            />
-            <img
-              v-show="connectingState['111'] === 'before'"
-              src="img/img_user_interview_male.png"
-            />
-          </div>
-        </div>
-        <div class="interviewer">
-          <p class="interviewer__name">면접관2. 박태순</p>
-          <div class="interviewer__video-container">
-            <video
-              v-show="connectingState['222'] === 'connected'"
-              ref="222"
-              autoplay
-            ></video>
-            <img
-              v-show="connectingState['222'] === 'loading'"
-              src="img/loading.gif"
-            />
-            <img
-              v-show="connectingState['222'] === 'before'"
-              src="img/img_user_interview_male.png"
-            />
-          </div>
-        </div>
-        <div class="interviewer">
-          <p class="interviewer__name">면접관3. 김채운</p>
-          <div class="interviewer__video-container">
-            <video
-              v-show="connectingState['333'] === 'connected'"
-              ref="333"
-              autoplay
-            ></video>
-            <img
-              v-show="connectingState['333'] === 'loading'"
-              src="img/loading.gif"
-            />
-            <img
-              v-show="connectingState['333'] === 'before'"
-              src="img/img_user_interview_female.png"
-            />
-          </div>
-        </div>
-        <div class="interviewer">
-          <p class="interviewer__name">면접관4. 박윤굥</p>
-          <div class="interviewer__video-container">
-            <video
-              v-show="connectingState['444'] === 'connected'"
-              ref="444"
-              autoplay
-            ></video>
-            <img
-              v-show="connectingState['444'] === 'loading'"
-              src="img/loading.gif"
-            />
-            <img
-              v-show="connectingState['444'] === 'before'"
-              src="img/img_user_interview_female.png"
-            />
-          </div>
-        </div>
+        <Interviewer
+          ref="111"
+          :userName="'정상벽'"
+          :connectingState="connectingState"
+          :userId="'111'"
+        />
+
+        <Interviewer
+          ref="222"
+          :userName="'박태순'"
+          :connectingState="connectingState"
+          :userId="'222'"
+        />
+
+        <Interviewer
+          ref="333"
+          :userName="'김채운'"
+          :connectingState="connectingState"
+          :userId="'333'"
+        />
+
+        <Interviewer
+          ref="444"
+          :userName="'박윤굥'"
+          :connectingState="connectingState"
+          :userId="'444'"
+        />
       </div>
+
       <div class="interviwee-container">
-        <div class="interviewee"></div>
-        <div class="interviewee"></div>
-        <div class="interviewee"></div>
-        <div class="interviewee"></div>
+
+        <Interviewee
+          ref="555"
+          :userName="'손모은'"
+          :connectingState="connectingState"
+          :userId="'555'"
+        />
+
+        <Interviewee
+          ref="666"
+          :userName="'이윤환'"
+          :connectingState="connectingState"
+          :userId="'666'"
+        />
+
+        <Interviewee
+          ref="777"
+          :userName="'김현욱'"
+          :connectingState="connectingState"
+          :userId="'777'"
+        />
+
+        <Interviewee
+          ref="888"
+          :userName="'김성욱'"
+          :connectingState="connectingState"
+          :userId="'888'"
+        />
       </div>
     </div>
     <div class="text-record-container">
@@ -119,6 +103,8 @@ import Peer from "simple-peer";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import Constants from "../../utils/Constants";
+import Interviewer from "../3_components/InterViewer";
+import Interviewee from "../3_components/InterViewee";
 import axios from "axios";
 
 //const peers = [];
@@ -126,7 +112,10 @@ let socket;
 let stomp;
 
 export default {
-  components: {},
+  components: {
+    Interviewer,
+    Interviewee,
+  },
   data() {
     return {
       myId: "",
@@ -134,8 +123,17 @@ export default {
       peers: [],
       testt: "before",
       connectingState:
-        // before - loading - connected
-        { 111: "before", 222: "before", 333: "before", 444: "before" },
+        // before - connected
+        {
+          111: "before",
+          222: "before",
+          333: "before",
+          444: "before",
+          555: "before",
+          666: "before",
+          777: "before",
+          888: "before",
+        },
     };
   },
 
@@ -191,9 +189,6 @@ export default {
 
             // 인원이 한명 이하거나, 자신이 join 일경우는 return
             if (topIdx <= 0 || users[topIdx].id === this.myId) return;
-
-            // 누군가 들어왔을때 video state loading
-            this.connectingState[joinedID] = "loading";
 
             console.log(users);
             console.log(users.length);
@@ -306,8 +301,8 @@ export default {
       this.peers.push([peer, this.myId, callerId]);
     },
 
-    userSet1() {
-      this.myId = "111";
+    userSet(id) {
+      this.myId = id;
       this.connectingState[this.myId] = "connected";
 
       navigator.mediaDevices
@@ -317,55 +312,7 @@ export default {
         })
         .then((stream) => {
           this.callerStream = stream;
-          this.$refs[this.myId].srcObject = stream;
-          this.connect();
-        });
-    },
-
-    userSet2() {
-      this.myId = "222";
-      this.connectingState[this.myId] = "connected";
-
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: false,
-        })
-        .then((stream) => {
-          this.callerStream = stream;
-          this.$refs[this.myId].srcObject = stream;
-          this.connect();
-        });
-    },
-
-    userSet3() {
-      this.myId = "333";
-      this.connectingState[this.myId] = "connected";
-
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: false,
-        })
-        .then((stream) => {
-          this.callerStream = stream;
-          this.$refs[this.myId].srcObject = stream;
-          this.connect();
-        });
-    },
-
-    userSet4() {
-      this.myId = "444";
-      this.connectingState[this.myId] = "connected";
-
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: false,
-        })
-        .then((stream) => {
-          this.callerStream = stream;
-          this.$refs[this.myId].srcObject = stream;
+          this.$refs[this.myId].$refs["video"].srcObject = stream;
           this.connect();
         });
     },
