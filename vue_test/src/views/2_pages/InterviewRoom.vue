@@ -72,7 +72,7 @@
             />
             <img
               v-show="connectingState['333'] === 'before'"
-              src="img/img_user_interview_male.png"
+              src="img/img_user_interview_female.png"
             />
           </div>
         </div>
@@ -90,7 +90,7 @@
             />
             <img
               v-show="connectingState['444'] === 'before'"
-              src="img/img_user_interview_male.png"
+              src="img/img_user_interview_female.png"
             />
           </div>
         </div>
@@ -206,7 +206,7 @@ export default {
           stomp.subscribe("/sub/video/close-session", (data) => {
             // 세션을 나갔을때 관련된 peer을 다 remove해준다.
             let closedUser = String(JSON.parse(data.body));
-            this.connectingState[closedUser] = "close";
+            this.connectingState[closedUser] = "before";
 
             // peers 목록에서 삭제.
             let i = 0;
@@ -373,17 +373,6 @@ export default {
     gett() {
       console.log(this.peers);
       console.log(this.connectingState);
-      this.connectingState["111"] = "before";
-
-      axios
-        .get(Constants.API_URL + "/test")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((res) => {
-          console.log("eerr");
-          console.log(res);
-        });
     },
   },
   mounted() {},
