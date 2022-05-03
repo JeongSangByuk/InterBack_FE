@@ -5,19 +5,19 @@
         카카오 BE 그룹3 면접장
 
         <button type="button" class="btn btn-primary" @click="userSet('111')">
-          user1 set
+          user1
         </button>
 
         <button type="button" class="btn btn-primary" @click="userSet('222')">
-          user2 set
+          user2
         </button>
 
         <button type="button" class="btn btn-primary" @click="userSet('333')">
-          user3 set
+          user3
         </button>
 
         <button type="button" class="btn btn-primary" @click="userSet('555')">
-          user4 set
+          user4
         </button>
 
         <button type="button" class="btn btn-primary" @click="gett">
@@ -56,7 +56,6 @@
       </div>
 
       <div class="interviwee-container">
-
         <Interviewee
           ref="555"
           :userName="'손모은'"
@@ -87,7 +86,14 @@
       </div>
     </div>
     <div class="text-record-container">
-      <p class="text-record-container__title">실시간 회의록</p>
+      <div class="text-record-header">
+        <p class="text-record-header__title">실시간 회의록</p>
+        <div class="text-record-bnt-group">
+          <img src="img/chat.png" />
+          <img src="img/comment.png" />
+          <img src="img/suggestion.png" />
+        </div>
+      </div>
       <div class="text-record-list">
         <div class="chat">
           <p class="chat__name">정상벽벽</p>
@@ -256,7 +262,7 @@ export default {
       });
 
       peer.on("stream", (stream) => {
-        this.$refs[joinedID].srcObject = stream;
+        this.$refs[joinedID].$refs["video"].srcObject = stream;
       });
 
       peer.on("error", (stream) => {
@@ -288,7 +294,7 @@ export default {
       });
 
       peer.on("stream", (stream) => {
-        this.$refs[callerId].srcObject = stream;
+        this.$refs[callerId].$refs["video"].srcObject = stream;
       });
 
       peer.on("error", (stream) => {
