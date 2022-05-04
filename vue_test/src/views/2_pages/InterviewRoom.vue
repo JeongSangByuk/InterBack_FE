@@ -85,22 +85,89 @@
         />
       </div>
     </div>
-    <div class="text-record-container">
-      <div class="text-record-header">
-        <p class="text-record-header__title">실시간 회의록</p>
-        <div class="text-record-bnt-group">
-          <img src="img/chat.png" />
-          <img src="img/comment.png" />
-          <img src="img/suggestion.png" />
-        </div>
-      </div>
-      <div class="text-record-list">
-        <div class="chat">
-          <p class="chat__name">정상벽벽</p>
-          <p class="chat__contents">안녕하세요.요.</p>
-        </div>
-      </div>
-    </div>
+
+    <vueper-slides
+      :touchable="false"
+      :infinite="false"
+      :bullets="false"
+      :arrows="false"
+      ref="slides"
+      fixed-height="100%"
+      style="width: 35%; height: 100%; min-width: 300px"
+      class="no-shadow"
+    >
+      <vueper-slide :key="1" :title="1">
+        <template v-slot:content>
+          <div class="text-record-container">
+            <div class="text-record-header">
+              <p class="text-record-header__title">채 팅</p>
+              <div class="text-record-bnt-group">
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img
+                  src="img/suggestion.png"
+                  @click="$refs.slides.goToSlide(2)"
+                />
+              </div>
+            </div>
+            <div class="text-record-list">
+              <div class="chat">
+                <p class="chat__name">정상벽벽</p>
+                <p class="chat__contents">안녕하세요.요.</p>
+              </div>
+            </div>
+          </div>
+        </template>
+      </vueper-slide>
+
+      <vueper-slide :key="2" :title="2">
+        <template v-slot:content>
+          <div class="text-record-container">
+            <div class="text-record-header">
+              <p class="text-record-header__title">회의록</p>
+              <div class="text-record-bnt-group">
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img
+                  src="img/suggestion.png"
+                  @click="$refs.slides.goToSlide(2)"
+                />
+              </div>
+            </div>
+            <div class="text-record-list">
+              <div class="chat">
+                <p class="chat__name">정상벽벽</p>
+                <p class="chat__contents">안녕하세요.요.</p>
+              </div>
+            </div>
+          </div>
+        </template>
+      </vueper-slide>
+
+      <vueper-slide :key="3" :title="3">
+        <template v-slot:content>
+          <div class="text-record-container">
+            <div class="text-record-header">
+              <p class="text-record-header__title">질문 추천</p>
+              <div class="text-record-bnt-group">
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img
+                  src="img/suggestion.png"
+                  @click="$refs.slides.goToSlide(2)"
+                />
+              </div>
+            </div>
+            <div class="text-record-list">
+              <div class="chat">
+                <p class="chat__name">정상벽벽</p>
+                <p class="chat__contents">안녕하세요.요.</p>
+              </div>
+            </div>
+          </div>
+        </template>
+      </vueper-slide>
+    </vueper-slides>
   </div>
 </template>
 
@@ -111,6 +178,8 @@ import Stomp from "webstomp-client";
 import Constants from "../../utils/Constants";
 import Interviewer from "../3_components/InterViewer";
 import Interviewee from "../3_components/InterViewee";
+import { VueperSlides, VueperSlide } from "vueperslides";
+import "vueperslides/dist/vueperslides.css";
 import axios from "axios";
 
 //const peers = [];
@@ -121,6 +190,8 @@ export default {
   components: {
     Interviewer,
     Interviewee,
+    VueperSlides,
+    VueperSlide,
   },
   data() {
     return {
