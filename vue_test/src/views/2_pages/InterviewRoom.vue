@@ -111,10 +111,19 @@
               </div>
             </div>
             <div class="text-record-list">
-              <div class="chat">
-                <p class="chat__name">정상벽벽</p>
-                <p class="chat__contents">안녕하세요.요.</p>
+              <div v-for="i in 20" :key="i">
+                <div class="chat">
+                  <p class="chat__name">정상벽벽</p>
+                  <p class="chat__contents">안녕하세요.요.</p>
+                </div>
               </div>
+            </div>
+            <div class="chat-send-container">
+              <input class="chat-send-container__chat-input" />
+              <img
+                class="chat-send-container__chat-bnt"
+                src="img/send-message.png"
+              />
             </div>
           </div>
         </template>
