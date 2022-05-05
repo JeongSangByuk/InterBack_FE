@@ -45,20 +45,28 @@ export default {
 
   data() {
     return{
-      // id에 해당하는 쿠키 가져오기
+      // id, pw에 해당하는 쿠키 가져오기
       id: this.$cookies.get("idCookie"),
-      idSave:false
+      idSave:false,
+      pass: this.$cookies.get("passwordCookie"),
+      passwordSave: false
     };
   },
   
   methods : {
     loginResult() {
-      console.log('~~~ login Result Button Click')
+      console.log('login Button Click')
       console.log("id = " + this.id)
       console.log("passsword = " + this.pass)
 
-      
       this.$cookies.set("idCookie", this.id);
+      this.$cookies.set("passwordCookie", this.pass);
+      
+      // DB id, pw 확인 후 페이지 이동해야 함
+      this.$router.replace({name:'Home'})
+
+
+      this.fetchData();
       /*
       if(this.idSave) {
         console.log("idsave true")
@@ -66,9 +74,26 @@ export default {
         this.$cookies.set("idCookie", this.id);
       }
       */
-    }
+
+    },
+
+    fetchData() {
+      console.log("fetch Data")
+      
+			//this.$axios.get("https://jsonplaceholder.typicode.com/users")
+			this.$axios.get("http://localhost:3000/interview")
+      .then((response)=>{
+				console.log(response.data);
+			})
+      
+			.then((err)=>{
+				console.log(err);
+			})
+      
+		}
   }
-};
+}
+
 </script>
 
 <style lang="scss" scoped>
