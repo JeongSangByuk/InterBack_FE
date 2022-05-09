@@ -20,8 +20,17 @@
           user4
         </button>
 
-        <button type="button" class="btn btn-primary" @click="gett">
+        <button type="button" class="btn btn-primary" @click="gett()">
           test
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="startRecording()"
+          ref="record"
+        >
+          start
         </button>
       </p>
 
@@ -194,6 +203,8 @@ import axios from "axios";
 //const peers = [];
 let socket;
 let stomp;
+let mediaRecorder;
+const chunks = [];
 
 export default {
   components: {
@@ -208,6 +219,7 @@ export default {
       callerStream: "",
       peers: [],
       testt: "before",
+      isRecording: false,
       connectingState:
         // before - connected
         {
@@ -400,12 +412,55 @@ export default {
           this.callerStream = stream;
           this.$refs[this.myId].$refs["video"].srcObject = stream;
           this.connect();
+
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = function (e) {
+            chunks.push(e.data);
+
+            var reader = new FileReader();
+            var base64data;
+            reader.readAsDataURL(e.data);
+            reader.onloadend = function () {
+              base64data = reader.result;
+              console.log(base64data);
+
+              axios
+                .post(Constants.API_URL + "/audio-test", {
+                  base64data: base64data,
+                })
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            };
+          };
         });
     },
 
     gett() {
       console.log(this.peers);
       console.log(this.connectingState);
+      console.log(chunks);
+    },
+
+    startRecording() {
+      if (this.isRecording) {
+        // recording stop
+        this.$refs["record"].style.background = "yellow";
+        this.$refs["record"].innerHTML = "start";
+        this.isRecording = false;
+        mediaRecorder.stop();
+        console.log(mediaRecorder.state);
+      } else {
+        // rocording start
+        this.$refs["record"].style.background = "red";
+        this.$refs["record"].innerHTML = "stop";
+        this.isRecording = true;
+        mediaRecorder.start();
+        console.log(mediaRecorder.state);
+      }
     },
   },
   mounted() {},

@@ -13,6 +13,7 @@
     "eslint-import-resolver-webpack": "^0.13.2",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "peer": "^0.6.1",
+    "recorderx": "^2.0.2",
     "simple-peer": "^9.11.1",
     "sockjs-client": "^1.6.0",
     "stylelint-webpack-plugin": "^3.2.0",
