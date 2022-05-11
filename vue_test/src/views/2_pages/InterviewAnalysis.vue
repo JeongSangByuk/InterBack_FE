@@ -8,6 +8,11 @@
             <div class="interviewee-list-name">김채운</div>
             <div class="interviewee-list-name">박윤경</div>
         </div>
+        <div class="information-box">
+        </div>
+        
+        <div class="chatting-box">
+        </div>
       </div>
   </div>
 </template>
