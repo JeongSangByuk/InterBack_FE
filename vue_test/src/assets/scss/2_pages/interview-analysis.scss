@@ -1,0 +1,58 @@
+@import "./../common.scss";
+
+.container {
+  font-family: "Noto Sans KR", sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0 0px 0px 90px;
+  padding: 0 20px 0px 20px;
+}
+
+.interview-analysis-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   // align-items: center;
+  
+  //  margin: 0 0 0px 0;
+}
+
+  
+.interviewee-list-box {
+    display: flex;
+    flex-direction: column;
+  //  justify-content: center;
+    align-items: center;    
+    min-width: 200px;
+    background-color: $color-main-sub;
+    box-shadow: $shadow-default;
+    width: 15vw;
+    height: 100vh;
+
+   &__title {
+     margin-top: 50px;
+    font-size: 20px;
+    color: $color-main;
+  }
+
+}
+
+.interviewee-list-name{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  width: 150px;
+  height: 30px;
+ // min-width: 500px;
+  background-color: white;
+  box-shadow: $shadow-default;
+  border-radius: 5px;
+}
+
+.basic-information-container{
+  
+}
