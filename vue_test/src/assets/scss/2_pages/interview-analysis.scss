@@ -7,7 +7,7 @@
   width: 100%;
   height: 100%;
   margin: 0 0px 0px 90px;
-  padding: 0 10px 0px 10px;
+ // padding: 0 10px 0px 10px;
 }
 
 .interview-analysis-container {
@@ -26,6 +26,7 @@
     box-shadow: $shadow-default;
     width: 15vw;
     height: 100vh;
+    //margin: 0 0 0 10px
 
    &__title {
     margin-top: 50px;
@@ -47,27 +48,59 @@
   border-radius: 5px;
 }
 
-.information-box{
+.information-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center; 
-  min-width: 200px;
+//  min-width: 200px;
   background-color: pink;
-  box-shadow: $shadow-default;
   width: 50vw;
   height: 100vh;
+  flex-grow: 1;
 }
 
-.chatting-box{
+.basic-information-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  background-color: white;
+  width: 54vw;
+  height: 30vh;
+}
+
+.analysis-container{
+  display: flex;
+  flex-direction: column;
+//  justify-content: center;
+  align-items: center; 
+  background-color: blue;
+  width: 54vw;
+  height: 50px;
+  overflow-y: scroll;
+  flex-grow: 1; 
+}
+
+.analysis-box{
+  width: 50vw;
+  height: 220px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;  
+  background-color: antiquewhite;
+  margin-top: 14px;
+  margin-bottom: 12px;
+}
+
+.chatting-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;    
   flex-grow: 1;  
-  min-width: 200px;
-  background-color: violet;
-  box-shadow: $shadow-default;
+  background-color: wheat;
   width: 20vw;
   height: 100vh;
 }

@@ -65,7 +65,6 @@ export default {
       // DB id, pw 확인 후 페이지 이동해야 함
       this.$router.replace({name:'Home'})
 
-
       this.fetchData();
       /*
       if(this.idSave) {

@@ -8,10 +8,21 @@
             <div class="interviewee-list-name">김채운</div>
             <div class="interviewee-list-name">박윤경</div>
         </div>
-        <div class="information-box">
+        <div class="information-container">
+          <div class="basic-information-container"></div>
+          
+          <div class="analysis-container">
+            
+            <div class="analysis-box">aaa</div>
+            <div class="analysis-box">bbb</div>
+            <div class="analysis-box">ccc</div>            
+            <div class="analysis-box">ddd</div>
+            <div class="analysis-box">eee</div>            
+            <div class="analysis-box">fff</div>
+          </div>
+          
         </div>
-        
-        <div class="chatting-box">
+        <div class="chatting-container">
         </div>
       </div>
   </div>
