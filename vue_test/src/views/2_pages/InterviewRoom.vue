@@ -102,7 +102,7 @@
             <div class="text-record-header">
               <p class="text-record-header__title">채 팅</p>
               <div class="text-record-bnt-group">
-                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" style="background:#e4ffdf;" />
                 <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
                 <img
                   src="img/suggestion.png"
@@ -136,7 +136,7 @@
               <p class="text-record-header__title">회의록</p>
               <div class="text-record-bnt-group">
                 <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
-                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" style="background:#e4ffdf;"/>
                 <img
                   src="img/suggestion.png"
                   @click="$refs.slides.goToSlide(2)"
@@ -164,6 +164,7 @@
                 <img
                   src="img/suggestion.png"
                   @click="$refs.slides.goToSlide(2)"
+                  style="background:#e4ffdf;"
                 />
               </div>
             </div>
