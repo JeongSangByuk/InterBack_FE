@@ -1,47 +1,63 @@
 <template>
   <div class="c">
-    <button @click="$refs.first.goToSlide(1)">다음</button>
+    <button type="button" class="btn btn-primary" @click="startRecording()">
+      start
+    </button>
 
-    <button @click="$refs.first.goToSlide(0)">다음</button>
-    <VueperSlides
-      :touchable="false"
-      :infinite="false"
-      :bullets="false"
-      :arrows="false"
-      ref="first"
-      fixed-width="100%"
-      fixed-height="100%"
-    >
-      <vueper-slide :key="1" :title="1">
-        <template v-slot:content>
-          <div class="te">
-            <p>qweeqw</p>
-          </div>
-        </template>
-      </vueper-slide>
-
-      <vueper-slide :key="2" :title="2">
-        <template v-slot:content>
-          <div class="te1">
-            <p>qweeqw</p>
-          </div>
-        </template>
-      </vueper-slide>
-    </VueperSlides>
+    <button type="button" class="btn btn-primary" @click="stopRecording()">
+      stop
+    </button>
   </div>
 </template>
 
 <script scoped>
-import { VueperSlides, VueperSlide } from "vueperslides";
-import "vueperslides/dist/vueperslides.css";
+import Recorderx, { ENCODE_TYPE } from "recorderx";
+import axios from "axios";
+import Constants from "../../utils/Constants";
+const rc = new Recorderx();
 
 export default {
   name: "video-test",
-  components: { VueperSlides, VueperSlide },
+  components: {},
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    startRecording() {
+      // start recorderx
+      rc.start()
+        .then(() => {
+          console.log("start recording");
+        })
+        .catch((error) => {
+          console.log("Recording failed.", error);
+        });
+    },
+
+    stopRecording() {
+      // pause recorderx
+      rc.pause();
+
+      // get wav, but disable compression
+      var wav = rc.getRecord({
+        encodeTo: ENCODE_TYPE.WAV,
+      });
+
+      var frm = new FormData();
+      frm.append("photo", wav);
+
+      axios
+        .get(Constants.API_URL + "/audio-test", frm, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   mounted() {},
 };
 </script>
@@ -53,15 +69,8 @@ export default {
   padding: 50px 0 0 200px;
 }
 
-.te {
-  width: 500px;
-  height: 500px;
-  background-color: antiquewhite;
-}
-
-.te1 {
-  width: 500px;
-  height: 500px;
-  background-color: blue;
+button {
+  width: 100px;
+  height: 100px;
 }
 </style>
