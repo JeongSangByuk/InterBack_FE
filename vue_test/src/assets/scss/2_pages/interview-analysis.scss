@@ -54,7 +54,6 @@
   justify-content: center;
   align-items: center; 
 //  min-width: 200px;
-  background-color: pink;
   width: 50vw;
   height: 100vh;
   flex-grow: 1;
@@ -75,7 +74,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: left;
-  background-color: azure;
   height: 30vh;
   flex-grow: 1;
 
@@ -96,10 +94,10 @@
   display: flex;
   flex-direction: column;
   align-items: center; 
-  background-color: blue;
   width: 54vw;
   height: 50px;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   flex-grow: 1; 
 }
 
@@ -108,12 +106,13 @@
   flex-direction: column;
   justify-content: flex-start;    
   align-items: center;   
-  width: 50vw;
+  width: 52vw;
   height: 220px;
   min-height: 220px;
-  background-color: antiquewhite;
   margin-top: 14px;
   margin-bottom: 12px;
+  border-radius: 20px;
+  border: 3px solid $color-main;
 
   &__title {
     font-size: 18px;
@@ -123,12 +122,25 @@
 }
 
 .analysis-result-box{
-  width: 50vw;
+  width: 52vw;
+  height: 180px;
   display: flex;
-  flex-direction: column;
+  flex-grow: 1;
+  flex-direction: row;
   justify-content: center;  
-  background-color: purple;
+  align-items: center;  
 }
+
+.analysis-chart-box{
+  width: 15vw;
+  height: 180px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: center;  
+  align-items: center;
+}
+
 
 .pie-chart {
   display: inline-block;
@@ -150,10 +162,31 @@
 .chatting-container{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;    
   flex-grow: 1;  
-  background-color: wheat;
   width: 20vw;
   height: 100vh;
+  margin-right: 5px;
+  &__title {
+    font-size: 18px;
+    color: $color-main;
+    margin: 30px 0 20px 0;
+  }
+}
+
+.chatting-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start; 
+  flex-grow: 1;
+  width: 23vw;
+  border: 3px solid $color-main;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  &__chat {
+    font-size: 16px;
+    margin: 10px 0 0 15px;
+  }
 }

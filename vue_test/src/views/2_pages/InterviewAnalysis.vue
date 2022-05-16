@@ -25,34 +25,33 @@
           <div class="analysis-container">            
             <div class="analysis-box">
               <div class="analysis-box__title">언어 분석</div> 
-             
-
-
-
-
-              <canvas id="chart1" width="50" height="50"></canvas>
-              <canvas id="chart2" width="50" height="50"></canvas>
-              <canvas id="chart3" width="50" height="50"></canvas>
-            
+              <div class="analysis-result-box">                 
+                <div class="analysis-chart-box">                  
+                  <canvas id="chart1" width="50" height="50"></canvas>  
+                </div>                           
+                <div class="analysis-chart-box">                  
+                  <canvas id="chart2" width="50" height="50"></canvas>  
+                </div>                             
+                <div class="analysis-chart-box">               
+                  <canvas id="chart3" width="50" height="50"></canvas> 
+                </div>
+              </div>
             </div>          
             <div class="analysis-box">
               <div class="analysis-box__title">워드 클라우드</div>  
             </div>  
-            <div class="analysis-box">
-              <div class="analysis-box__title">감정 변화</div>  
-            </div>  
-            <div class="analysis-box">
-              <div class="analysis-box__title">목소리 분석</div>  
-            </div>  
-            <div class="analysis-box">
-              <div class="analysis-box__title">Interback 총점</div>  
-            </div>  
-            <div class="analysis-box">
-              <div class="analysis-box__title">총점 그래프</div>  
-            </div>  
+           
           </div>
         </div>
         <div class="chatting-container">
+          <div class="chatting-container__title">발언 내용</div>          
+          <div class="chatting-box">
+            <div class="chatting-box__chat">면접관1: 자기소개 부탁합니다.</div>
+            <div class="chatting-box__chat">박태순: 안녕하세요. 저는 세종대 컴퓨터공학과를 졸업한 박태순입니다.</div>
+            <div class="chatting-box__chat">면접관2: 무슨 파트 개발에 관심이 많으신가요?</div>
+            <div class="chatting-box__chat">박태순: 저는 웹 백엔드 개발에 관심이 있습니다.</div>
+            <div class="chatting-box__chat">면접관1: 프로젝트 경험이 있나요?</div>
+          </div>
         </div>
       </div>
   </div>
@@ -64,20 +63,21 @@ Chart.register(...registerables);
 
 export default {
   methods: {
-    fillData(chartId, label1, label2){
+    fillData(chartId, label1, label2, data_true, data_false){
       const ctx = document.getElementById(chartId).getContext('2d');
       this.myChart = new Chart(ctx, {
         type:'doughnut',
         data:{
-          labels:[label1,label2],
+          labels:[label1, label2],
           datasets:[
             {
               backgroundColor:[
                 "#DD7445", "#DE9D11"
               ],
-              data: [70, 30]               
-            }            
+              data: [data_true, data_false]               
+            }             
           ]
+          
         },
         options: { 
           plugins: { 
@@ -90,15 +90,15 @@ export default {
                 usePointStyle: true, 
                 pointStyle: "circle", 
                 font: { 
-                  size: 10
+                  size: 11
                 } 
               }, 
               fullSize: false, 
               align: "center" 
             }, 
             tooltip: {
-              boxWidth: 15, 
-              bodyFont: { size: 14 } 
+              boxWidth: 10, 
+              bodyFont: { size: 10 } 
             } 
           },
 
@@ -106,13 +106,13 @@ export default {
           maintainAspectRatio: false, 
           layout: {
             padding: { 
-              top: 50, 
-              bottom:50
+              top: 20, 
+              bottom:20
             } 
           }, 
           elements: {
             arc: { 
-              borderWidth: 1
+              borderWidth: 0.2
             } 
           }, 
           animation: { 
@@ -123,9 +123,9 @@ export default {
     }
   },
   mounted() {
-    this.fillData('chart1','긍정','긍정아님');
-    this.fillData('chart2','00','22');    
-    this.fillData('chart3','11','33');
+    this.fillData('chart1','긍정','긍정 아님', 70, 30);
+    this.fillData('chart2','부정','부정 아님', 10, 90);    
+    this.fillData('chart3','중립','중립 아님', 80, 20);
 
   },
   data(){
