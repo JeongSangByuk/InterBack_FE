@@ -62,18 +62,39 @@
 
 .basic-information-container{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; 
+  flex-direction: row;
+  align-items: flex-start; 
+  justify-content: left;
   background-color: white;
   width: 54vw;
   height: 30vh;
 }
 
+.basic-information-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: left;
+  background-color: azure;
+  height: 30vh;
+  flex-grow: 1;
+
+  &__title {
+    font-size: 18px;
+    color: $color-main;
+    margin: 25px 0 10px 60px;
+  }
+
+  &__description {
+    font-size: 15px;
+    color: black;
+    margin: 5px 0 3px 60px;
+  }
+}
+
 .analysis-container{
   display: flex;
   flex-direction: column;
-//  justify-content: center;
   align-items: center; 
   background-color: blue;
   width: 54vw;
@@ -83,15 +104,47 @@
 }
 
 .analysis-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;    
+  align-items: center;   
   width: 50vw;
   height: 220px;
   min-height: 220px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;  
   background-color: antiquewhite;
   margin-top: 14px;
   margin-bottom: 12px;
+
+  &__title {
+    font-size: 18px;
+    color: $color-main;
+    margin: 10px 0 10px 0;
+  }
+}
+
+.analysis-result-box{
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  background-color: purple;
+}
+
+.pie-chart {
+  display: inline-block;
+  width: 110px;
+  height: 110px;
+  background: conic-gradient(#8b22ff 0% 25%, #ffc33b 25% 56%, #21f3d6 56% 100%);
+  border-radius: 100%;
+ // transform: translate(20%,20%);
+}
+
+.pie-chart-center {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 100%;
+// transform: translate(20%,20%);
 }
 
 .chatting-container{
