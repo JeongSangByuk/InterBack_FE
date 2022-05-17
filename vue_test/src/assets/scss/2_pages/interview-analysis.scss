@@ -128,7 +128,8 @@
   flex-grow: 1;
   flex-direction: row;
   justify-content: center;  
-  align-items: center;  
+  align-items: center; 
+  background-color: #21f3d6; 
 }
 
 .analysis-chart-box{
@@ -178,7 +179,7 @@
 .chatting-box{
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: flex-start; 
   flex-grow: 1;
   width: 23vw;
