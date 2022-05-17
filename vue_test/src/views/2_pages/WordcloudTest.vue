@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      word cloud test
       <div id="app">
         <wordcloud
         :data="defaultWords"

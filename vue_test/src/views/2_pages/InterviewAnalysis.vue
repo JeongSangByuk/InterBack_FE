@@ -39,7 +39,7 @@
             </div>          
             <div class="analysis-box">
               <div class="analysis-box__title">워드 클라우드</div>  
-              <div class="analysis-result-box"> hello
+              <div class="analysis-result-box"> 
                 
 
               </div>
@@ -78,7 +78,7 @@ export default {
           datasets:[
             {
               backgroundColor:[
-                "#DD7445", "#DE9D11"
+                "#5ebc88","#e1f8eb"
               ],
               data: [data_true, data_false]               
             }             

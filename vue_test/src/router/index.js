@@ -5,6 +5,7 @@ import RoomCreation from "@/views/2_pages/RoomCreation";
 import RoomEntry from "@/views/2_pages/RoomEntry";
 import InterviewRoom from "@/views/2_pages/InterviewRoom";
 import VideoTest from "@/views/2_pages/VideoTest";
+import InterviewList from "@/views/2_pages/InterviewList";
 import InterviewAnalysis from "@/views/2_pages/InterviewAnalysis";
 
 import WordcloudTest from "@/views/2_pages/WordcloudTest";
@@ -39,6 +40,11 @@ const routes = [
     path: "/video-test",
     name: "VideoTest",
     component: VideoTest,
+  },
+  {
+    path: "/interview-list",
+    name: "InterviewList",
+    component: InterviewList,
   },
   {
     path: "/interview-analysis",
