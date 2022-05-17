@@ -7,6 +7,8 @@ import InterviewRoom from "@/views/2_pages/InterviewRoom";
 import VideoTest from "@/views/2_pages/VideoTest";
 import InterviewAnalysis from "@/views/2_pages/InterviewAnalysis";
 
+import WordcloudTest from "@/views/2_pages/WordcloudTest";
+
 const routes = [
   {
     path: "/",
@@ -42,6 +44,12 @@ const routes = [
     path: "/interview-analysis",
     name: "InterviewAnalysis",
     component: InterviewAnalysis,
+  },
+  
+  {
+    path: "/wordcloud-test",
+    name: "WordcloudTest",
+    component: WordcloudTest,
   },
 ];
 

@@ -8,6 +8,7 @@ import VueCookies from 'vue-cookies'
 const app = createApp(App)
 
 app.config.globalProperties.$axios = axios
+
 app.use(VueCookies,{
         expireTimes: "10d",
         secure: true,

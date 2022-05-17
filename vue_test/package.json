@@ -25,7 +25,6 @@
     "vue-router": "^4.0.13",
     "vue-ssr-carousel": "^1.4.0",
     "vue-webrtc": "^3.0.0",
-    "vue-wordcloud": "^1.1.1",
     "vueperslides": "^3.3.2",
     "webstomp-client": "^1.2.6"
   },
