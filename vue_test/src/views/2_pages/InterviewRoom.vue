@@ -232,7 +232,10 @@ export default {
       callerStream: "",
       peers: [],
       testt: "before",
+
       isRecording: false,
+      auto_audio_api_func : null,
+
       connectingState:
         // before - connected
         {
@@ -434,6 +437,8 @@ export default {
           mediaRecorder = new MediaRecorder(audioStream, {
             mimeType: "audio/wav",
           });
+
+          //mediaRecorder 함수 지정
           mediaRecorder.ondataavailable = function (e) {
             chunks.push(e.data);
 
@@ -474,24 +479,43 @@ export default {
         });
     },
 
-    startRecording() {
+    async startRecording() {
       if (this.isRecording) {
         // recording stop
         this.$refs["record"].style.background = "yellow";
         this.$refs["record"].innerHTML = "start";
         this.isRecording = false;
         mediaRecorder.stop();
+        clearInterval(this.auto_audio_api_func);
         console.log(mediaRecorder.state);
       } else {
         // rocording start
         this.$refs["record"].style.background = "red";
         this.$refs["record"].innerHTML = "stop";
         this.isRecording = true;
-        mediaRecorder.start();
+
+        let runAutoAudioAPI = async () => {
+          mediaRecorder.start();
+          await this.waitTime(5000);
+          mediaRecorder.stop();
+        }
+
+        this.auto_audio_api_func = setInterval(() => {
+            runAutoAudioAPI();
+          }, 10000)
+
+        //mediaRecorder.start();
         console.log(mediaRecorder.state);
       }
     },
+
+    waitTime(milliseconds){
+      return new Promise(resolve => setTimeout(() => resolve(), milliseconds));
+    },
+
+
   },
+
   mounted() {},
 };
 </script>
