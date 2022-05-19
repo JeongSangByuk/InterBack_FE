@@ -41,17 +41,15 @@
       </div>
 
       <div class="contents__sub">
-        <router-link to="/interview-analysis">
-          <div class="room-box">
-            <img src="img/img_history_room.png" />
+        <div class="room-box">
+          <img src="img/img_history_room.png" />
 
-            <p class="room-box__title">면접 관리</p>
-            <p class="room-box__subtitle">
-              면접 기록과 일정의<br />다양한 정보를 관리합니다.
-            </p>
-            <p class="room-box__arrow">→</p>
-          </div>
-        </router-link>
+          <p class="room-box__title">면접 관리</p>
+          <p class="room-box__subtitle">
+            면접 기록과 일정의<br />다양한 정보를 관리합니다.
+          </p>
+          <p class="room-box__arrow">→</p>
+        </div>
       </div>
     </div>
   </div>

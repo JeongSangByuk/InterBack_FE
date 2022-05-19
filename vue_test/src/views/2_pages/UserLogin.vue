@@ -65,6 +65,7 @@ export default {
       // DB id, pw 확인 후 페이지 이동해야 함
       this.$router.replace({name:'Home'})
 
+
       this.fetchData();
       /*
       if(this.idSave) {
@@ -79,7 +80,8 @@ export default {
     fetchData() {
       console.log("fetch Data")
       
-			this.$axios.get("http://localhost:8080/api/user") //post로 바꾸기?
+			//this.$axios.get("https://jsonplaceholder.typicode.com/users")
+			this.$axios.get("http://localhost:3000/interview")
       .then((response)=>{
 				console.log(response.data);
 			})
