@@ -10,7 +10,7 @@
                     <th v-for="(item,index) in header" :key="index">{{item}}</th>
                 </thead>
                 <tbody>
-                    <tr @click="handleClick(item, index)" v-for="(line, index) in ranking" :key="index" >
+                    <tr @click="handleClick(item, index)" v-for="(line, index) in interview" :key="index" >
                         <td v-for="(item,index) in line" :key="index">{{item}}</td>
                     </tr>
                 </tbody>
@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             header: ["이름","날짜","길이"],
-            ranking: [
+            interview: [
                 ['AB전자 1차 면접', '2.8. 오후 4:00', '1:00:03'],
                 ['AB전자 1차 면접', '2.8. 오후 4:00', '1:00:03'],
                 ['AB전자 1차 면접', '2.8. 오후 4:00', '1:00:03'],

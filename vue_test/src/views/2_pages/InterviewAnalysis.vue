@@ -3,10 +3,17 @@
       <div class="interview-analysis-container">
         <div class="interviewee-list-box">
           <div class="interviewee-list-box__title">면접자 목록</div>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(1)">박태순</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(2)">정상벽</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(3)">김채운</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(4)">박윤경</v-btn>
+          
+            <button class="interviewee-list-name" @click="changeInterviewee(0)">박태순</button>
+            <button class="interviewee-list-name" @click="changeInterviewee(1)">정상벽</button>
+            <button class="interviewee-list-name" @click="changeInterviewee(2)">김채운</button>
+            <button class="interviewee-list-name" @click="changeInterviewee(3)">박윤경</button>
+         <!--
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(0)">박태순</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(1)">정상벽</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(2)">김채운</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(3)">박윤경</v-btn>-->
+          
         </div>
         <div class="information-container">
           <div class="basic-information-container">
@@ -15,7 +22,20 @@
                   style="width: 150px; height: 170x; margin: 20px 0 0 20px"/>
             <div class="basic-information-box">
               <div class="basic-information-box__title">기본 정보</div>
-              <div class="basic-information-box__description">이름: 박태순</div>
+              
+              <div class="basic-information-box__description" v-if="user.length">
+                <div v-for="(line, index) in user" :key="index">
+                  <div v-if="index==0">이름: {{line[index]}}</div></div></div>
+             
+              <div class="basic-information-box__description" v-else>이름: 박태순</div>
+   <!--
+                <div v-for="(item, index) in user" :key="index">{{index}}-{{item[0]}}</div></div>     
+                -->             
+             
+
+<!-- <div class="basic-information-box__description">이름: 박태순</div>
+ -->  
+ 
               <div class="basic-information-box__description">학교: 세종대학교</div>
               <div class="basic-information-box__description">학과: 컴퓨터공학과</div>  
               <div class="basic-information-box__description">생년월일: 19980101</div>
@@ -65,14 +85,35 @@
 import {Chart, registerables} from 'chart.js';
 Chart.register(...registerables);
 
-
 export default {
+  name: 'InterviewAnalysis',
+  created:function(){
+    console.log("!!! created userindex =", this.userIndex);
+
+    if(this.userIndex){
+      console.log("!!! if created userindex =", this.userIndex);
+    }
+  },
+  
+  mounted() {
+    this.fillData('chart1','긍정','긍정 아님', 70, 30);
+    this.fillData('chart2','부정','부정 아님', 10, 90);    
+    this.fillData('chart3','중립','중립 아님', 80, 20);
+    
+    this.userIndex = this.$route.query.userIndex;
+    console.log("!!! mounted : this userindex = ", this.userIndex);
+    console.log("!!! mounted : route query userindex = ", this.$route.query.userIndex);
+  },
 
   methods: {
     changeInterviewee(index){
-      console.log("change Interviewee = ", index);
-
+      console.log("!!! change Interviewee = ", index);
+      //this.$router.push({path:'/interview-analysis', name:'InterviewAnalysis', query: {userIndex: index} });
+      
+      //this.userIndex = index;
+      //this.$router.go({path:'/interview-analysis', name:'InterviewAnalysis', query: {userIndex: index} });
     },
+
     fillData(chartId, label1, label2, data_true, data_false){
       const ctx = document.getElementById(chartId).getContext('2d');
       this.myChart = new Chart(ctx, {
@@ -134,16 +175,17 @@ export default {
     
   },
 
-  mounted() {
-    this.fillData('chart1','긍정','긍정 아님', 70, 30);
-    this.fillData('chart2','부정','부정 아님', 10, 90);    
-    this.fillData('chart3','중립','중립 아님', 80, 20);
-
-  },
-  data(){
+  data() {
     return{
-      myChart: null
-    };
+      myChart: null,      
+      user: [
+        ['박태순','세종대학교','컴퓨터공학과','19980101'],
+        ['정상벽','세종대학교','소프트웨어학과','19980202'],
+        ['김채운','세종대학교','컴퓨터공학과','19980303'],
+        ['박윤경','세종대학교','데이터사이언스학과','19980101']
+      ],
+      userIndex: 0
+    }
   }
 };
 </script>
