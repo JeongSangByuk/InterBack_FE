@@ -79,7 +79,7 @@ export default {
     fetchData() {
       console.log("fetch Data")
       
-			this.$axios.get("http://localhost:8080/api/user") //post로 바꾸기?
+			this.$axios.post("3.39.74.53/api/user") //post로 바꾸기?
       .then((response)=>{
 				console.log(response.data);
 			})

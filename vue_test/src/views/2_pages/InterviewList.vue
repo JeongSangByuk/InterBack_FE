@@ -4,16 +4,18 @@
 
     <div class="interview-list-container">
         <div id="app">
-            <table>
+                
+            <v-data-table>
                 <thead>
                     <th v-for="(item,index) in header" :key="index">{{item}}</th>
                 </thead>
                 <tbody>
-                    <tr v-for="(line,index) in ranking" :key="index">
+                    <tr @click="handleClick(item)" v-for="(line,index) in ranking" :key="index">
                         <td v-for="(item,index) in line" :key="index">{{item}}</td>
                     </tr>
                 </tbody>
-            </table>
+                
+            </v-data-table>
         </div>
 
     </div>    
@@ -22,6 +24,12 @@
 
 <script>
 export default {
+    methods:{
+        handleClick(item){
+            console.log("handelClick");
+        }
+    },
+
     data() {
         return {
             header: ["이름","날짜","길이"],
