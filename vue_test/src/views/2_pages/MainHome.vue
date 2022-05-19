@@ -41,7 +41,7 @@
       </div>
 
       <div class="contents__sub">
-        <router-link to="/interview-analysis">
+        <router-link to="/interview-list">
           <div class="room-box">
             <img src="img/img_history_room.png" />
 

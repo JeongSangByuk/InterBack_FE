@@ -10,7 +10,7 @@
                     <th v-for="(item,index) in header" :key="index">{{item}}</th>
                 </thead>
                 <tbody>
-                    <tr @click="handleClick(item)" v-for="(line,index) in ranking" :key="index">
+                    <tr @click="handleClick(item, index)" v-for="(line, index) in ranking" :key="index" >
                         <td v-for="(item,index) in line" :key="index">{{item}}</td>
                     </tr>
                 </tbody>
@@ -25,8 +25,10 @@
 <script>
 export default {
     methods:{
-        handleClick(item){
-            console.log("handelClick");
+        handleClick(item,index){
+            console.log("handleClick = ", index);
+            
+            this.$router.replace({name:'InterviewAnalysis'})
         }
     },
 
