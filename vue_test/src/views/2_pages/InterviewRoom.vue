@@ -236,6 +236,9 @@ export default {
       isRecording: false,
       auto_audio_api_func : null,
 
+      t1:50,
+      t2:50,
+
       connectingState:
         // before - connected
         {
@@ -439,13 +442,13 @@ export default {
           });
 
           //mediaRecorder 함수 지정
-          mediaRecorder.ondataavailable = function (e) {
+          mediaRecorder.ondataavailable = (e) => {
             chunks.push(e.data);
 
             let reader = new FileReader();
             let base64data;
             reader.readAsDataURL(e.data);
-            reader.onloadend = function () {
+            reader.onloadend =  () => {
               base64data = reader.result;
               console.log(base64data);
 
@@ -454,7 +457,12 @@ export default {
                   base64data: base64data,
                 })
                 .then((response) => {
-                  console.log(response);
+                  console.log(response.data['p']);
+
+                  this.$refs["555"].t1 = response.data['p'];
+                  this.$refs["555"].t2 = response.data['n'];
+                  this.$refs["555"].updateChart();
+
                 })
                 .catch((error) => {
                   console.log(error);
@@ -496,13 +504,13 @@ export default {
 
         let runAutoAudioAPI = async () => {
           mediaRecorder.start();
-          await this.waitTime(5000);
+          await this.waitTime(1000);
           mediaRecorder.stop();
         }
 
         this.auto_audio_api_func = setInterval(() => {
             runAutoAudioAPI();
-          }, 10000)
+          }, 2000)
 
         //mediaRecorder.start();
         console.log(mediaRecorder.state);
@@ -513,10 +521,12 @@ export default {
       return new Promise(resolve => setTimeout(() => resolve(), milliseconds));
     },
 
-
   },
 
-  mounted() {},
+  mounted() {
+    this.$refs["555"].fillData('chart11','긍정','긍정 아님', this.t1,this.t2);
+
+  },
 };
 </script>
 

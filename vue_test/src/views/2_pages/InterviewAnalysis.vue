@@ -12,7 +12,7 @@
           <div class="basic-information-container">
             <img
                   src="img/img_profile_photo_example.png"
-                  style="width: 150px; height: 170x; margin: 20px 0 0 20px"/>
+                  style="width: 150px; height: 170px; margin: 20px 0 0 20px"/>
             <div class="basic-information-box">
               <div class="basic-information-box__title">기본 정보</div>
               <div class="basic-information-box__description">이름: 박태순</div>

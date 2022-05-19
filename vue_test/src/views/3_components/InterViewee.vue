@@ -15,6 +15,9 @@
 
     <div class="interviewee__emotion-box">
       <p>감정 분석</p>
+      <div class="analysis-chart-box">
+        <canvas id="chart11" width="50" height="50" ref="chart"></canvas>
+      </div>
     </div>
 
     <div class="interviewee__wordcloud">
@@ -24,11 +27,94 @@
 </template>
 
 <script>
+
+import {Chart, registerables} from 'chart.js';
+Chart.register(...registerables);
+
+let chart1;
+
 export default {
-  props: ["connectingState", "userId", "userName"],
+  props: ["connectingState", "userId", "userName",],
+  data() {
+    return{
+    t1 : 30,
+    t2 : 70,}
+  },
+  methods:{
+
+    updateChart(){
+      chart1.data.datasets[0].data[0] = this.t1;
+      chart1.data.datasets[0].data[1] = this.t2;
+      chart1.update();
+    },
+
+    fillData(chartId, label1, label2, data_true, data_false){
+      const ctx = document.getElementById(chartId).getContext('2d');
+      chart1 = new Chart(ctx, {
+        type:'doughnut',
+        data:{
+          labels:[label1, label2],
+          datasets:[
+            {
+              backgroundColor:[
+                "#5ebc88","#e1f8eb"
+              ],
+              data: [this.t1, this.t2]
+            }
+          ]
+
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+              labels: {
+                boxWidth: 7,
+                padding: 10,
+                usePointStyle: true,
+                pointStyle: "circle",
+                font: {
+                  size: 11
+                }
+              },
+              fullSize: false,
+              align: "center"
+            },
+            tooltip: {
+              boxWidth: 10,
+              bodyFont: { size: 10 }
+            }
+          },
+
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              top: 20,
+              bottom:20
+            }
+          },
+          elements: {
+            arc: {
+              borderWidth: 0.2
+            }
+          },
+          animation: {
+            duration: 1000
+          }
+        }
+      })
+    },
+  },
+
+  mounted() {
+    //this.fillData('chart11','긍정','긍정 아님', this.t1, this.t2);
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./../../assets/scss/2_pages/interview-room.scss";
+@import "./../../assets/scss/2_pages/interview-analysis.scss";
 </style>
