@@ -3,10 +3,10 @@
       <div class="interview-analysis-container">
         <div class="interviewee-list-box">
           <div class="interviewee-list-box__title">면접자 목록</div>
-            <div class="interviewee-list-name">박태순</div>
-            <div class="interviewee-list-name">정상벽</div>
-            <div class="interviewee-list-name">김채운</div>
-            <div class="interviewee-list-name">박윤경</div>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(1)">박태순</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(2)">정상벽</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(3)">김채운</v-btn>
+            <v-btn class="interviewee-list-name" @click="changeInterviewee(4)">박윤경</v-btn>
         </div>
         <div class="information-container">
           <div class="basic-information-container">
@@ -69,6 +69,10 @@ Chart.register(...registerables);
 export default {
 
   methods: {
+    changeInterviewee(index){
+      console.log("change Interviewee = ", index);
+
+    },
     fillData(chartId, label1, label2, data_true, data_false){
       const ctx = document.getElementById(chartId).getContext('2d');
       this.myChart = new Chart(ctx, {
