@@ -13,8 +13,7 @@
                     <tr @click="handleClick(item, index)" v-for="(line, index) in interview" :key="index" >
                         <td v-for="(item,index) in line" :key="index">{{item}}</td>
                     </tr>
-                </tbody>
-                
+                </tbody>                
             </v-data-table>
         </div>
 
