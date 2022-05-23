@@ -3,10 +3,9 @@
   <div class="container">
     <div>
         <h1>vuex test page</h1>
-     
+      
         user index = {{ index }}
-        user index getter = {{userIndex}}
-                
+        user index getter = {{userIndex}}                
         <button @click="increase">increase button</button>
     </div>
   </div>

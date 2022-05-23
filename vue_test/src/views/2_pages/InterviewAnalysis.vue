@@ -31,7 +31,6 @@
    <!--
                 <div v-for="(item, index) in user" :key="index">{{index}}-{{item[0]}}</div></div>     
                 -->             
-             
 
 <!-- <div class="basic-information-box__description">이름: 박태순</div>
  -->  

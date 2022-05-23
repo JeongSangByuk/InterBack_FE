@@ -8,6 +8,7 @@ export default createStore({
     createPersistedState({
         // 작성한 모듈만 저장
         paths: ['moduleUserIndex'],
+        storage:window.sessionStorage,
     })
   ]
 });
