@@ -44,6 +44,11 @@
 export default {
   created(){
     console.log("logindata = ", this.$loginData);
+
+    if(this.$cookies.isKey("idCookie")){      
+      console.log("login 완료")
+      this.$router.replace({name:'Home'})
+    }
   },
 
   data() {
@@ -62,16 +67,16 @@ export default {
       console.log("id = " + this.id)
       console.log("passsword = " + this.pass)
 
-      this.$cookies.set("idCookie", this.id);
-      this.$cookies.set("passwordCookie", this.pass);
+      const stringLoginData = JSON.stringify(this.$loginData);
       
     //  this.fetchData();
 
-      console.log(this.$loginData.some(this.id));
-      console.log(this.$loginData[0][1] == this.pass);
+      // DB id, pw 확인 후 페이지 이동해야 함
+      if(stringLoginData.includes('id":"' + this.id) && stringLoginData.includes('pass":"' + this.pass)) { 
+        
+        this.$cookies.set("idCookie", this.id);
+        this.$cookies.set("passwordCookie", this.pass);     
 
-      if(this.$loginData.includes(this.id) && this.$loginData.includes(this.pass)) {        
-        // DB id, pw 확인 후 페이지 이동해야 함
         this.$router.replace({name:'Home'})
       }
       else{
