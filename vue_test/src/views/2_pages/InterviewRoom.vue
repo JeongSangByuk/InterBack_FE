@@ -4,19 +4,19 @@
       <p class="video-container__title">
         카카오 BE 그룹3 면접장
 
-        <button type="button" class="btn btn-primary" @click="userSet('111')">
+        <button type="button" class="btn btn-primary" @click="userSet('interviewer1')">
           user1
         </button>
 
-        <button type="button" class="btn btn-primary" @click="userSet('222')">
+        <button type="button" class="btn btn-primary" @click="userSet('interviewer2')">
           user2
         </button>
 
-        <button type="button" class="btn btn-primary" @click="userSet('333')">
+        <button type="button" class="btn btn-primary" @click="userSet('interviewee1')">
           user3
         </button>
 
-        <button type="button" class="btn btn-primary" @click="userSet('555')">
+        <button type="button" class="btn btn-primary" @click="userSet('interviewee2')">
           user4
         </button>
 
@@ -25,10 +25,10 @@
         </button>
 
         <button
-          type="button"
-          class="btn btn-primary"
-          @click="startRecording()"
-          ref="record"
+            type="button"
+            class="btn btn-primary"
+            @click="startRecording()"
+            ref="record"
         >
           start
         </button>
@@ -36,74 +36,74 @@
 
       <div class="interviwer-container">
         <Interviewer
-          ref="111"
-          :userName="'정상벽'"
-          :connectingState="connectingState"
-          :userId="'111'"
+            ref="interviewer1"
+            :userName="'정상벽'"
+            :connectingState="connectingState"
+            :userId="'interviewer1'"
         />
 
         <Interviewer
-          ref="222"
-          :userName="'박태순'"
-          :connectingState="connectingState"
-          :userId="'222'"
+            ref="interviewer2"
+            :userName="'박태순'"
+            :connectingState="connectingState"
+            :userId="'interviewer2'"
         />
 
         <Interviewer
-          ref="333"
-          :userName="'김채운'"
-          :connectingState="connectingState"
-          :userId="'333'"
+            ref="interviewer3"
+            :userName="'-'"
+            :connectingState="connectingState"
+            :userId="'interviewer3'"
         />
 
         <Interviewer
-          ref="444"
-          :userName="'박윤굥'"
-          :connectingState="connectingState"
-          :userId="'444'"
+            ref="interviewer4"
+            :userName="'-'"
+            :connectingState="connectingState"
+            :userId="'interviewer4'"
         />
       </div>
 
       <div class="interviwee-container">
         <Interviewee
-          ref="555"
-          :userName="'손모은'"
-          :connectingState="connectingState"
-          :userId="'555'"
+            ref="interviewee1"
+            :userName="'손모은'"
+            :connectingState="connectingState"
+            :userId="'interviewee1'"
         />
 
         <Interviewee
-          ref="666"
-          :userName="'이윤환'"
-          :connectingState="connectingState"
-          :userId="'666'"
+            ref="interviewee2"
+            :userName="'이윤환'"
+            :connectingState="connectingState"
+            :userId="'interviewee2'"
         />
 
         <Interviewee
-          ref="777"
-          :userName="'김현욱'"
-          :connectingState="connectingState"
-          :userId="'777'"
+            ref="interviewee3"
+            :userName="'-'"
+            :connectingState="connectingState"
+            :userId="'interviewee3'"
         />
 
         <Interviewee
-          ref="888"
-          :userName="'김성욱'"
-          :connectingState="connectingState"
-          :userId="'888'"
+            ref="interviewee4"
+            :userName="'-'"
+            :connectingState="connectingState"
+            :userId="'interviewee4'"
         />
       </div>
     </div>
 
     <vueper-slides
-      :touchable="false"
-      :infinite="false"
-      :bullets="false"
-      :arrows="false"
-      ref="slides"
-      fixed-height="100%"
-      style="width: 35%; height: 100%; min-width: 300px"
-      class="no-shadow"
+        :touchable="false"
+        :infinite="false"
+        :bullets="false"
+        :arrows="false"
+        ref="slides"
+        fixed-height="100%"
+        style="width: 35%; height: 100%; min-width: 300px"
+        class="no-shadow"
     >
       <vueper-slide :key="1" :title="1">
         <template v-slot:content>
@@ -112,15 +112,15 @@
               <p class="text-record-header__title">채 팅</p>
               <div class="text-record-bnt-group">
                 <img
-                  src="img/chat.png"
-                  @click="$refs.slides.goToSlide(0)"
-                  style="background: #e4ffdf"
+                    src="img/chat.png"
+                    @click="$refs.slides.goToSlide(0)"
+                    style="background: #e4ffdf"
                 />
-                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)"/>
 
                 <img
-                  src="img/suggestion.png"
-                  @click="$refs.slides.goToSlide(2)"
+                    src="img/suggestion.png"
+                    @click="$refs.slides.goToSlide(2)"
                 />
               </div>
             </div>
@@ -133,10 +133,10 @@
               </div>
             </div>
             <div class="chat-send-container">
-              <input class="chat-send-container__chat-input" />
+              <input class="chat-send-container__chat-input"/>
               <img
-                class="chat-send-container__chat-bnt"
-                src="img/send-message.png"
+                  class="chat-send-container__chat-bnt"
+                  src="img/send-message.png"
               />
             </div>
           </div>
@@ -149,16 +149,16 @@
             <div class="text-record-header">
               <p class="text-record-header__title">회의록</p>
               <div class="text-record-bnt-group">
-                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)"/>
                 <img
-                  src="img/comment.png"
-                  @click="$refs.slides.goToSlide(1)"
-                  style="background: #e4ffdf"
+                    src="img/comment.png"
+                    @click="$refs.slides.goToSlide(1)"
+                    style="background: #e4ffdf"
                 />
 
                 <img
-                  src="img/suggestion.png"
-                  @click="$refs.slides.goToSlide(2)"
+                    src="img/suggestion.png"
+                    @click="$refs.slides.goToSlide(2)"
                 />
               </div>
             </div>
@@ -178,12 +178,12 @@
             <div class="text-record-header">
               <p class="text-record-header__title">질문 추천</p>
               <div class="text-record-bnt-group">
-                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)" />
-                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)" />
+                <img src="img/chat.png" @click="$refs.slides.goToSlide(0)"/>
+                <img src="img/comment.png" @click="$refs.slides.goToSlide(1)"/>
                 <img
-                  src="img/suggestion.png"
-                  @click="$refs.slides.goToSlide(2)"
-                  style="background: #e4ffdf"
+                    src="img/suggestion.png"
+                    @click="$refs.slides.goToSlide(2)"
+                    style="background: #e4ffdf"
                 />
               </div>
             </div>
@@ -207,17 +207,16 @@ import Stomp from "webstomp-client";
 import Constants from "../../utils/Constants";
 import Interviewer from "../3_components/InterViewer";
 import Interviewee from "../3_components/InterViewee";
-import { VueperSlides, VueperSlide } from "vueperslides";
+import {VueperSlides, VueperSlide} from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
 import axios from "axios";
-import { MediaRecorder, register } from "extendable-media-recorder";
-import { connect } from "extendable-media-recorder-wav-encoder";
+import {MediaRecorder, register} from "extendable-media-recorder";
+import {connect} from "extendable-media-recorder-wav-encoder";
 
 //const peers = [];
 let socket;
 let stomp;
 let mediaRecorder;
-const chunks = [];
 
 export default {
   components: {
@@ -234,20 +233,20 @@ export default {
       testt: "before",
 
       isRecording: false,
-      auto_audio_api_func : null,
+      auto_audio_api_func: null,
 
       connectingState:
-        // before - connected
-        {
-          111: "before",
-          222: "before",
-          333: "before",
-          444: "before",
-          555: "before",
-          666: "before",
-          777: "before",
-          888: "before",
-        },
+      // before - connected
+          {
+            interviewer1 : "before",
+            interviewer2 : "before",
+            interviewer3 : "before",
+            interviewer4 : "before",
+            interviewee1 : "before",
+            interviewee2 : "before",
+            interviewee3 : "before",
+            interviewee4 : "before",
+          },
     };
   },
 
@@ -257,93 +256,105 @@ export default {
       stomp = Stomp.over(socket);
 
       stomp.connect(
-        {},
-        // connectCallback
-        () => {
-          // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
-          stomp.subscribe("/sub/video/caller-info", (data) => {
-            data = JSON.parse(data.body);
+          {},
+          // connectCallback
+          () => {
+            // 소켓으로 caller의 연락을 받은 시점에 caller의 정보를 저장한다.
+            stomp.subscribe("/sub/video/caller-info", (data) => {
+              data = JSON.parse(data.body);
 
-            // 나에게서 오거나(from me) 혹은 나에게 온(to me)이 아니면 return
-            if (data.from === this.myId || data.toCall !== this.myId) return;
+              // 나에게서 오거나(from me) 혹은 나에게 온(to me)이 아니면 return
+              if (data.from === this.myId || data.toCall !== this.myId) return;
 
-            // video 송출
-            this.connectingState[data.from] = "connected";
+              // video 송출
+              this.connectingState[data.from] = "connected";
 
-            console.log("caller subscribe");
+              console.log("caller subscribe");
 
-            //callig을 받은 시점에, answer call을 보내 signaling한다.
-            this.returnCall(data.signal, data.from);
-          });
+              //callig을 받은 시점에, answer call을 보내 signaling한다.
+              this.returnCall(data.signal, data.from);
+            });
 
-          // acceptCall을 받은 시점에서 caller와 callee를 연결.
-          stomp.subscribe("/sub/video/callee-info", (data) => {
-            data = JSON.parse(data.body);
+            // acceptCall을 받은 시점에서 caller와 callee를 연결.
+            stomp.subscribe("/sub/video/callee-info", (data) => {
+              data = JSON.parse(data.body);
 
-            if (data.from === this.myId) return;
+              if (data.from === this.myId) return;
 
-            console.log("accept call subscribe ");
+              console.log("accept call subscribe ");
 
-            this.connectingState[data.to] = "connected";
+              this.connectingState[data.to] = "connected";
 
-            this.peers.forEach((p) => {
-              if (p[1] === data.to && p[2] === data.from) {
-                p[0].signal(data.signal);
-                return false;
+              this.peers.forEach((p) => {
+                if (p[1] === data.to && p[2] === data.from) {
+                  p[0].signal(data.signal);
+                  return false;
+                }
+              });
+            });
+
+            // 누군가 join 했을때, 이미 있는 peer에서 joinedID로 calling 보낸다.
+            stomp.subscribe("/sub/video/joined-room-info", (data) => {
+              let users = JSON.parse(data.body);
+
+              let topIdx = users.length - 1;
+              let joinedID = users[topIdx].id;
+
+              // 인원이 한명 이하거나, 자신이 join 일경우는 return
+              if (topIdx <= 0 || users[topIdx].id === this.myId) return;
+
+              console.log(users);
+              console.log(users.length);
+
+              // joined id로 calling 보낸다
+              this.initCall(joinedID);
+            });
+
+            //close session event
+            stomp.subscribe("/sub/video/close-session", (data) => {
+              // 세션을 나갔을때 관련된 peer을 다 remove해준다.
+              let closedUser = String(JSON.parse(data.body));
+              this.connectingState[closedUser] = "before";
+
+              // peers 목록에서 삭제.
+              let i = 0;
+              while (i < this.peers.length) {
+                if (
+                    this.peers[i][1] === closedUser ||
+                    this.peers[i][2] === closedUser
+                ) {
+                  console.log(this.peers[i]);
+                  this.peers[i][0].destroy();
+                  this.peers.splice(i, 1);
+                } else {
+                  i++;
+                }
               }
             });
-          });
 
-          // 누군가 join 했을때, 이미 있는 peer에서 joinedID로 calling 보낸다.
-          stomp.subscribe("/sub/video/joined-room-info", (data) => {
-            let users = JSON.parse(data.body);
+            // 감정 분석 결과를 전달 받고 update
+            stomp.subscribe("/sub/video/audio-sentiment", (data) => {
 
-            let topIdx = users.length - 1;
-            let joinedID = users[topIdx].id;
+              data = JSON.parse(data.body);
+              console.log(data['resultOfAudioSentiment']['p']);
+              this.$refs[data['from']].positiveEmotionValue = parseInt(data['resultOfAudioSentiment']['p']);
+              this.$refs[data['from']].negativeEmotionValue = parseInt(data['resultOfAudioSentiment']['n']);
+              this.$refs[data['from']].updateChart();
 
-            // 인원이 한명 이하거나, 자신이 join 일경우는 return
-            if (topIdx <= 0 || users[topIdx].id === this.myId) return;
+            })
 
-            console.log(users);
-            console.log(users.length);
+            // socket join send
+            stomp.send(
+                "/pub/video/joined-room-info",
+                JSON.stringify({from: this.myId})
+            );
 
-            // joined id로 calling 보낸다
-            this.initCall(joinedID);
-          });
+          },
 
-          //close session event
-          stomp.subscribe("/sub/video/close-session", (data) => {
-            // 세션을 나갔을때 관련된 peer을 다 remove해준다.
-            let closedUser = String(JSON.parse(data.body));
-            this.connectingState[closedUser] = "before";
-
-            // peers 목록에서 삭제.
-            let i = 0;
-            while (i < this.peers.length) {
-              if (
-                this.peers[i][1] === closedUser ||
-                this.peers[i][2] === closedUser
-              ) {
-                console.log(this.peers[i]);
-                this.peers[i][0].destroy();
-                this.peers.splice(i, 1);
-              } else {
-                i++;
-              }
-            }
-          });
-
-          // socket join send
-          stomp.send(
-            "/pub/video/joined-room-info",
-            JSON.stringify({ from: this.myId })
-          );
-        },
-
-        // onErrorCallback
-        () => {
-          console.log("ws error");
-        }
+          // onErrorCallback
+          () => {
+            console.log("ws error");
+          }
       );
     },
 
@@ -360,12 +371,12 @@ export default {
       // 소켓에 연결된 사람에게 쏴준다.
       peer.on("signal", (data) => {
         stomp.send(
-          "/pub/video/caller-info",
-          JSON.stringify({
-            toCall: joinedID,
-            from: this.myId,
-            signal: data,
-          })
+            "/pub/video/caller-info",
+            JSON.stringify({
+              toCall: joinedID,
+              from: this.myId,
+              signal: data,
+            })
         );
       });
 
@@ -392,12 +403,12 @@ export default {
       // callee의 정보를 caller에게 보냄.
       peer.on("signal", (data) => {
         stomp.send(
-          "/pub/video/callee-info",
-          JSON.stringify({
-            from: this.myId,
-            to: callerId,
-            signal: data,
-          })
+            "/pub/video/callee-info",
+            JSON.stringify({
+              from: this.myId,
+              to: callerId,
+              signal: data,
+            })
         );
       });
 
@@ -422,61 +433,57 @@ export default {
       await register(await connect());
 
       await navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: true,
-        })
-        .then((stream) => {
-          let videoStream = new MediaStream(stream.getVideoTracks());
-          let audioStream = new MediaStream(stream.getAudioTracks());
+          .getUserMedia({
+            video: true,
+            audio: true,
+          })
+          .then((stream) => {
+            let videoStream = new MediaStream(stream.getVideoTracks());
+            let audioStream = new MediaStream(stream.getAudioTracks());
 
-          this.callerStream = stream;
-          this.$refs[this.myId].$refs["video"].srcObject = videoStream;
-          this.connect();
+            this.callerStream = stream;
+            this.$refs[this.myId].$refs["video"].srcObject = videoStream;
+            this.connect();
 
-          mediaRecorder = new MediaRecorder(audioStream, {
-            mimeType: "audio/wav",
-          });
+            mediaRecorder = new MediaRecorder(audioStream, {
+              mimeType: "audio/wav",
+            });
 
-          //mediaRecorder 함수 지정
-          mediaRecorder.ondataavailable = function (e) {
-            chunks.push(e.data);
+            //mediaRecorder 함수 지정
+            mediaRecorder.ondataavailable = (e) => {
 
-            let reader = new FileReader();
-            let base64data;
-            reader.readAsDataURL(e.data);
-            reader.onloadend = function () {
-              base64data = reader.result;
-              console.log(base64data);
+              let reader = new FileReader();
+              let base64data;
+              reader.readAsDataURL(e.data);
+              reader.onloadend = () => {
+                base64data = reader.result;
 
-              axios
-                .post(Constants.API_URL + "/audio-test", {
-                  base64data: base64data,
-                })
-                .then((response) => {
-                  console.log(response);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+                // wav파일을 생성하기 위한 base64 인코딩된 string을 소켓으로 쏨.
+                stomp.send(
+                    "/pub/video/audio-sentiment",
+                    JSON.stringify({
+                      from: this.myId,
+                      base64data: base64data,
+                    })
+                );
+
+              };
             };
-          };
-        });
+          });
     },
 
     gett() {
       console.log(this.peers);
       console.log(this.connectingState);
-      console.log(chunks);
 
       axios
-        .get(Constants.API_URL + "/test")
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .get(Constants.API_URL + "/test")
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
 
     async startRecording() {
@@ -495,28 +502,35 @@ export default {
         this.isRecording = true;
 
         let runAutoAudioAPI = async () => {
+
+          // 녹음 시작
           mediaRecorder.start();
+
+          // 5000초만큼 기다렸다가,
           await this.waitTime(5000);
+
+          // 녹음 멈추기.
           mediaRecorder.stop();
         }
 
+        // 10초에 한번씩 socket을 쏴서 음성 판다.
         this.auto_audio_api_func = setInterval(() => {
-            runAutoAudioAPI();
-          }, 10000)
+          runAutoAudioAPI();
+        }, 10000)
 
-        //mediaRecorder.start();
         console.log(mediaRecorder.state);
       }
     },
 
-    waitTime(milliseconds){
+    waitTime(milliseconds) {
       return new Promise(resolve => setTimeout(() => resolve(), milliseconds));
     },
 
-
   },
 
-  mounted() {},
+  mounted() {
+
+  },
 };
 </script>
 
