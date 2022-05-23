@@ -68,11 +68,13 @@ export default {
       console.log("passsword = " + this.pass)
 
       const stringLoginData = JSON.stringify(this.$loginData);
+      console.log(stringLoginData)
       
     //  this.fetchData();
 
+      console.log('{"id":"' + this.id + '","pass":"' + this.pass + '"}')
       // DB id, pw 확인 후 페이지 이동해야 함
-      if(stringLoginData.includes('id":"' + this.id) && stringLoginData.includes('pass":"' + this.pass)) { 
+      if(stringLoginData.includes('{"id":"' + this.id + '","pass":"' + this.pass + '"}')) { 
         
         this.$cookies.set("idCookie", this.id);
         this.$cookies.set("passwordCookie", this.pass);     
