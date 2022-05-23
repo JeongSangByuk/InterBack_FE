@@ -4,15 +4,10 @@
         <div class="interviewee-list-box">
           <div class="interviewee-list-box__title">면접자 목록</div>
           
-            <button class="interviewee-list-name" @click="changeInterviewee(0)">박태순</button>
-            <button class="interviewee-list-name" @click="changeInterviewee(1)">정상벽</button>
-            <button class="interviewee-list-name" @click="changeInterviewee(2)">김채운</button>
-            <button class="interviewee-list-name" @click="changeInterviewee(3)">박윤경</button>
-         <!--
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(0)">박태순</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(1)">정상벽</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(2)">김채운</v-btn>
-            <v-btn class="interviewee-list-name" @click="changeInterviewee(3)">박윤경</v-btn>-->
+            <button class="interviewee-list-name" @click="[increase(0), changeInterviewee()]">박태순</button>
+            <button class="interviewee-list-name" @click="[increase(1), changeInterviewee()]">정상벽</button>
+            <button class="interviewee-list-name" @click="[increase(2), changeInterviewee()]">김채운</button>
+            <button class="interviewee-list-name" @click="[increase(3), changeInterviewee()]">박윤경</button>
           
         </div>
         <div class="information-container">
@@ -25,19 +20,23 @@
               
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
-                  <div v-if="index==0">이름: {{line[index]}}</div></div></div>
-             
-              <div class="basic-information-box__description" v-else>이름: 박태순</div>
-   <!--
-                <div v-for="(item, index) in user" :key="index">{{index}}-{{item[0]}}</div></div>     
-                -->             
+                  <div v-if="index==vuexIndex">이름: {{line[0]}}</div></div></div>        
+              <div class="basic-information-box__description" v-else>이름: 박태순</div> 
 
-<!-- <div class="basic-information-box__description">이름: 박태순</div>
- -->  
- 
-              <div class="basic-information-box__description">학교: 세종대학교</div>
-              <div class="basic-information-box__description">학과: 컴퓨터공학과</div>  
-              <div class="basic-information-box__description">생년월일: 19980101</div>
+              <div class="basic-information-box__description" v-if="user.length">
+                <div v-for="(line, index) in user" :key="index">
+                  <div v-if="index==vuexIndex">이름: {{line[1]}}</div></div></div> 
+              <div class="basic-information-box__description" v-else>학교: 세종대학교</div>
+
+              <div class="basic-information-box__description" v-if="user.length">
+                <div v-for="(line, index) in user" :key="index">
+                  <div v-if="index==vuexIndex">이름: {{line[2]}}</div></div></div> 
+              <div class="basic-information-box__description" v-else>학과: 컴퓨터공학과</div> 
+
+              <div class="basic-information-box__description" v-if="user.length">
+                <div v-for="(line, index) in user" :key="index">
+                  <div v-if="index==vuexIndex">이름: {{line[3]}}</div></div></div>  
+              <div class="basic-information-box__description" v-else>생년월일: 19980101</div>
             </div>
           </div>
           
@@ -84,14 +83,13 @@
 import {Chart, registerables} from 'chart.js';
 Chart.register(...registerables);
 
+import { computed, onMounted, toRef } from "vue";
+import { useStore } from "vuex";
+
 export default {
   name: 'InterviewAnalysis',
   created:function(){
-    console.log("!!! created userindex =", this.userIndex);
-
-    if(this.userIndex){
-      console.log("!!! if created userindex =", this.userIndex);
-    }
+    console.log("!!! created userindex =", this.vuexIndex);
   },
   
   mounted() {
@@ -100,17 +98,23 @@ export default {
     this.fillData('chart3','중립','중립 아님', 80, 20);
     
     this.userIndex = this.$route.query.userIndex;
-    console.log("!!! mounted : this userindex = ", this.userIndex);
-    console.log("!!! mounted : route query userindex = ", this.$route.query.userIndex);
+  },
+  setup(changeIndex) {       
+    const store = useStore();
+
+    const vuexIndex = computed(() => store.state.moduleUserIndex.index);
+    const gettinguserIndex = computed(() => store.getters["moduleUserIndex/getUserIndex"]);
+    const increase = (changeIndex) => store.commit("moduleUserIndex/setUserIndex", changeIndex);
+
+    return { vuexIndex, gettinguserIndex, increase };    
+
   },
 
   methods: {
     changeInterviewee(index){
-      console.log("!!! change Interviewee = ", index);
-      //this.$router.push({path:'/interview-analysis', name:'InterviewAnalysis', query: {userIndex: index} });
+      console.log("!!! change Interviewee = " , this.vuexIndex);
       
-      //this.userIndex = index;
-      //this.$router.go({path:'/interview-analysis', name:'InterviewAnalysis', query: {userIndex: index} });
+      this.$router.go({path:'/interview-analysis', name:'InterviewAnalysis', query: {userIndex: this.vuexIndex} });
     },
 
     fillData(chartId, label1, label2, data_true, data_false){

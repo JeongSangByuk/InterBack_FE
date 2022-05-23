@@ -6,7 +6,7 @@
       
         user index = {{ index }}
         user index getter = {{userIndex}}                
-        <button @click="increase">increase button</button>
+        <button @click="increase(2)">increase button</button>
     </div>
   </div>
 </template>
@@ -16,12 +16,12 @@ import { computed, onMounted, toRef } from "vue";
 import { useStore } from "vuex";
 
 export default {
-    setup() {       
+    setup(cnt) {       
         const store = useStore();
 
         const index = computed(() => store.state.moduleUserIndex.index);
         const userIndex = computed(() => store.getters["moduleUserIndex/getUserIndex"]);
-        const increase = () => store.commit("moduleUserIndex/setUserIndex", index.value + 1);
+        const increase = (cnt) => store.commit("moduleUserIndex/setUserIndex", cnt);
 
         return { index, userIndex, increase };    
 
