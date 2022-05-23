@@ -12,9 +12,32 @@
         </div>
         <div class="information-container">
           <div class="basic-information-container">
-            <img
-                  src="img/img_profile_photo_example.png"
-                  style="width: 150px; height: 170px; margin: 20px 0 0 20px"/>
+
+            <div v-if="this.vuexIndex == 0">
+              <img
+                src="img/img_profile_photo_example1.jpg"
+                style="width: 150px; height: 170px; margin: 20px 0 0 20px"/></div>
+
+            <div v-else-if="this.vuexIndex ==1">
+              <img
+                src="img/img_profile_photo_example2.jpg"
+                style="width: 150px; height: 170px; margin: 20px 0 0 20px"/></div>
+
+            <div v-else-if="this.vuexIndex ==2">
+              <img
+                src="img/img_profile_photo_example3.jpg"
+                style="width: 150px; height: 170px; margin: 20px 0 0 20px"/></div>
+
+            <div v-else-if="this.vuexIndex ==3">
+              <img
+                src="img/img_profile_photo_example4.png"
+                style="width: 150px; height: 170px; margin: 20px 0 0 20px"/></div>
+                
+            <div v-else>
+              <img
+                src="img/img_profile_photo_example4.png"
+                style="width: 150px; height: 170px; margin: 20px 0 0 20px"/></div>
+
             <div class="basic-information-box">
               <div class="basic-information-box__title">기본 정보</div>
               
@@ -25,17 +48,17 @@
 
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
-                  <div v-if="index==vuexIndex">이름: {{line[1]}}</div></div></div> 
+                  <div v-if="index==vuexIndex">학교: {{line[1]}}</div></div></div> 
               <div class="basic-information-box__description" v-else>학교: 세종대학교</div>
 
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
-                  <div v-if="index==vuexIndex">이름: {{line[2]}}</div></div></div> 
+                  <div v-if="index==vuexIndex">학과: {{line[2]}}</div></div></div> 
               <div class="basic-information-box__description" v-else>학과: 컴퓨터공학과</div> 
 
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
-                  <div v-if="index==vuexIndex">이름: {{line[3]}}</div></div></div>  
+                  <div v-if="index==vuexIndex">생년월일: {{line[3]}}</div></div></div>  
               <div class="basic-information-box__description" v-else>생년월일: 19980101</div>
             </div>
           </div>
@@ -44,14 +67,19 @@
             <div class="analysis-box">
               <div class="analysis-box__title">언어 분석</div> 
               <div class="analysis-result-box">                 
-                <div class="analysis-chart-box">                  
-                  <canvas id="chart1" width="50" height="50"></canvas>  
+                <div class="analysis-chart-box">                
+                  <div class="analysis-chart-box__score"> {{positiveScore}}</div>  
+                  <canvas id="chart1" width="50" height="50"></canvas>             
                 </div>                           
-                <div class="analysis-chart-box">                  
-                  <canvas id="chart2" width="50" height="50"></canvas>  
+                <div class="analysis-chart-box">               
+                  <div class="analysis-chart-box__score"> {{negativeScore}}</div>  
+                  <canvas id="chart2" width="50" height="50"></canvas>
                 </div>                             
                 <div class="analysis-chart-box">               
-                  <canvas id="chart3" width="50" height="50"></canvas> 
+                  <div class="analysis-chart-box__score"> {{neutralityScore}}</div>  
+                  <canvas id="chart3" width="50" height="50">
+                  </canvas> 
+                  
                 </div>
               </div>
             </div>          
@@ -89,15 +117,51 @@ import { useStore } from "vuex";
 export default {
   name: 'InterviewAnalysis',
   created:function(){
-    console.log("!!! created userindex =", this.vuexIndex);
+    console.log("!!! created vuexindex =", this.vuexIndex);
   },
   
   mounted() {
-    this.fillData('chart1','긍정','긍정 아님', 70, 30);
-    this.fillData('chart2','부정','부정 아님', 10, 90);    
-    this.fillData('chart3','중립','중립 아님', 80, 20);
+    if(this.vuexIndex == 0){
+      this.positiveScore = 34;
+      this.negativeScore = 10;
+      this.neutralityScore = 56;
+
+      this.fillData('chart1','긍정','긍정 아님', this.positiveScore, 100-this.positiveScore);
+      this.fillData('chart2','부정','부정 아님', this.negativeScore, 100-this.negativeScore);    
+      this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
+    }
+    if(this.vuexIndex == 1){
+
+      this.positiveScore = 23;
+      this.negativeScore = 17;
+      this.neutralityScore = 60;
+
+      this.fillData('chart1','긍정','긍정 아님', this.positiveScore, 100-this.positiveScore);
+      this.fillData('chart2','부정','부정 아님', this.negativeScore, 100-this.negativeScore);    
+      this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
+    }
+    if(this.vuexIndex == 2){
+
+      this.positiveScore = 29;
+      this.negativeScore = 6;
+      this.neutralityScore = 65;
+
+      this.fillData('chart1','긍정','긍정 아님', this.positiveScore, 100-this.positiveScore);
+      this.fillData('chart2','부정','부정 아님', this.negativeScore, 100-this.negativeScore);    
+      this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
+    }
+    if(this.vuexIndex == 3){
+
+      this.positiveScore = 38;
+      this.negativeScore = 16;
+      this.neutralityScore = 46;
+
+      this.fillData('chart1','긍정','긍정 아님', this.positiveScore, 100-this.positiveScore);
+      this.fillData('chart2','부정','부정 아님', this.negativeScore, 100-this.negativeScore);    
+      this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
+    }
     
-    this.userIndex = this.$route.query.userIndex;
+   // this.userIndex = this.$route.query.userIndex;
   },
   setup(changeIndex) {       
     const store = useStore();
@@ -187,7 +251,11 @@ export default {
         ['김채운','세종대학교','컴퓨터공학과','19980303'],
         ['박윤경','세종대학교','데이터사이언스학과','19980101']
       ],
-      userIndex: 0
+      positiveScore: 0,
+      negativeScore: 0,
+      neutralityScore: 0
+
+     // userIndex: 0
     }
   }
 };
