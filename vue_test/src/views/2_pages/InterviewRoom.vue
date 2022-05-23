@@ -336,7 +336,7 @@ export default {
             stomp.subscribe("/sub/video/audio-sentiment", (data) => {
 
               data = JSON.parse(data.body);
-              console.log(data['from']);
+              console.log(data['resultOfAudioSentiment']['p']);
               this.$refs[data['from']].positiveEmotionValue = parseInt(data['resultOfAudioSentiment']['p']);
               this.$refs[data['from']].negativeEmotionValue = parseInt(data['resultOfAudioSentiment']['n']);
               this.$refs[data['from']].updateChart();
@@ -502,14 +502,21 @@ export default {
         this.isRecording = true;
 
         let runAutoAudioAPI = async () => {
+
+          // 녹음 시작
           mediaRecorder.start();
-          await this.waitTime(2000);
+
+          // 5000초만큼 기다렸다가,
+          await this.waitTime(5000);
+
+          // 녹음 멈추기.
           mediaRecorder.stop();
         }
 
+        // 10초에 한번씩 socket을 쏴서 음성 판다.
         this.auto_audio_api_func = setInterval(() => {
           runAutoAudioAPI();
-        }, 5000)
+        }, 10000)
 
         console.log(mediaRecorder.state);
       }
