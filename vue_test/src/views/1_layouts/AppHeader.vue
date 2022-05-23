@@ -34,6 +34,10 @@ export default {
       this.$cookies.remove("idCookie")
       this.$cookies.remove("passCookie")
 
+      
+      alert("로그아웃되었습니다.")
+
+      this.$router.replace({name:'Home'})
     }
   }
 };

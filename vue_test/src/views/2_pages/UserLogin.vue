@@ -78,6 +78,7 @@ export default {
         console.log("!!!!! 로그인 실패");
         
         this.$router.go();
+        alert("아이디, 비밀번호를 확인해주세요.")
       }      
     },
 
