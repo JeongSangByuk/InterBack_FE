@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!--    <SelfIntroductionModal/>-->
     <div class="video-container">
       <p class="video-container__title">
         카카오 BE 그룹3 면접장
@@ -67,13 +68,16 @@
       <div class="interviwee-container">
         <Interviewee
             ref="interviewee1"
+            @click="changeSelfIntroductionInfo('손모은')"
             :userName="'손모은'"
             :connectingState="connectingState"
             :userId="'interviewee1'"
+
         />
 
         <Interviewee
             ref="interviewee2"
+            @click="changeSelfIntroductionInfo('이윤환')"
             :userName="'이윤환'"
             :connectingState="connectingState"
             :userId="'interviewee2'"
@@ -176,7 +180,7 @@
         <template v-slot:content>
           <div class="text-record-container">
             <div class="text-record-header">
-              <p class="text-record-header__title">질문 추천</p>
+              <p class="text-record-header__title">자소서 & 질문 추천</p>
               <div class="text-record-bnt-group">
                 <img src="img/chat.png" @click="$refs.slides.goToSlide(0)"/>
                 <img src="img/comment.png" @click="$refs.slides.goToSlide(1)"/>
@@ -189,8 +193,14 @@
             </div>
             <div class="text-record-list">
               <div class="chat">
-                <p class="chat__name">정상벽벽</p>
-                <p class="chat__contents">안녕하세요.요.</p>
+                <p class="chat__name">{{ this.selectedUser['name'] }} 자소서</p>
+                <p class="chat__self-introduction-contents">{{ this.selectedUser['selfIntroductionText'] }}</p>
+                <br/>
+                <p class="chat__name">자소서 기반 질문 추천</p>
+
+                <p class="chat__self-introduction-contents">{{ this.selectedUser['selfIntroductionText1'] }}</p>
+                <p v-for="(item,i) in this.selectedUser['questionRecommendation']" v-bind:key="item"
+                   class="chat__self-introduction-contents">{{ i + 1 }}. {{ item + '\n' }}</p>
               </div>
             </div>
           </div>
@@ -207,6 +217,7 @@ import Stomp from "webstomp-client";
 import Constants from "../../utils/Constants";
 import Interviewer from "../3_components/InterViewer";
 import Interviewee from "../3_components/InterViewee";
+import SelfIntroductionModal from "@/views/2_pages/SelfIntroductionModal";
 import {VueperSlides, VueperSlide} from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
 import axios from "axios";
@@ -222,6 +233,7 @@ export default {
   components: {
     Interviewer,
     Interviewee,
+    //SelfIntroductionModal,
     VueperSlides,
     VueperSlide,
   },
@@ -235,17 +247,25 @@ export default {
       isRecording: false,
       auto_audio_api_func: null,
 
+
+      selectedUser: {
+        name: '손모은',
+        selfIntroductionText: Constants.SELF_INTRODUCTION_TEST_1,
+        questionRecommendation: Constants.QUESTION_RECOMMENDATION_1,
+      },
+
+
       connectingState:
       // before - connected
           {
-            interviewer1 : "before",
-            interviewer2 : "before",
-            interviewer3 : "before",
-            interviewer4 : "before",
-            interviewee1 : "before",
-            interviewee2 : "before",
-            interviewee3 : "before",
-            interviewee4 : "before",
+            interviewer1: "before",
+            interviewer2: "before",
+            interviewer3: "before",
+            interviewer4: "before",
+            interviewee1: "before",
+            interviewee2: "before",
+            interviewee3: "before",
+            interviewee4: "before",
           },
     };
   },
@@ -254,7 +274,6 @@ export default {
     connect() {
       socket = new SockJS(Constants.API_URL + "/socket");
       stomp = Stomp.over(socket);
-
       stomp.connect(
           {},
           // connectCallback
@@ -524,6 +543,20 @@ export default {
 
     waitTime(milliseconds) {
       return new Promise(resolve => setTimeout(() => resolve(), milliseconds));
+    },
+
+    changeSelfIntroductionInfo(name) {
+
+      this.selectedUser['name'] = name;
+
+      if (name === '손모은') {
+        console.log(name);
+        this.selectedUser['selfIntroductionText'] = Constants.SELF_INTRODUCTION_TEST_1;
+        this.selectedUser['questionRecommendation'] = Constants.QUESTION_RECOMMENDATION_1;
+      } else{
+        this.selectedUser['selfIntroductionText'] = Constants.SELF_INTRODUCTION_TEST_2;
+        this.selectedUser['questionRecommendation'] = Constants.QUESTION_RECOMMENDATION_2;
+      }
     },
 
   },

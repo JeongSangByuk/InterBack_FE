@@ -1,7 +1,7 @@
 @import "./../common.scss";
 
 img {
-  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizeQuality;
   backface-visibility: hidden;
 }
 
@@ -150,6 +150,11 @@ img {
   &__contents {
     font-size: 16px;
   }
+
+  &__self-introduction-contents {
+    font-size: 16px;
+    white-space: pre-line;
+  }
 }
 
 .interviwer-container {
@@ -180,7 +185,8 @@ img {
   min-width: 130px;
   margin: 0 10px 0 10px;
   border-radius: 20px;
-  box-shadow: $shadow-interview-room-item;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 15px -3px,
+  rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;
   background-color: $color-main-sub2;
   align-items: center;
 
@@ -228,6 +234,11 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.2s linear;
+  &:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+  }
 
   &__name {
     position: relative;
