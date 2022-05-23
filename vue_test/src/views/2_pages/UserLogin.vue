@@ -42,6 +42,9 @@
 
 <script>
 export default {
+  created(){
+    console.log("logindata = ", this.$loginData);
+  },
 
   data() {
     return{
@@ -62,15 +65,23 @@ export default {
       this.$cookies.set("idCookie", this.id);
       this.$cookies.set("passwordCookie", this.pass);
       
-      // DB id, pw 확인 후 페이지 이동해야 함
-      this.$router.replace({name:'Home'})
+    //  this.fetchData();
 
-      this.fetchData();
+      console.log(this.$loginData.some(this.id));
+      console.log(this.$loginData[0][1] == this.pass);
+
+      if(this.$loginData.includes(this.id) && this.$loginData.includes(this.pass)) {        
+        // DB id, pw 확인 후 페이지 이동해야 함
+        this.$router.replace({name:'Home'})
+      }
+      else{
+        console.log("!!!!! 로그인 실패");
+      }
+
+      
       /*
       if(this.idSave) {
-        console.log("idsave true")
-        
-        this.$cookies.set("idCookie", this.id);
+        console.log("idsave true")        
       }
       */
 
@@ -79,13 +90,13 @@ export default {
     fetchData() {
       console.log("fetch Data")
       
-			this.$axios.post("3.39.74.53/api/user") //post로 바꾸기?
+			this.$axios.post("http://3.39.74.53:8080/api/user") 
       .then((response)=>{
-				console.log(response.data);
+				console.log("response data =",response.data);
 			})
       
 			.then((err)=>{
-				console.log(err);
+				console.log("err=",err);
 			})
       
 		}

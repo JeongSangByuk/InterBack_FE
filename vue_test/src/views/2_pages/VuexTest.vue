@@ -24,7 +24,6 @@ export default {
         const increase = (cnt) => store.commit("moduleUserIndex/setUserIndex", cnt);
 
         return { index, userIndex, increase };    
-
     }
 };
 </script>

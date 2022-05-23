@@ -6,10 +6,16 @@ import axios from 'axios'
 import VueCookies from 'vue-cookies'
 
 import store from "./store";
+import { ids } from 'webpack'
 
 const app = createApp(App)
 
 app.config.globalProperties.$axios = axios
+app.config.globalProperties.$loginData =
+
+//[{id:'aaaa', pass:'1111'},{id:'bbbb', pass:'2222'},{id:'cccc', pass:'3333'}]
+ [["aaaa","1111"],["bbbb","2222"],["cccc","3333"]]
+
 
 app.use(VueCookies,{
         expireTimes: "10d",
