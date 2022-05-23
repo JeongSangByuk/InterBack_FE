@@ -43,8 +43,6 @@
 <script>
 export default {
   created(){
-    console.log("logindata = ", this.$loginData);
-
     if(this.$cookies.isKey("idCookie")){      
       console.log("login 완료")
       this.$router.replace({name:'Home'})
@@ -54,25 +52,20 @@ export default {
   data() {
     return{
       // id, pw에 해당하는 쿠키 가져오기
-      id: this.$cookies.get("idCookie"),
-      idSave:false,
-      pass: this.$cookies.get("passwordCookie"),
-      passwordSave: false
+      id: "",
+      pass: "",
     };
   },
   
   methods : {
     loginResult() {
-      console.log('login Button Click')
       console.log("id = " + this.id)
       console.log("passsword = " + this.pass)
 
       const stringLoginData = JSON.stringify(this.$loginData);
-      console.log(stringLoginData)
       
     //  this.fetchData();
 
-      console.log('{"id":"' + this.id + '","pass":"' + this.pass + '"}')
       // DB id, pw 확인 후 페이지 이동해야 함
       if(stringLoginData.includes('{"id":"' + this.id + '","pass":"' + this.pass + '"}')) { 
         
@@ -83,15 +76,10 @@ export default {
       }
       else{
         console.log("!!!!! 로그인 실패");
+        
+        this.$router.go();
       }
-
       
-      /*
-      if(this.idSave) {
-        console.log("idsave true")        
-      }
-      */
-
     },
 
     fetchData() {
@@ -103,7 +91,7 @@ export default {
 			})
       
 			.then((err)=>{
-				console.log("err=",err);
+				console.log("err =",err);
 			})
       
 		}
