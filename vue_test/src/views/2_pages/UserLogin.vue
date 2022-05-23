@@ -78,8 +78,7 @@ export default {
         console.log("!!!!! 로그인 실패");
         
         this.$router.go();
-      }
-      
+      }      
     },
 
     fetchData() {
@@ -97,7 +96,6 @@ export default {
 		}
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
