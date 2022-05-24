@@ -46,6 +46,9 @@
   background-color: white;
   box-shadow: $shadow-default;
   border-radius: 5px;
+  border-style: hidden;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
 }
 
 .information-container{
@@ -137,8 +140,15 @@
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: center;  
-  align-items: center;
+  position: relative;
+
+  &__score {
+    position: absolute;
+    font-size: 25px;
+    color: $color-main;
+    padding-left: 45%;
+    padding-top: 20%;
+  }
 }
 
 
