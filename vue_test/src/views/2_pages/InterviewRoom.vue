@@ -504,13 +504,13 @@ export default {
 
         let runAutoAudioAPI = async () => {
           mediaRecorder.start();
-          await this.waitTime(1000);
+          await this.waitTime(5000);
           mediaRecorder.stop();
         }
 
         this.auto_audio_api_func = setInterval(() => {
             runAutoAudioAPI();
-          }, 2000)
+          }, 10000)
 
         //mediaRecorder.start();
         console.log(mediaRecorder.state);

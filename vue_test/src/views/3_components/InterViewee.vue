@@ -16,7 +16,7 @@
     <div class="interviewee__emotion-box">
       <p>감정 분석</p>
       <div class="analysis-chart-box">
-        <canvas id="chart11" width="50" height="50" ref="chart"></canvas>
+        <canvas id="chart11" width="40" height="40" ref="chart"></canvas>
       </div>
     </div>
 
@@ -37,8 +37,8 @@ export default {
   props: ["connectingState", "userId", "userName",],
   data() {
     return{
-    t1 : 30,
-    t2 : 70,}
+    t1 : 50,
+    t2 : 50,}
   },
   methods:{
 
