@@ -1,7 +1,7 @@
 @import "./../common.scss";
 
 img {
-  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizeQuality;
   backface-visibility: hidden;
 }
 
@@ -20,10 +20,15 @@ img {
 
   width: 100%;
   min-width: 600px;
+
   &__title {
     font-size: 30px;
     font-weight: $font-bold;
     margin: 10px 0 10px 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
@@ -136,6 +141,7 @@ img {
 
 .chat {
   margin: 0 0 20px 0;
+
   &__name {
     width: fit-content;
     height: fit-content;
@@ -149,6 +155,11 @@ img {
 
   &__contents {
     font-size: 16px;
+  }
+
+  &__self-introduction-contents {
+    font-size: 16px;
+    white-space: pre-line;
   }
 }
 
@@ -180,7 +191,8 @@ img {
   min-width: 130px;
   margin: 0 10px 0 10px;
   border-radius: 20px;
-  box-shadow: $shadow-interview-room-item;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 15px -3px,
+  rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;
   background-color: $color-main-sub2;
   align-items: center;
 
@@ -228,6 +240,12 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.2s linear;
+
+  &:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+  }
 
   &__name {
     position: relative;
@@ -291,4 +309,34 @@ img {
 .video-item {
   height: 100%;
   background-color: transparent;
+}
+
+.record-container{
+
+  background: #5ebc88;
+  border-radius: 30px;
+  width: 120px;
+  margin: 4px 10px 4px 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  :hover{
+    cursor: pointer;
+  }
+
+  &__img {
+    width: 25px;
+    height: 25px;
+  }
+
+  p{
+    color: white;
+    font-size: 15px;
+    margin-right: 5px;
+  }
+
+
 }

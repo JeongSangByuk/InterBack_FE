@@ -1,22 +1,22 @@
 <template>
   <div class="interviewee">
-    <p class="interviewee__name">면접자. {{userName}}</p>
+    <p class="interviewee__name">면접자. {{ userName }}</p>
     <div class="interviewee__video-container">
       <video
-        v-show="connectingState[userId] === 'connected'"
-        ref="video"
-        autoplay
+          v-show="connectingState[userId] === 'connected'"
+          ref="video"
+          autoplay
       ></video>
       <img
-        v-show="connectingState[userId] === 'before'"
-        src="img/img_user_interview_female.png"
+          v-show="connectingState[userId] === 'before'"
+          src="img/img_user_interview_female.png"
       />
     </div>
 
     <div class="interviewee__emotion-box">
       <p>감정 분석</p>
       <div class="analysis-chart-box">
-        <canvas id="chart11" width="40" height="40" ref="chart"></canvas>
+        <canvas v-bind:id= "userId + '_chart'" width="50" height="50" />
       </div>
     </div>
 
@@ -29,37 +29,39 @@
 <script>
 
 import {Chart, registerables} from 'chart.js';
-Chart.register(...registerables);
 
-let chart1;
+Chart.register(...registerables);
 
 export default {
   props: ["connectingState", "userId", "userName",],
   data() {
-    return{
-    t1 : 50,
-    t2 : 50,}
+    return {
+      positiveEmotionValue: 50,
+      negativeEmotionValue: 50,
+    }
   },
-  methods:{
+  methods: {
 
-    updateChart(){
-      chart1.data.datasets[0].data[0] = this.t1;
-      chart1.data.datasets[0].data[1] = this.t2;
-      chart1.update();
+    updateChart() {
+      this.chart1.data.datasets[0].data[0] = this.positiveEmotionValue;
+      this.chart1.data.datasets[0].data[1] = this.negativeEmotionValue;
+      this.chart1.update();
     },
 
-    fillData(chartId, label1, label2, data_true, data_false){
+    fillData(chartId, label1, label2) {
+
       const ctx = document.getElementById(chartId).getContext('2d');
-      chart1 = new Chart(ctx, {
-        type:'doughnut',
-        data:{
-          labels:[label1, label2],
-          datasets:[
+      this.chart1 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          chart1:null,
+          labels: [label1, label2],
+          datasets: [
             {
-              backgroundColor:[
-                "#5ebc88","#e1f8eb"
+              backgroundColor: [
+                "#5ebc88", "#e1f8eb"
               ],
-              data: [this.t1, this.t2]
+              data: [this.positiveEmotionValue, this.negativeEmotionValue]
             }
           ]
 
@@ -83,7 +85,7 @@ export default {
             },
             tooltip: {
               boxWidth: 10,
-              bodyFont: { size: 10 }
+              bodyFont: {size: 10}
             }
           },
 
@@ -92,7 +94,7 @@ export default {
           layout: {
             padding: {
               top: 20,
-              bottom:20
+              bottom: 20
             }
           },
           elements: {
@@ -109,7 +111,7 @@ export default {
   },
 
   mounted() {
-    //this.fillData('chart11','긍정','긍정 아님', this.t1, this.t2);
+    this.fillData(this.userId + '_chart','긍정','긍정 아님');
   }
 };
 </script>

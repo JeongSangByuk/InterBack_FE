@@ -9,6 +9,7 @@ import InterviewList from "@/views/2_pages/InterviewList";
 import InterviewAnalysis from "@/views/2_pages/InterviewAnalysis";
 
 import WordcloudTest from "@/views/2_pages/WordcloudTest";
+import VuexTest from "@/views/2_pages/VuexTest";
 
 const routes = [
   {
@@ -56,6 +57,11 @@ const routes = [
     path: "/wordcloud-test",
     name: "WordcloudTest",
     component: WordcloudTest,
+  },
+  {
+    path: "/vuex-test",
+    name: "VuexTest",
+    component: VuexTest,
   },
 ];
 

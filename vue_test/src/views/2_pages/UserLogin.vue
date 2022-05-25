@@ -42,56 +42,61 @@
 
 <script>
 export default {
+  created(){
+    if(this.$cookies.isKey("idCookie")){      
+      console.log("login 완료")
+      this.$router.replace({name:'Home'})
+    }
+  },
 
   data() {
     return{
       // id, pw에 해당하는 쿠키 가져오기
-      id: this.$cookies.get("idCookie"),
-      idSave:false,
-      pass: this.$cookies.get("passwordCookie"),
-      passwordSave: false
+      id: "",
+      pass: "",
     };
   },
   
   methods : {
     loginResult() {
-      console.log('login Button Click')
       console.log("id = " + this.id)
       console.log("passsword = " + this.pass)
 
-      this.$cookies.set("idCookie", this.id);
-      this.$cookies.set("passwordCookie", this.pass);
+      const stringLoginData = JSON.stringify(this.$loginData);
       
-      // DB id, pw 확인 후 페이지 이동해야 함
-      this.$router.replace({name:'Home'})
+    //  this.fetchData();
 
-      this.fetchData();
-      /*
-      if(this.idSave) {
-        console.log("idsave true")
+      // DB id, pw 확인 후 페이지 이동해야 함
+      if(stringLoginData.includes('{"id":"' + this.id + '","pass":"' + this.pass + '"}')) { 
         
         this.$cookies.set("idCookie", this.id);
-      }
-      */
+        this.$cookies.set("passwordCookie", this.pass);     
 
+        this.$router.replace({name:'Home'})
+      }
+      else{
+        console.log("!!!!! 로그인 실패");
+        
+        this.$router.go();
+        alert("아이디, 비밀번호를 확인해주세요.")
+      }      
     },
 
     fetchData() {
       console.log("fetch Data")
       
-			this.$axios.get("http://localhost:8080/api/user") //post로 바꾸기?
+			this.$axios.post("http://3.39.74.53:8080/api/user") 
       .then((response)=>{
-				console.log(response.data);
+				console.log("response data =",response.data);
 			})
       
 			.then((err)=>{
-				console.log(err);
+				console.log("err =",err);
 			})
       
 		}
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
