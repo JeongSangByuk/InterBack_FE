@@ -12,7 +12,7 @@
       </div>
     </router-link>
 
-    <router-link to="/video-test">
+    <router-link to="/interview-list">
       <div class="header__list">
         <img src="img/logo_list.png" />
       </div>

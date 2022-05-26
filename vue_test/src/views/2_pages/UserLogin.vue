@@ -64,7 +64,7 @@ export default {
 
       const stringLoginData = JSON.stringify(this.$loginData);
       
-    //  this.fetchData();
+  //    this.fetchData();
 
       // DB id, pw 확인 후 페이지 이동해야 함
       if(stringLoginData.includes('{"id":"' + this.id + '","pass":"' + this.pass + '"}')) { 
@@ -85,7 +85,7 @@ export default {
     fetchData() {
       console.log("fetch Data")
       
-			this.$axios.post("http://3.39.74.53:8080/api/user") 
+			this.$axios.get("http://3.39.74.53:8080/api/user/1") 
       .then((response)=>{
 				console.log("response data =",response.data);
 			})
