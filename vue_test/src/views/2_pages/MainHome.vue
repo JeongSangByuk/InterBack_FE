@@ -11,47 +11,47 @@
 
     <div class="contents">
       <div class="contents__sub">
-        <router-link to="/room-creation">
-          <div class="room-box">
-            <img src="img/img_make_room.png" />
+        <div class="room-box" @click="changePage('room-creation')">
+          <img src="img/img_make_room.png"/>
 
-            <p class="room-box__title">면접 생성</p>
-            <p class="room-box__subtitle">
-              면접장을 생성하여<br />
-              면접관으로 참여합니다.
-            </p>
-            <p class="room-box__arrow">→</p>
-          </div>
-        </router-link>
+          <p class="room-box__title">면접 생성</p>
+          <p class="room-box__subtitle">
+            면접장을 생성하여<br/>
+            면접관으로 참여합니다.
+          </p>
+          <p class="room-box__arrow">→</p>
+        </div>
       </div>
 
       <div class="contents__sub">
-        <router-link to="/room-entry">
+        <div class="room-box" @click="changePage('room-entry')">
+
           <div class="room-box">
-            <img src="img/img_enter_room.png" />
+            <img src="img/img_enter_room.png"/>
 
             <p class="room-box__title">면접 참여</p>
             <p class="room-box__subtitle">
-              생성된 면접방에<br />
+              생성된 면접방에<br/>
               참여합니다.
             </p>
             <p class="room-box__arrow">→</p>
           </div>
-        </router-link>
+        </div>
       </div>
 
       <div class="contents__sub">
-        <router-link to="/interview-list">
+
+        <div class="room-box" @click="changePage('interview-list')">
           <div class="room-box">
-            <img src="img/img_history_room.png" />
+            <img src="img/img_history_room.png"/>
 
             <p class="room-box__title">면접 관리</p>
             <p class="room-box__subtitle">
-              면접 기록과 일정의<br />다양한 정보를 관리합니다.
+              면접 기록과 일정의<br/>다양한 정보를 관리합니다.
             </p>
             <p class="room-box__arrow">→</p>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +60,18 @@
 <script>
 export default {
   components: {},
+
+  methods: {
+    changePage(pageName) {
+
+      if (!this.$cookies.isKey("idCookie")) {
+        alert("로그인을 완료해주세요.");
+        return;
+      }
+
+      this.$router.push(pageName);
+    }
+  }
 };
 </script>
 

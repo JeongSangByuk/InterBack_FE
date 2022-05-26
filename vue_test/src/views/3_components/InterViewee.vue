@@ -57,11 +57,11 @@ export default {
       let path = "";
 
 
-      if (this.userId !== "interviewee1" && this.userId !== "interviewee2") {
+      if (this.userId !== "bbbb" && this.userId !== "cccc") {
         return;
       }
 
-      if(this.userId === "interviewee1"){
+      if(this.userId === "bbbb"){
       if(src.includes("프로젝트") || src.includes("상용화"))
         path = "img/word_cloud/b_1.jpg";
       else if(src.includes("코로나") || src.includes("마스크") || src.includes("앱"))
@@ -69,7 +69,7 @@ export default {
       else if(src.includes("디자인") || src.includes("인터페이스") || src.includes("데이터"))
         path = "img/word_cloud/b_3.jpg";
       }
-      else{
+      else if(this.userId === "cccc"){
         if(src.includes("프로세스") || src.includes("개발"))
           path = "img/word_cloud/c_1.jpg";
         else if(src.includes("인덱스") || src.includes("데이터베이스") || src.includes("장점"))

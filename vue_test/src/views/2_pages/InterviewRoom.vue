@@ -3,32 +3,43 @@
     <!--    <SelfIntroductionModal/>-->
     <div class="video-container">
       <div class="video-container__title">
-        카카오 BE 그룹3 면접장
+        AB전자 1차 면접장
 
-        <div>
+<!--        <div>-->
 
-          <button type="button" class="btn btn-primary" @click="userSet('interviewer1')">
-            user1
-          </button>
+<!--          <button type="button" class="btn btn-primary" @click="userSet('aaaa')">-->
+<!--            user1-->
+<!--          </button>-->
 
-          <button type="button" class="btn btn-primary" @click="userSet('interviewer2')">
-            user2
-          </button>
+<!--          <button type="button" class="btn btn-primary" @click="userSet('bbbb')">-->
+<!--            user3-->
+<!--          </button>-->
 
-          <button type="button" class="btn btn-primary" @click="userSet('interviewee1')">
-            user3
-          </button>
+<!--          <button type="button" class="btn btn-primary" @click="userSet('cccc')">-->
+<!--            user4-->
+<!--          </button>-->
 
-          <button type="button" class="btn btn-primary" @click="userSet('interviewee2')">
-            user4
-          </button>
-
-          <button type="button" class="btn btn-primary" @click="gett()">
-            test
-          </button>
-        </div>
+<!--          <button type="button" class="btn btn-primary" @click="gett()">-->
+<!--            test-->
+<!--          </button>-->
+<!--        </div>-->
 
         <div style="display: flex; flex-direction: row">
+
+          <div class="record-container"
+               ref="enter-container"
+               @click="changeEnterState()">
+            <img
+                class="record-container__img"
+                src="img/enter.png"
+                ref="enter_img"
+                style="margin-right: 3px"
+            />
+
+            <p ref="enter_text">
+              입장하기
+            </p>
+          </div>
 
           <div class="record-container"
                ref="video-container"
@@ -64,10 +75,10 @@
 
       <div class="interviwer-container">
         <Interviewer
-            ref="interviewer1"
+            ref="aaaa"
             :userName="'정상벽'"
             :connectingState="connectingState"
-            :userId="'interviewer1'"
+            :userId="'aaaa'"
         />
 
         <Interviewer
@@ -94,20 +105,20 @@
 
       <div class="interviwee-container">
         <Interviewee
-            ref="interviewee1"
+            ref="bbbb"
             @click="changeSelfIntroductionInfo('손모은')"
             :userName="'손모은'"
             :connectingState="connectingState"
-            :userId="'interviewee1'"
+            :userId="'bbbb'"
 
         />
 
         <Interviewee
-            ref="interviewee2"
+            ref="cccc"
             @click="changeSelfIntroductionInfo('이윤환')"
             :userName="'이윤환'"
             :connectingState="connectingState"
-            :userId="'interviewee2'"
+            :userId="'cccc'"
         />
 
         <Interviewee
@@ -271,9 +282,9 @@ export default {
     return {
 
       user: {
-        interviewer1: '정상벽',
-        interviewee1: '손모은',
-        interviewee2: '이윤환',
+        aaaa: '정상벽',
+        bbbb: '손모은',
+        cccc: '이윤환',
       },
 
       myId: "",
@@ -299,12 +310,12 @@ export default {
       connectingState:
       // before - connected
           {
-            interviewer1: "before",
+            aaaa: "before",
             interviewer2: "before",
             interviewer3: "before",
             interviewer4: "before",
-            interviewee1: "before",
-            interviewee2: "before",
+            bbbb: "before",
+            cccc: "before",
             interviewee3: "before",
             interviewee4: "before",
           },
@@ -397,6 +408,11 @@ export default {
 
               data = JSON.parse(data.body);
               console.log(data['resultOfAudioSentiment']['p']);
+
+
+              if (data['from'] !== 'aaaa' && data['from'] !== 'bbbb')
+                return;
+
               this.$refs[data['from']].positiveEmotionValue = parseInt(data['resultOfAudioSentiment']['p']);
               this.$refs[data['from']].negativeEmotionValue = parseInt(data['resultOfAudioSentiment']['n']);
               this.$refs[data['from']].updateChart();
@@ -413,6 +429,10 @@ export default {
                 return;
 
               this.sttList.push({name: this.user[data['from']], text: data["text"]});
+
+              if (data['from'] !== 'bbbb' && data['from'] !== 'cccc')
+                return;
+
               this.$refs[data['from']].changeWordcloudImg(data["text"]);
 
             })
@@ -513,10 +533,9 @@ export default {
       this.peers.push([peer, this.myId, callerId]);
     },
 
-    async userSet(id) {
-      this.myId = id;
-      this.connectingState[this.myId] = "connected";
+    async userSet() {
 
+      this.connectingState[this.myId] = "connected";
       await register(await connect());
 
       await navigator.mediaDevices
@@ -545,15 +564,6 @@ export default {
               reader.onloadend = () => {
                 base64data = reader.result;
 
-                // wav파일을 생성하기 위한 base64 인코딩된 string을 소켓으로 쏨.
-                // stomp.send(
-                //     "/pub/video/audio-sentiment",
-                //     JSON.stringify({
-                //       from: this.myId,
-                //       base64data: base64data,
-                //     })
-                // );
-
                 // stt 소켓 쏘기
                 stomp.send(
                     "/pub/video/stt",
@@ -563,6 +573,17 @@ export default {
                     })
                 );
 
+                if (this.myId !== 'bbbb' && this.myId !== 'cccc')
+                  return;
+
+                // wav파일을 생성하기 위한 base64 인코딩된 string을 소켓으로 쏨.
+                stomp.send(
+                    "/pub/video/audio-sentiment",
+                    JSON.stringify({
+                      from: this.myId,
+                      base64data: base64data,
+                    })
+                );
               };
             };
           });
@@ -590,13 +611,35 @@ export default {
           });
     },
 
+    changeEnterState() {
+
+      if (this.isRecordingVideo) {
+        this.$refs["enter_img"].src = "img/enter.png";
+        this.$refs["enter_text"].innerText = "입장하기";
+        this.$refs["enter-container"].style.background = "#5ebc88";
+        this.isRecordingVideo = false;
+        this.$router.go({
+          path: "/",
+          force: true
+        });
+
+      } else {
+        this.$refs["enter_img"].src = "img/enter_x.png";
+        this.$refs["enter_text"].innerText = "퇴장하기";
+        this.$refs["enter-container"].style.background = "#ff6f6f";
+        this.isRecordingVideo = true;
+        this.userSet();
+      }
+    },
+
     changeVideoState() {
 
       if (this.isRecordingVideo) {
         this.$refs["video_img"].src = "img/video.png";
-        this.$refs["video_text"].innerText = "비디오 키기";
+        this.$refs["video_text"].innerText = "비디오 켜기";
         this.$refs["video-container"].style.background = "#5ebc88";
         this.isRecordingVideo = false;
+
       } else {
         this.$refs["video_img"].src = "img/video_x.png";
         this.$refs["video_text"].innerText = "비디오 끄기";
@@ -610,7 +653,7 @@ export default {
       if (this.isRecordingMicro) {
         // recording stop
         this.$refs["micro_img"].src = "img/micro.png";
-        this.$refs["micro_text"].innerText = "마이크 키기";
+        this.$refs["micro_text"].innerText = "마이크 켜기";
         this.$refs["micro-container"].style.background = "#5ebc88";
         this.isRecordingMicro = false;
         mediaRecorder.stop();
@@ -680,6 +723,13 @@ export default {
 
   mounted() {
 
+    if(!this.$cookies.isKey("idCookie")){
+      alert("로그인을 완료한 후 시도해주세요.");
+      this.$router.replace({name:'Home'})
+      return;
+    }
+
+    this.myId = this.$cookies.get('idCookie');
   },
 };
 </script>

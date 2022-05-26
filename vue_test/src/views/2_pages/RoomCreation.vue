@@ -17,6 +17,14 @@
           />
         </div>
 
+        <div class="creation-room-form">
+          <p class="creation-room-form__title">면접 참여자 ID</p>
+          <input
+              class="creation-room-form__input"
+              placeholder="면접 참여자 ID를 콤마(,)로 구분해서 입력해주세요(EX. aaa,bbb,ccc)"
+          />
+        </div>
+
         <!-- pw -->
         <div class="creation-room-form">
           <p class="creation-room-form__title">입장 비밀 번호</p>
