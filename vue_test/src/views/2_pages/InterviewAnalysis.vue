@@ -106,6 +106,7 @@
                   src="img/wordcloud_result2.jpg"
                   style="width: 340px; height: 160px;"/>  
                 </div>
+                
               </div>
             </div>             
           </div>
