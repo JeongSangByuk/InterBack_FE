@@ -12,7 +12,6 @@ app.config.globalProperties.$axios = axios
 app.config.globalProperties.$loginData =
 
 [{id:'aaaa', pass:'1111'},{id:'bbbb', pass:'2222'},{id:'cccc', pass:'3333'}]
-// [['aaaa','1111'],['bbbb','222'],["cccc","3333"]]
 
 
 app.use(VueCookies,{

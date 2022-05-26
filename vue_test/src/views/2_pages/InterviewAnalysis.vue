@@ -4,8 +4,8 @@
         <div class="interviewee-list-box">
           <div class="interviewee-list-box__title">면접자 목록</div>
           
-            <button class="interviewee-list-name" @click="[increase(0), changeInterviewee()]">박태순</button>
-            <button class="interviewee-list-name" @click="[increase(1), changeInterviewee()]">정상벽</button>
+            <button class="interviewee-list-name" @click="[increase(0), changeInterviewee()]">손모은</button>
+            <button class="interviewee-list-name" @click="[increase(1), changeInterviewee()]">이윤환</button>
             <button class="interviewee-list-name" @click="[increase(2), changeInterviewee()]">김채운</button>
             <button class="interviewee-list-name" @click="[increase(3), changeInterviewee()]">박윤경</button>
           
@@ -44,7 +44,7 @@
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
                   <div v-if="index==vuexIndex">이름: {{line[0]}}</div></div></div>        
-              <div class="basic-information-box__description" v-else>이름: 박태순</div> 
+              <div class="basic-information-box__description" v-else>이름: 손모은</div> 
 
               <div class="basic-information-box__description" v-if="user.length">
                 <div v-for="(line, index) in user" :key="index">
@@ -86,8 +86,27 @@
             <div class="analysis-box">
               <div class="analysis-box__title">워드 클라우드</div>  
               <div class="analysis-result-box"> 
+                <div v-if="this.vuexIndex == 0">
+                <img
+                  src="img/wordcloud_result1.jpg"
+                  style="width: 340px; height: 160px;"/>  
+                </div>
+                <div v-if="this.vuexIndex == 1">
+                <img
+                  src="img/wordcloud_result2.jpg"
+                  style="width: 340px; height: 160px;"/>  
+                </div>
+                <div v-if="this.vuexIndex == 2">
+                <img
+                  src="img/wordcloud_result1.jpg"
+                  style="width: 340px; height: 160px;"/>  
+                </div>
+                <div v-if="this.vuexIndex == 3">
+                <img
+                  src="img/wordcloud_result2.jpg"
+                  style="width: 340px; height: 160px;"/>  
+                </div>
                 
-
               </div>
             </div>             
           </div>
@@ -95,11 +114,10 @@
         <div class="chatting-container">
           <div class="chatting-container__title">발언 내용</div>          
           <div class="chatting-box">
-            <div class="chatting-box__chat">면접관1: 자기소개 부탁합니다.</div>
-            <div class="chatting-box__chat">박태순: 안녕하세요. 저는 세종대 컴퓨터공학과를 졸업한 박태순입니다.</div>
-            <div class="chatting-box__chat">면접관2: 무슨 파트 개발에 관심이 많으신가요?</div>
-            <div class="chatting-box__chat">박태순: 저는 웹 백엔드 개발에 관심이 있습니다.</div>
-            <div class="chatting-box__chat">면접관1: 프로젝트 경험이 있나요?</div>
+            <div v-for="(line, index) in script" :key="index">
+              <div v-if="index %2==0" class="chatting-box__name"><b>{{script[index]}}</b></div>
+              <div v-else class="chatting-box__chat">{{script[index]}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -161,7 +179,6 @@ export default {
       this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
     }
     
-   // this.userIndex = this.$route.query.userIndex;
   },
   setup(changeIndex) {       
     const store = useStore();
@@ -246,14 +263,32 @@ export default {
     return{
       myChart: null,      
       user: [
-        ['박태순','세종대학교','컴퓨터공학과','19980101'],
-        ['정상벽','세종대학교','소프트웨어학과','19980202'],
+        ['손모은','세종대학교','컴퓨터공학과','19980101'],
+        ['이윤환','세종대학교','소프트웨어학과','19980202'],
         ['김채운','세종대학교','컴퓨터공학과','19980303'],
         ['박윤경','세종대학교','데이터사이언스학과','19980101']
       ],
       positiveScore: 0,
       negativeScore: 0,
-      neutralityScore: 0
+      neutralityScore: 0,
+
+      script: [
+        "면접관 정상벽:","프로젝트를 많이 해보셨다고 했는데, 본인이 수행한 프로젝트 중 상용화 가능한 프로젝트가 있나요?",
+        "면접자1 손모은:","안드로이드와 웹 기반으로 다양한 프로젝트를 참여했지만, 실제로 상용화 가능할 정도로 개발해 본적은 없습니다.",
+        "면접관 정상벽:","안드로이드로 진행한 프로젝트에 대해 설명해주세요.",
+        "면접자1 손모은: ","저는 코로나 시국에 마스크를 착용했는지 아닌지 판단하는 앱을 만들었습니다. 이때 디자인 패턴을 적용하는 경험을 해봤고 MVC 패턴을 적용해봤습니다.",
+        "면접관 정상벽: ","MVC 패턴에 대해서 설명해보세요.",
+        "면접자1 손모은: ","MVC 패턴은모델-뷰-컨트롤러로 구성됩니다. 사용자 인터페이스, 데이터 및 논리 제어를 구현하는데 널리 사용되는 소프트웨어 디자인 패턴입니다.",
+        "면접관 정상벽: ","폭포수 모델 개발론으로 협업을 해봤다고했는데, 워터폴 방식의 애자일 방식의 차이점은 뭔가요?",
+        "면접자2 이윤환: ","워터폴 방식은, 위에서 아래로 물이 떨어지는 것처럼 순차적으로 진행되는 프로세스이고, 애자일 방식은 스프린트라는 특정한 개발주기를 반복하는 프로세스입니다.",
+        "면접관 정상벽: ","DB설계를 해보셨다고 했는데, 데이터베이스에서 인덱스를 사용하는 이유 및 장단점에 대해 설명해주세요.",
+        "면접자2 이윤환: ","인덱스는 데이터베이스 테이블에 대한 검색 성능의 속도를 높여주는 장점이 있지만 정렬된 상태를 계속 유지시켜줘야 한다는 단점이 있습니다.",
+        "면접관 정상벽: ","RESTful이란 무엇이며, 이것에 대해서 아는대로 설명해보세요.",
+        "면접자2 이윤환: ","공부했던 부분이지만, 잘 기억이 나지 않습니다. 모르겠습니다.",
+        "면접관 정상벽: ","다들 고생많으셨습니다.",
+        "면접자1 손모은: ","감사합니다.",
+        "면접자2 이윤환: ","감사합니다."
+      ]
 
      // userIndex: 0
     }

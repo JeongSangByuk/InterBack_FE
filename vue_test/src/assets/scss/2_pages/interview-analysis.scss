@@ -23,10 +23,8 @@
     align-items: center;    
     min-width: 200px;
     background-color: $color-main-sub;
-    box-shadow: $shadow-default;
     width: 15vw;
     height: 100vh;
-    //margin: 0 0 0 10px
 
    &__title {
     margin-top: 50px;
@@ -44,8 +42,6 @@
   width: 150px;
   height: 30px;
   background-color: white;
-  box-shadow: $shadow-default;
-  border-radius: 5px;
   border-style: hidden;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
@@ -178,6 +174,7 @@
   width: 20vw;
   height: 100vh;
   margin-right: 5px;
+
   &__title {
     font-size: 18px;
     color: $color-main;
@@ -194,9 +191,16 @@
   width: 23vw;
   border: 3px solid $color-main;
   border-radius: 20px;
-  margin-bottom: 15px;
+  padding: 10px 3px 10px 3px;
+  overflow:auto;
+  margin-bottom: 12px;
+  
+  &__name {
+    font-size: 15px;
+    margin: 0px 10px 0px 15px;
+  }
   &__chat {
-    font-size: 16px;
-    margin: 10px 0 0 15px;
+    font-size: 14px;
+    margin: 0px 10px 10px 15px;
   }
 }
