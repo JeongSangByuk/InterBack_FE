@@ -155,19 +155,20 @@
                 />
               </div>
             </div>
+
             <div class="text-record-list">
-              <div v-for="i in 20" :key="i">
-                <div class="chat">
-                  <p class="chat__name">정상벽벽</p>
-                  <p class="chat__contents">안녕하세요.요.</p>
-                </div>
+              <div class="chat" v-for="chat in this.chatList" :key="chat">
+                <p class="chat__name">{{ chat.name }}</p>
+                <p class="chat__contents">{{ chat.text }}</p>
               </div>
             </div>
+
             <div class="chat-send-container">
-              <input class="chat-send-container__chat-input"/>
+              <input class="chat-send-container__chat-input" ref="chatInput"/>
               <img
                   class="chat-send-container__chat-bnt"
                   src="img/send-message.png"
+                  @click="this.sendChat()"
               />
             </div>
           </div>
@@ -195,7 +196,7 @@
             </div>
             <div class="text-record-list">
 
-              <div class="chat" v-for="chat in this.stt_list" :key="chat">
+              <div class="chat" v-for="chat in this.sttList" :key="chat">
                 <p class="chat__name">{{ chat.name }}</p>
                 <p class="chat__contents">{{ chat.text }}</p>
               </div>
@@ -284,7 +285,8 @@ export default {
       isRecordingVideo: false,
       auto_audio_api_func: null,
 
-      stt_list: [],
+      chatList:[],
+      sttList: [],
 
 
       selectedUser: {
@@ -410,10 +412,23 @@ export default {
               if (data["text"] === "")
                 return;
 
-              this.stt_list.push({name: this.user[data['from']], text: data["text"]});
+              this.sttList.push({name: this.user[data['from']], text: data["text"]});
               this.$refs[data['from']].changeWordcloudImg(data["text"]);
 
             })
+
+            // chat socket
+            stomp.subscribe("/sub/video/chat", (data) => {
+
+              data = JSON.parse(data.body);
+              console.log(data);
+
+              if (data["text"] === "")
+                return;
+
+              this.chatList.push({name: this.user[data['from']], text: data["text"]});
+
+            }),
 
             // socket join send
             stomp.send(
@@ -646,6 +661,19 @@ export default {
         this.selectedUser['selfIntroductionText'] = Constants.SELF_INTRODUCTION_TEST_2;
         this.selectedUser['questionRecommendation'] = Constants.QUESTION_RECOMMENDATION_2;
       }
+    },
+
+    sendChat(){
+
+      stomp.send(
+          "/pub/video/chat",
+          JSON.stringify({
+            from: this.myId,
+            text: this.$refs["chatInput"].value,
+          })
+      );
+
+      this.$refs["chatInput"].value = "";
     },
 
   },
