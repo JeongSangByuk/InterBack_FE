@@ -52,6 +52,12 @@
     }
 
     .logout{
+
+        &:hover{
+            cursor: pointer;
+            background: $color-main-sub2;
+        }
+
         font-family: "Noto Sans KR", sans-serif;
         position: absolute;
         bottom: 30px;

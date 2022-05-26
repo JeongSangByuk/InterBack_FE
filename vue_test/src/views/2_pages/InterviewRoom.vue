@@ -194,10 +194,12 @@
               </div>
             </div>
             <div class="text-record-list">
-              <div class="chat">
-                <p class="chat__name">정상벽벽</p>
-                <p class="chat__contents">안녕하세요.요.</p>
+
+              <div class="chat" v-for="chat in this.stt_list" :key="chat">
+                <p class="chat__name">{{ chat.name }}</p>
+                <p class="chat__contents">{{ chat.text }}</p>
               </div>
+
             </div>
           </div>
         </template>
@@ -266,6 +268,13 @@ export default {
   },
   data() {
     return {
+
+      user: {
+        interviewer1: '정상벽',
+        interviewee1: '손모은',
+        interviewee2: '이윤환',
+      },
+
       myId: "",
       callerStream: "",
       peers: [],
@@ -274,6 +283,8 @@ export default {
       isRecordingMicro: false,
       isRecordingVideo: false,
       auto_audio_api_func: null,
+
+      stt_list: [],
 
 
       selectedUser: {
@@ -387,6 +398,20 @@ export default {
               this.$refs[data['from']].positiveEmotionValue = parseInt(data['resultOfAudioSentiment']['p']);
               this.$refs[data['from']].negativeEmotionValue = parseInt(data['resultOfAudioSentiment']['n']);
               this.$refs[data['from']].updateChart();
+
+            })
+
+            // stt  결과를 전달 받고 update
+            stomp.subscribe("/sub/video/stt", (data) => {
+
+              data = JSON.parse(data.body);
+              console.log(data);
+
+              if (data["text"] === "")
+                return;
+
+              this.stt_list.push({name: this.user[data['from']], text: data["text"]});
+              this.$refs[data['from']].changeWordcloudImg(data["text"]);
 
             })
 
@@ -505,24 +530,6 @@ export default {
               reader.onloadend = () => {
                 base64data = reader.result;
 
-                // stt api.
-                axios
-                    .post(Constants.API_URL + "/stt",
-                        {
-                          from: this.myId,
-                          base64data: base64data,
-                        },
-                        {
-                          contentType: 'application/json; charset=utf-8'
-                        })
-                    .then((response) => {
-                      console.log(response.data);
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    });
-
-
                 // wav파일을 생성하기 위한 base64 인코딩된 string을 소켓으로 쏨.
                 // stomp.send(
                 //     "/pub/video/audio-sentiment",
@@ -531,6 +538,15 @@ export default {
                 //       base64data: base64data,
                 //     })
                 // );
+
+                // stt 소켓 쏘기
+                stomp.send(
+                    "/pub/video/stt",
+                    JSON.stringify({
+                      from: this.myId,
+                      base64data: base64data,
+                    })
+                );
 
               };
             };
@@ -541,8 +557,16 @@ export default {
       console.log(this.peers);
       console.log(this.connectingState);
 
+      // stt api.
       axios
-          .get(Constants.API_URL + "/test")
+          .post(Constants.API_URL + "/test",
+              {
+                from: this.myId,
+                base64data: "qqq",
+              },
+              {
+                contentType: 'application/json; charset=utf-8'
+              })
           .then((response) => {
             console.log(response.data);
           })
@@ -574,7 +598,7 @@ export default {
         this.$refs["micro_text"].innerText = "마이크 키기";
         this.$refs["micro-container"].style.background = "#5ebc88";
         this.isRecordingMicro = false;
-        //mediaRecorder.stop();
+        mediaRecorder.stop();
         //clearInterval(this.auto_audio_api_func);
         console.log(mediaRecorder.state);
       } else {
@@ -583,8 +607,7 @@ export default {
         this.$refs["micro_text"].innerText = "마이크 끄기";
         this.$refs["micro-container"].style.background = "#ff6f6f";
         this.isRecordingMicro = true;
-
-        //mediaRecorder.start();
+        mediaRecorder.start();
 
         // let runAutoAudioAPI = async () => {
         //

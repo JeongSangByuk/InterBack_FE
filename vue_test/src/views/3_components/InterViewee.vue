@@ -15,13 +15,18 @@
 
     <div class="interviewee__emotion-box">
       <p>감정 분석</p>
-      <div class="analysis-chart-box">
-        <canvas v-bind:id= "userId + '_chart'" width="50" height="50" />
-      </div>
+      <canvas v-bind:id="userId + '_chart'" width="150" height="150"/>
     </div>
 
     <div class="interviewee__wordcloud">
       <p>워드 클라우드</p>
+
+      <div class="interviewee__wordcloud--img-container">
+        <img
+            ref = "wordcloud_img"
+            src="img/word_cloud/wc_before.png"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -48,13 +53,43 @@ export default {
       this.chart1.update();
     },
 
+    changeWordcloudImg(src){
+      let path = "";
+
+
+      if (this.userId !== "interviewee1" && this.userId !== "interviewee2") {
+        return;
+      }
+
+      if(this.userId === "interviewee1"){
+      if(src.includes("프로젝트") || src.includes("상용화"))
+        path = "img/word_cloud/b_1.jpg";
+      else if(src.includes("코로나") || src.includes("마스크") || src.includes("앱"))
+        path = "img/word_cloud/b_2.png";
+      else if(src.includes("디자인") || src.includes("인터페이스") || src.includes("데이터"))
+        path = "img/word_cloud/b_3.jpg";
+      }
+      else{
+        if(src.includes("프로세스") || src.includes("개발"))
+          path = "img/word_cloud/c_1.jpg";
+        else if(src.includes("인덱스") || src.includes("데이터베이스") || src.includes("장점"))
+          path = "img/word_cloud/c_2.jpg";
+        else if(src.includes("공부") || src.includes("모르") || src.includes("기억"))
+          path = "img/word_cloud/c_3.jpg";
+      }
+
+      if (path !== "")
+        this.$refs["wordcloud_img"].src = path;
+
+    },
+
     fillData(chartId, label1, label2) {
 
       const ctx = document.getElementById(chartId).getContext('2d');
       this.chart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          chart1:null,
+          chart1: null,
           labels: [label1, label2],
           datasets: [
             {
@@ -89,12 +124,12 @@ export default {
             }
           },
 
-          responsive: true,
+          responsive: false,
           maintainAspectRatio: false,
           layout: {
             padding: {
               top: 20,
-              bottom: 20
+              bottom: 10
             }
           },
           elements: {
@@ -111,12 +146,12 @@ export default {
   },
 
   mounted() {
-    this.fillData(this.userId + '_chart','긍정','긍정 아님');
+    this.fillData(this.userId + '_chart', '긍정', '긍정 아님');
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./../../assets/scss/2_pages/interview-room.scss";
-@import "./../../assets/scss/2_pages/interview-analysis.scss";
+//@import "./../../assets/scss/2_pages/interview-analysis.scss";
 </style>
