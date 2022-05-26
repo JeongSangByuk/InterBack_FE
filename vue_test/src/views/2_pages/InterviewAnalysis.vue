@@ -179,7 +179,6 @@ export default {
       this.fillData('chart3','중립','중립 아님', this.neutralityScore, 100-this.neutralityScore);
     }
     
-   // this.userIndex = this.$route.query.userIndex;
   },
   setup(changeIndex) {       
     const store = useStore();
