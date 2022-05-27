@@ -65,7 +65,7 @@ export default {
       if(src.includes("프로젝트") || src.includes("상용화"))
         path = "img/word_cloud/b_1.jpg";
       else if(src.includes("코로나") || src.includes("마스크") || src.includes("앱"))
-        path = "img/word_cloud/b_2.png";
+        path = "img/word_cloud/b_2.jpg";
       else if(src.includes("디자인") || src.includes("인터페이스") || src.includes("데이터"))
         path = "img/word_cloud/b_3.jpg";
       }

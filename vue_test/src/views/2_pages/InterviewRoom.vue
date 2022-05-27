@@ -410,7 +410,7 @@ export default {
               console.log(data['resultOfAudioSentiment']['p']);
 
 
-              if (data['from'] !== 'aaaa' && data['from'] !== 'bbbb')
+              if (data['from'] !== 'bbbb' && data['from'] !== 'cccc')
                 return;
 
               this.$refs[data['from']].positiveEmotionValue = parseInt(data['resultOfAudioSentiment']['p']);
