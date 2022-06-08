@@ -4,7 +4,6 @@ import UserLogin from "@/views/2_pages/UserLogin";
 import RoomCreation from "@/views/2_pages/RoomCreation";
 import RoomEntry from "@/views/2_pages/RoomEntry";
 import InterviewRoom from "@/views/2_pages/InterviewRoom";
-import VideoTest from "@/views/2_pages/VideoTest";
 import InterviewList from "@/views/2_pages/InterviewList";
 import InterviewAnalysis from "@/views/2_pages/InterviewAnalysis";
 
@@ -36,11 +35,6 @@ const routes = [
     path: "/interview-room",
     name: "InterviewRoom",
     component: InterviewRoom,
-  },
-  {
-    path: "/video-test",
-    name: "VideoTest",
-    component: VideoTest,
   },
   {
     path: "/interview-list",

@@ -82,10 +82,10 @@
         />
 
         <Interviewer
-            ref="interviewer2"
+            ref="dddd"
             :userName="'박태순'"
             :connectingState="connectingState"
-            :userId="'interviewer2'"
+            :userId="'dddd'"
         />
 
         <Interviewer
@@ -285,6 +285,7 @@ export default {
         aaaa: '정상벽',
         bbbb: '손모은',
         cccc: '이윤환',
+        dddd: '박태순',
       },
 
       myId: "",
@@ -311,7 +312,7 @@ export default {
       // before - connected
           {
             aaaa: "before",
-            interviewer2: "before",
+            dddd: "before",
             interviewer3: "before",
             interviewer4: "before",
             bbbb: "before",

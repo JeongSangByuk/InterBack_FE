@@ -11,7 +11,7 @@ const app = createApp(App)
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$loginData =
 
-[{id:'aaaa', pass:'1111'},{id:'bbbb', pass:'2222'},{id:'cccc', pass:'3333'}]
+[{id:'aaaa', pass:'1111'},{id:'bbbb', pass:'2222'},{id:'cccc', pass:'3333'},{id:'dddd', pass:'4444'}]
 
 
 app.use(VueCookies,{
